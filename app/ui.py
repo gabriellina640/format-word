@@ -48,6 +48,7 @@ class FormatWordApp(ctk.CTk):
         self.settings_summary = tk.StringVar()
         self.header_status = tk.StringVar(value="Nenhuma imagem carregada")
         self.footer_status = tk.StringVar(value="Nenhuma imagem carregada")
+        self.template_status = tk.StringVar(value="Nenhum template Word selecionado")
         self.header_preview_image: ctk.CTkImage | None = None
         self.footer_preview_image: ctk.CTkImage | None = None
         self.last_output_path: Path | None = None
@@ -213,6 +214,7 @@ class FormatWordApp(ctk.CTk):
         self.max_input_mb_var = tk.IntVar()
         self.header_path_var = tk.StringVar()
         self.footer_path_var = tk.StringVar()
+        self.template_path_var = tk.StringVar()
         self.header_offset_x_var = tk.DoubleVar()
         self.header_offset_y_var = tk.DoubleVar()
         self.footer_offset_x_var = tk.DoubleVar()
@@ -241,8 +243,40 @@ class FormatWordApp(ctk.CTk):
         self._image_panel(media, "Cabeçalho", self.include_header_var, self.header_status, self._choose_header_image, "header", 0)
         self._image_panel(media, "Rodapé", self.include_footer_var, self.footer_status, self._choose_footer_image, "footer", 1)
 
+        template_box = ctk.CTkFrame(card, fg_color="#f8fafc", corner_radius=16, border_width=1, border_color="#e5e7eb")
+        template_box.grid(row=8, column=0, columnspan=4, sticky="ew", padx=22, pady=(0, 16))
+        template_box.grid_columnconfigure(0, weight=1)
+        ctk.CTkLabel(template_box, text="Template Word do perfil", text_color=INK, font=("Segoe UI", 16, "bold")).grid(
+            row=0, column=0, sticky="w", padx=16, pady=(14, 4)
+        )
+        ctk.CTkLabel(
+            template_box,
+            text="Use um .docx pronto para preservar cabeçalhos, rodapés, imagens e variações por página.",
+            text_color=MUTED,
+            font=("Segoe UI", 12),
+        ).grid(row=1, column=0, sticky="w", padx=16, pady=(0, 10))
+        template_actions = ctk.CTkFrame(template_box, fg_color="transparent")
+        template_actions.grid(row=2, column=0, sticky="ew", padx=16, pady=(0, 12))
+        template_actions.grid_columnconfigure(0, weight=1)
+        ctk.CTkLabel(template_actions, textvariable=self.template_status, text_color=SUCCESS, font=("Segoe UI", 12, "bold")).grid(
+            row=0, column=0, sticky="w", padx=(0, 10)
+        )
+        ctk.CTkButton(template_actions, text="Importar template", command=self._choose_template, height=36, corner_radius=11).grid(
+            row=0, column=1, padx=(0, 10)
+        )
+        ctk.CTkButton(
+            template_actions,
+            text="Remover template",
+            command=self._remove_template,
+            height=36,
+            corner_radius=11,
+            fg_color="#e5e7eb",
+            hover_color="#d1d5db",
+            text_color=INK,
+        ).grid(row=0, column=2)
+
         stack_box = ctk.CTkFrame(card, fg_color="#f8fafc", corner_radius=16, border_width=1, border_color="#e5e7eb")
-        stack_box.grid(row=8, column=0, columnspan=4, sticky="ew", padx=22, pady=(0, 16))
+        stack_box.grid(row=9, column=0, columnspan=4, sticky="ew", padx=22, pady=(0, 16))
         stack_box.grid_columnconfigure(0, weight=1)
         ctk.CTkLabel(stack_box, text="Perfis salvos", text_color=INK, font=("Segoe UI", 16, "bold")).grid(
             row=0, column=0, sticky="w", padx=16, pady=(14, 4)
@@ -287,7 +321,7 @@ class FormatWordApp(ctk.CTk):
         ).grid(row=0, column=2)
 
         actions = ctk.CTkFrame(card, fg_color="transparent")
-        actions.grid(row=9, column=0, columnspan=4, sticky="ew", padx=22, pady=(0, 22))
+        actions.grid(row=10, column=0, columnspan=4, sticky="ew", padx=22, pady=(0, 22))
         ctk.CTkButton(actions, text="Salvar configurações", command=self._save_settings, height=40, corner_radius=12).pack(side="left")
         ctk.CTkButton(
             actions,
@@ -442,6 +476,27 @@ class FormatWordApp(ctk.CTk):
     def _choose_footer_image(self) -> None:
         self._choose_image("footer")
 
+    def _choose_template(self) -> None:
+        file_path = filedialog.askopenfilename(filetypes=[("Template Word", "*.docx")])
+        if not file_path:
+            return
+        try:
+            stored = self.store.store_template(Path(file_path))
+        except ValueError as exc:
+            messagebox.showerror("Template inválido", str(exc))
+            return
+
+        self.template_path_var.set(stored)
+        self._refresh_template_feedback()
+        self._update_settings_summary(self._collect_settings())
+        self.status_text.set("Template Word importado para o perfil.")
+
+    def _remove_template(self) -> None:
+        self.template_path_var.set("")
+        self._refresh_template_feedback()
+        self._update_settings_summary(self._collect_settings())
+        self.status_text.set("Template removido da configuração atual.")
+
     def _choose_image(self, image_type: str) -> None:
         file_path = filedialog.askopenfilename(filetypes=[("Imagens", "*.png *.jpg *.jpeg")])
         if not file_path:
@@ -490,6 +545,13 @@ class FormatWordApp(ctk.CTk):
             self.footer_preview_image = photo
         preview_label.configure(image=photo, text="")
 
+    def _refresh_template_feedback(self) -> None:
+        template_path = Path(self.template_path_var.get()) if self.template_path_var.get() else Path()
+        if template_path.is_file():
+            self.template_status.set(f"Template pronto: {template_path.name}")
+        else:
+            self.template_status.set("Nenhum template Word selecionado")
+
     def _load_settings_into_form(self, settings: FormatSettings) -> None:
         self.font_name_var.set(settings.font_name if settings.font_name in FONT_OPTIONS else "Arial")
         self.font_size_var.set(settings.font_size)
@@ -509,12 +571,14 @@ class FormatWordApp(ctk.CTk):
         self.max_input_mb_var.set(settings.max_input_mb)
         self.header_path_var.set(settings.header_image_path)
         self.footer_path_var.set(settings.footer_image_path)
+        self.template_path_var.set(settings.template_path)
         self.header_offset_x_var.set(settings.header_offset_x_cm)
         self.header_offset_y_var.set(settings.header_offset_y_cm)
         self.footer_offset_x_var.set(settings.footer_offset_x_cm)
         self.footer_offset_y_var.set(settings.footer_offset_y_cm)
         self._refresh_image_feedback("header")
         self._refresh_image_feedback("footer")
+        self._refresh_template_feedback()
         self._update_settings_summary(settings)
 
     def _collect_settings(self) -> FormatSettings:
@@ -537,6 +601,7 @@ class FormatWordApp(ctk.CTk):
             header_offset_y_cm=self._float_from_var(self.header_offset_y_var, 0.0, -0.5, 1.5),
             footer_offset_x_cm=self._float_from_var(self.footer_offset_x_var, 0.0, -4.0, 4.0),
             footer_offset_y_cm=self._float_from_var(self.footer_offset_y_var, 0.0, -0.5, 1.5),
+            template_path=self.template_path_var.get(),
             output_suffix=self.output_suffix_var.get().strip() or "_formatado",
             max_input_mb=self._int_from_var(self.max_input_mb_var, 50, 1, 300),
         )
@@ -613,12 +678,13 @@ class FormatWordApp(ctk.CTk):
         alignment = "justificado" if settings.justify_text else "alinhado à esquerda"
         header = "cabeçalho ativo" if settings.include_header else "sem cabeçalho"
         footer = "rodapé ativo" if settings.include_footer else "sem rodapé"
+        template = "template Word ativo" if settings.template_path else "sem template Word"
         self.settings_summary.set(
             f"{settings.font_name} {settings.font_size} pt, texto {alignment}, "
             f"linhas {settings.line_spacing:.1f}, recuo {settings.first_line_indent_cm:.2f} cm, "
             f"margens {settings.margin_top_cm:.2f}/{settings.margin_right_cm:.2f}/"
-            f"{settings.margin_bottom_cm:.2f}/{settings.margin_left_cm:.2f} cm, {header}, {footer}. "
-            "Imagens são adaptadas automaticamente a uma área profissional fixa."
+            f"{settings.margin_bottom_cm:.2f}/{settings.margin_left_cm:.2f} cm, {template}, {header}, {footer}. "
+            "Quando há template, cabeçalhos, rodapés e imagens vêm do próprio Word modelo."
         )
 
     @staticmethod
@@ -870,7 +936,23 @@ class PreviewDraftModal(ctk.CTkToplevel):
         self.canvas.create_rectangle(x0, y0, x0 + width, y0 + height, fill="#ffffff", outline="#d0d5dd")
 
         if settings.include_header:
-            self._draw_image(settings.header_image_path, x0, y0 + 28 + settings.header_offset_y_cm * 16, width, 42, settings.header_offset_x_cm)
+            if settings.template_path:
+                self.canvas.create_text(
+                    x0 + width / 2,
+                    y0 + 45,
+                    text="Cabeçalho preservado do template",
+                    fill="#2563eb",
+                    font=("Segoe UI", 8, "bold"),
+                )
+            else:
+                self._draw_image(
+                    settings.header_image_path,
+                    x0,
+                    y0 + 28 + settings.header_offset_y_cm * 16,
+                    width,
+                    42,
+                    settings.header_offset_x_cm,
+                )
         else:
             self.canvas.create_text(x0 + width / 2, y0 + 45, text="Sem cabeçalho", fill="#98a2b3", font=("Segoe UI", 8))
 
@@ -889,7 +971,16 @@ class PreviewDraftModal(ctk.CTkToplevel):
 
         footer_y = y0 + height - 62 + settings.footer_offset_y_cm * 16
         if settings.include_footer:
-            self._draw_image(settings.footer_image_path, x0, footer_y, width, 34, settings.footer_offset_x_cm)
+            if settings.template_path:
+                self.canvas.create_text(
+                    x0 + width / 2,
+                    y0 + height - 38,
+                    text="Rodapé preservado do template",
+                    fill="#2563eb",
+                    font=("Segoe UI", 8, "bold"),
+                )
+            else:
+                self._draw_image(settings.footer_image_path, x0, footer_y, width, 34, settings.footer_offset_x_cm)
         else:
             self.canvas.create_text(x0 + width / 2, y0 + height - 38, text="Sem rodapé", fill="#98a2b3", font=("Segoe UI", 8))
 

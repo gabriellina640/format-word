@@ -9,8 +9,9 @@ Aplicativo desktop para receber um arquivo `.docx` ou `.pdf` e gerar um `.docx` 
 - Fonte, tamanho, margens, espaçamento, recuo, justificação e sufixo configuráveis.
 - Lista de fontes padrão em dropdown.
 - Imagem de cabeçalho e rodapé salvas localmente com confirmação visual.
-- Imagens adaptadas automaticamente a uma área fixa profissional para evitar cabeçalho ou rodapé gigantes.
+- Imagens avulsas adaptadas automaticamente a uma área fixa profissional para evitar cabeçalho ou rodapé gigantes.
 - Perfis de configuração nomeados, permitindo salvar modelos como `Documentos para PGJ` com fonte, margens, espaçamentos e imagens próprias.
+- Template Word por perfil: o usuário pode importar um `.docx` modelo para preservar cabeçalhos, rodapés e imagens complexas do próprio Word.
 - Dropdown em Configurações para selecionar perfis já salvos antes de editar ou excluir.
 - Seleção do perfil em dropdown antes de pré-visualizar e exportar cada documento.
 - Abas e modal de pré-visualização com layout adaptável e rolagem para evitar conteúdo cortado em janelas menores.

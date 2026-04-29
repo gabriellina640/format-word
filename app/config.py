@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 import uuid
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
@@ -14,6 +15,7 @@ APP_NAME = "FormatWord"
 MAX_IMAGE_BYTES = 8 * 1024 * 1024
 SUPPORTED_IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg"}
 SUPPORTED_IMAGE_TYPES = {"header", "footer"}
+MAX_TEMPLATE_BYTES = 25 * 1024 * 1024
 HEADER_IMAGE_PIXELS = (1600, 220)
 FOOTER_IMAGE_PIXELS = (1600, 180)
 FONT_OPTIONS = (
@@ -48,6 +50,7 @@ class FormatSettings:
     header_offset_y_cm: float = 0.0
     footer_offset_x_cm: float = 0.0
     footer_offset_y_cm: float = 0.0
+    template_path: str = ""
     output_suffix: str = "_formatado"
     max_input_mb: int = 50
 
@@ -77,9 +80,11 @@ class ConfigStore:
     def __init__(self, config_dir: Path | None = None) -> None:
         self.config_dir = config_dir or get_config_dir()
         self.assets_dir = self.config_dir / "assets"
+        self.templates_dir = self.config_dir / "templates"
         self.config_path = self.config_dir / "settings.json"
         self.config_dir.mkdir(parents=True, exist_ok=True)
         self.assets_dir.mkdir(parents=True, exist_ok=True)
+        self.templates_dir.mkdir(parents=True, exist_ok=True)
 
     def load(self) -> AppConfig:
         if not self.config_path.exists():
@@ -136,6 +141,19 @@ class ConfigStore:
 
         target = self.assets_dir / f"{image_type}_{uuid.uuid4().hex}.png"
         self._normalize_image(image_path, target, image_type)
+        return str(target)
+
+    def store_template(self, template_path: Path) -> str:
+        template_path = template_path.expanduser().resolve()
+        if template_path.suffix.lower() != ".docx":
+            raise ValueError("Use um template Word no formato .docx.")
+        if not template_path.is_file():
+            raise ValueError("Template não encontrado.")
+        if template_path.stat().st_size > MAX_TEMPLATE_BYTES:
+            raise ValueError("O template deve ter no máximo 25 MB.")
+
+        target = self.templates_dir / f"template_{uuid.uuid4().hex}.docx"
+        shutil.copy2(template_path, target)
         return str(target)
 
     @staticmethod

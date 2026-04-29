@@ -55,7 +55,7 @@ def format_paragraphs(
     if not cleaned_paragraphs:
         raise FormatterError("Não há conteúdo para exportar.")
 
-    document = Document()
+    document = _create_output_document(settings)
     _configure_sections(document, settings)
     _apply_header_footer(document, settings)
     _write_paragraphs(document, cleaned_paragraphs, settings)
@@ -63,6 +63,24 @@ def format_paragraphs(
     output_path = _unique_output_path(output_dir, input_stem, settings.output_suffix)
     document.save(output_path)
     return FormatResult(output_path=output_path, paragraphs=len(cleaned_paragraphs))
+
+
+def _create_output_document(settings: FormatSettings) -> Document:
+    template_path = Path(settings.template_path) if settings.template_path else None
+    if template_path and template_path.is_file():
+        document = Document(str(template_path))
+        _clear_document_body(document)
+        return document
+    return Document()
+
+
+def _clear_document_body(document: Document) -> None:
+    body = document._body._element
+    section_properties = body.sectPr
+    for child in list(body):
+        if child is section_properties:
+            continue
+        body.remove(child)
 
 
 def validate_input(input_path: Path, max_input_mb: int) -> None:
@@ -150,6 +168,9 @@ def _configure_sections(document: Document, settings: FormatSettings) -> None:
 
 
 def _apply_header_footer(document: Document, settings: FormatSettings) -> None:
+    if settings.template_path:
+        return
+
     section = document.sections[0]
     available_width = section.page_width - section.left_margin - section.right_margin
     if settings.include_header and settings.header_image_path:
