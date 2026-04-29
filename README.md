@@ -1,4 +1,4 @@
-# Format Word
+# Formatador de Documentos
 
 Aplicativo desktop para receber um arquivo `.docx` ou `.pdf` e gerar um `.docx` formatado conforme configurações salvas pelo usuário.
 
@@ -10,9 +10,9 @@ Aplicativo desktop para receber um arquivo `.docx` ou `.pdf` e gerar um `.docx` 
 - Lista de fontes padrão em dropdown.
 - Imagem de cabeçalho e rodapé salvas localmente com confirmação visual.
 - Imagens adaptadas automaticamente a uma área fixa profissional para evitar cabeçalho ou rodapé gigantes.
-- Stacks nomeadas de configuração, permitindo salvar perfis como `Documentos para PGJ` com fonte, margens, espaçamentos e imagens próprias.
-- Dropdown em Configurações para selecionar stacks já salvas antes de editar ou excluir.
-- Seleção da stack em dropdown antes de pré-visualizar e exportar cada documento.
+- Perfis de configuração nomeados, permitindo salvar modelos como `Documentos para PGJ` com fonte, margens, espaçamentos e imagens próprias.
+- Dropdown em Configurações para selecionar perfis já salvos antes de editar ou excluir.
+- Seleção do perfil em dropdown antes de pré-visualizar e exportar cada documento.
 - Abas e modal de pré-visualização com layout adaptável e rolagem para evitar conteúdo cortado em janelas menores.
 - Opção rápida para aplicar ou não cabeçalho/rodapé na formatação.
 - Modal de pré-visualização antes da exportação, com edição de texto, fonte, espaçamento e posição das imagens.
@@ -48,13 +48,13 @@ No Windows, execute:
 .\build_windows.ps1
 ```
 
-O `.exe` ficará em `dist/FormatWord.exe`.
+O `.exe` ficará em `dist/FormatadorDocumentos.exe` e usará o ícone `icone.ico`.
 
 > Observação: executáveis Windows devem ser gerados no Windows. Se gerar no macOS, o PyInstaller cria um app/binário para macOS, não um `.exe`.
 
 ## Build automático no GitHub Actions
 
-Ao enviar o projeto para o GitHub, o workflow `.github/workflows/build-windows-exe.yml` gera o executável em `windows-latest` e publica o arquivo como artifact chamado `FormatWord-windows-exe`.
+Ao enviar o projeto para o GitHub, o workflow `.github/workflows/build-windows-exe.yml` gera o executável em `windows-latest` e publica o arquivo como artifact chamado `FormatadorDocumentos-windows-exe`.
 
 ## Observações
 

@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   build:
-    name: Build FormatWord.exe
+    name: Build FormatadorDocumentos.exe
     runs-on: windows-latest
 
     steps:
@@ -33,11 +33,11 @@ jobs:
 
       - name: Build executable
         run: |
-          pyinstaller --noconsole --onefile --name FormatWord --hidden-import pypdf --hidden-import PIL.ImageTk --collect-data customtkinter main.py
+          pyinstaller --noconsole --onefile --name FormatadorDocumentos --icon icone.ico --hidden-import pypdf --hidden-import PIL.ImageTk --collect-data customtkinter main.py
 
       - name: Upload executable
         uses: actions/upload-artifact@v7
         with:
-          name: FormatWord-windows-exe
-          path: dist/FormatWord.exe
+          name: FormatadorDocumentos-windows-exe
+          path: dist/FormatadorDocumentos.exe
           if-no-files-found: error

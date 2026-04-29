@@ -5,6 +5,6 @@ if (!(Test-Path ".venv")) {
 }
 
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\pyinstaller.exe --noconsole --onefile --name FormatWord --hidden-import pypdf --hidden-import PIL.ImageTk --collect-data customtkinter main.py
+.\.venv\Scripts\pyinstaller.exe --noconsole --onefile --name FormatadorDocumentos --icon icone.ico --hidden-import pypdf --hidden-import PIL.ImageTk --collect-data customtkinter main.py
 
-Write-Host "Executavel gerado em dist\FormatWord.exe"
+Write-Host "Executavel gerado em dist\FormatadorDocumentos.exe"

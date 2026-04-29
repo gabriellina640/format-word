@@ -14,6 +14,9 @@ from app.config import ConfigStore, FONT_OPTIONS, FormatSettings
 from app.formatter import FormatterError, format_paragraphs, read_document_paragraphs, validate_input
 
 
+APP_DISPLAY_NAME = "Formatador de Documentos"
+ICON_PATH = Path(__file__).resolve().parent.parent / "icone.ico"
+
 ctk.set_appearance_mode("light")
 ctk.set_default_color_theme("blue")
 
@@ -28,17 +31,18 @@ SUCCESS = "#047857"
 class FormatWordApp(ctk.CTk):
     def __init__(self) -> None:
         super().__init__()
-        self.title("Format Word")
+        self.title(APP_DISPLAY_NAME)
         self.geometry("1180x760")
         self.minsize(980, 680)
         self.configure(fg_color=BG)
+        self._apply_window_icon()
 
         self.store = ConfigStore()
         self.config_model = self.store.load()
         self.input_path = tk.StringVar()
         self.output_dir = tk.StringVar(value=str(Path.home() / "Documents"))
         self.selected_stack_var = tk.StringVar(value="Configuração atual")
-        self.manage_stack_var = tk.StringVar(value="Selecione uma stack")
+        self.manage_stack_var = tk.StringVar(value="Selecione um perfil")
         self.stack_name_var = tk.StringVar()
         self.status_text = tk.StringVar(value="Pronto para formatar.")
         self.settings_summary = tk.StringVar()
@@ -52,7 +56,7 @@ class FormatWordApp(ctk.CTk):
         initial_settings = self.config_model.stacks.get(self.config_model.active_stack, self.config_model.settings)
         initial_name = self.config_model.active_stack or "Configuração atual"
         self.selected_stack_var.set(initial_name)
-        self.manage_stack_var.set(self.config_model.active_stack or "Selecione uma stack")
+        self.manage_stack_var.set(self.config_model.active_stack or "Selecione um perfil")
         self.stack_name_var.set(self.config_model.active_stack)
         self._load_settings_into_form(initial_settings)
         self._refresh_stack_dropdowns()
@@ -64,7 +68,7 @@ class FormatWordApp(ctk.CTk):
         header = ctk.CTkFrame(self, fg_color="#111827", corner_radius=18)
         header.grid(row=0, column=0, sticky="ew", padx=24, pady=(22, 16))
         header.grid_columnconfigure(0, weight=1)
-        ctk.CTkLabel(header, text="Format Word", text_color="#ffffff", font=("Segoe UI", 28, "bold")).grid(
+        ctk.CTkLabel(header, text=APP_DISPLAY_NAME, text_color="#ffffff", font=("Segoe UI", 28, "bold")).grid(
             row=0, column=0, sticky="w", padx=24, pady=(20, 2)
         )
         ctk.CTkLabel(
@@ -98,6 +102,14 @@ class FormatWordApp(ctk.CTk):
         self.progress.grid(row=0, column=1, sticky="e", padx=16, pady=12)
         self.progress.set(0)
 
+    def _apply_window_icon(self) -> None:
+        if not ICON_PATH.is_file():
+            return
+        try:
+            self.iconbitmap(str(ICON_PATH))
+        except tk.TclError:
+            return
+
     def _build_upload_tab(self) -> None:
         content = ctk.CTkScrollableFrame(self.upload_tab, fg_color=BG)
         content.grid(row=0, column=0, sticky="nsew")
@@ -123,7 +135,7 @@ class FormatWordApp(ctk.CTk):
         stack_row = ctk.CTkFrame(card, fg_color="transparent")
         stack_row.grid(row=6, column=0, sticky="ew", padx=22, pady=(0, 16))
         stack_row.grid_columnconfigure(0, weight=1)
-        ctk.CTkLabel(stack_row, text="Stack de configuração", text_color=INK, font=("Segoe UI", 13, "bold")).grid(
+        ctk.CTkLabel(stack_row, text="Perfil de configuração", text_color=INK, font=("Segoe UI", 13, "bold")).grid(
             row=0, column=0, sticky="w", pady=(0, 6)
         )
         self.stack_dropdown = ctk.CTkOptionMenu(
@@ -232,12 +244,12 @@ class FormatWordApp(ctk.CTk):
         stack_box = ctk.CTkFrame(card, fg_color="#f8fafc", corner_radius=16, border_width=1, border_color="#e5e7eb")
         stack_box.grid(row=8, column=0, columnspan=4, sticky="ew", padx=22, pady=(0, 16))
         stack_box.grid_columnconfigure(0, weight=1)
-        ctk.CTkLabel(stack_box, text="Stacks salvas", text_color=INK, font=("Segoe UI", 16, "bold")).grid(
+        ctk.CTkLabel(stack_box, text="Perfis salvos", text_color=INK, font=("Segoe UI", 16, "bold")).grid(
             row=0, column=0, sticky="w", padx=16, pady=(14, 4)
         )
         ctk.CTkLabel(
             stack_box,
-            text="Selecione uma stack para editar/excluir ou informe um novo nome para criar outra.",
+            text="Selecione um perfil para editar/excluir ou informe um novo nome para criar outro.",
             text_color=MUTED,
             font=("Segoe UI", 12),
         ).grid(row=1, column=0, sticky="w", padx=16, pady=(0, 10))
@@ -260,12 +272,12 @@ class FormatWordApp(ctk.CTk):
             height=38,
             corner_radius=11,
         ).grid(row=0, column=0, sticky="ew", padx=(0, 10))
-        ctk.CTkButton(stack_actions, text="Salvar stack", command=self._save_stack, height=38, corner_radius=11).grid(
+        ctk.CTkButton(stack_actions, text="Salvar perfil", command=self._save_stack, height=38, corner_radius=11).grid(
             row=0, column=1, padx=(0, 10)
         )
         ctk.CTkButton(
             stack_actions,
-            text="Excluir stack",
+            text="Excluir perfil",
             command=self._delete_stack,
             height=38,
             corner_radius=11,
@@ -312,7 +324,7 @@ class FormatWordApp(ctk.CTk):
         return ["Configuração atual", *sorted(self.config_model.stacks)]
 
     def _manage_stack_options(self) -> list[str]:
-        return ["Selecione uma stack", *sorted(self.config_model.stacks)]
+        return ["Selecione um perfil", *sorted(self.config_model.stacks)]
 
     def _refresh_stack_dropdowns(self) -> None:
         if hasattr(self, "stack_dropdown"):
@@ -325,7 +337,7 @@ class FormatWordApp(ctk.CTk):
             settings = self.config_model.settings
             self.config_model.active_stack = ""
             self.stack_name_var.set("")
-            self.manage_stack_var.set("Selecione uma stack")
+            self.manage_stack_var.set("Selecione um perfil")
         else:
             settings = self.config_model.stacks.get(stack_name)
             if settings is None:
@@ -336,10 +348,10 @@ class FormatWordApp(ctk.CTk):
 
         self._load_settings_into_form(settings)
         self.store.save(self.config_model)
-        self.status_text.set(f"Stack selecionada: {stack_name}.")
+        self.status_text.set(f"Perfil selecionado: {stack_name}.")
 
     def _select_stack_for_edit(self, stack_name: str) -> None:
-        if stack_name == "Selecione uma stack":
+        if stack_name == "Selecione um perfil":
             self.stack_name_var.set("")
             return
         self.selected_stack_var.set(stack_name)
@@ -348,7 +360,7 @@ class FormatWordApp(ctk.CTk):
     def _save_stack(self) -> None:
         stack_name = self.stack_name_var.get().strip()
         if not stack_name:
-            messagebox.showerror("Nome obrigatório", "Informe um nome para salvar a stack.")
+            messagebox.showerror("Nome obrigatório", "Informe um nome para salvar o perfil.")
             return
 
         settings = self._collect_settings()
@@ -360,27 +372,27 @@ class FormatWordApp(ctk.CTk):
         self.manage_stack_var.set(stack_name)
         self._refresh_stack_dropdowns()
         self._update_settings_summary(settings)
-        self.status_text.set(f"Stack '{stack_name}' salva.")
-        messagebox.showinfo("Stack salva", f"A stack '{stack_name}' foi salva com sucesso.")
+        self.status_text.set(f"Perfil '{stack_name}' salvo.")
+        messagebox.showinfo("Perfil salvo", f"O perfil '{stack_name}' foi salvo com sucesso.")
 
     def _delete_stack(self) -> None:
         selected_for_management = self.manage_stack_var.get()
-        stack_name = selected_for_management if selected_for_management != "Selecione uma stack" else self.stack_name_var.get().strip()
+        stack_name = selected_for_management if selected_for_management != "Selecione um perfil" else self.stack_name_var.get().strip()
         if not stack_name or stack_name == "Configuração atual" or stack_name not in self.config_model.stacks:
-            messagebox.showerror("Stack não encontrada", "Selecione uma stack salva para excluir.")
+            messagebox.showerror("Perfil não encontrado", "Selecione um perfil salvo para excluir.")
             return
-        if not messagebox.askyesno("Excluir stack", f"Excluir a stack '{stack_name}'?"):
+        if not messagebox.askyesno("Excluir perfil", f"Excluir o perfil '{stack_name}'?"):
             return
 
         del self.config_model.stacks[stack_name]
         self.config_model.active_stack = ""
         self.selected_stack_var.set("Configuração atual")
-        self.manage_stack_var.set("Selecione uma stack")
+        self.manage_stack_var.set("Selecione um perfil")
         self.stack_name_var.set("")
         self._load_settings_into_form(self.config_model.settings)
         self.store.save(self.config_model)
         self._refresh_stack_dropdowns()
-        self.status_text.set(f"Stack '{stack_name}' excluída.")
+        self.status_text.set(f"Perfil '{stack_name}' excluído.")
 
     def _image_panel(
         self,
@@ -637,6 +649,7 @@ class PreviewDraftModal(ctk.CTkToplevel):
         on_export: Callable[[str, int], None],
     ) -> None:
         super().__init__(parent)
+        self.title("Pré-visualização do documento")
         self.parent = parent
         self.input_stem = input_stem
         self.output_dir = output_dir
@@ -644,7 +657,7 @@ class PreviewDraftModal(ctk.CTkToplevel):
         self.on_export = on_export
         self.preview_images: list[ImageTk.PhotoImage] = []
 
-        self.title("Pré-visualização")
+        self._apply_window_icon()
         self.geometry("1220x780")
         self.minsize(920, 640)
         self.configure(fg_color=BG)
@@ -663,6 +676,14 @@ class PreviewDraftModal(ctk.CTkToplevel):
         self._build(paragraphs)
         self._redraw_preview()
         self.grab_set()
+
+    def _apply_window_icon(self) -> None:
+        if not ICON_PATH.is_file():
+            return
+        try:
+            self.iconbitmap(str(ICON_PATH))
+        except tk.TclError:
+            return
 
     def _build(self, paragraphs: list[str]) -> None:
         self.grid_columnconfigure(0, weight=1)
