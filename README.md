@@ -11,7 +11,7 @@ Aplicativo desktop para receber um arquivo `.docx` ou `.pdf` e gerar um `.docx` 
 - Imagem de cabeçalho e rodapé salvas localmente com confirmação visual.
 - Imagens avulsas adaptadas automaticamente a uma área fixa profissional para evitar cabeçalho ou rodapé gigantes.
 - Perfis de configuração nomeados, permitindo salvar modelos como `Documentos para PGJ` com fonte, margens, espaçamentos e imagens próprias.
-- Template Word por perfil: o usuário pode importar um `.docx` modelo para preservar cabeçalhos, rodapés e imagens complexas do próprio Word.
+- Template Word por perfil: o usuário pode importar um `.docx` modelo para usar as imagens de cabeçalho e rodapé, mantendo a formatação de texto e página controlada pelo perfil.
 - Dropdown em Configurações para selecionar perfis já salvos antes de editar ou excluir.
 - Seleção do perfil em dropdown antes de pré-visualizar e exportar cada documento.
 - Abas e modal de pré-visualização com layout adaptável e rolagem para evitar conteúdo cortado em janelas menores.
@@ -63,3 +63,4 @@ Ao enviar o projeto para o GitHub, o workflow `.github/workflows/build-windows-e
 - A importação de PDF depende do texto estar extraível. PDF escaneado como imagem precisará de OCR em uma etapa futura.
 - Tabelas de `.docx` são convertidas para linhas de texto separadas por `|`.
 - As configurações são salvas no perfil do usuário, fora da pasta do projeto.
+- Quando um perfil usa template Word, o app mantém cabeçalho e rodapé do template, mas margens, espaçamentos e formatação do texto continuam sendo aplicados pelo perfil.

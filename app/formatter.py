@@ -74,6 +74,10 @@ def _create_output_document(settings: FormatSettings) -> Document:
     return Document()
 
 
+def _uses_template(settings: FormatSettings) -> bool:
+    return bool(settings.template_path and Path(settings.template_path).is_file())
+
+
 def _clear_document_body(document: Document) -> None:
     body = document._body._element
     section_properties = body.sectPr

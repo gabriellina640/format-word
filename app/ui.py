@@ -760,9 +760,14 @@ class PreviewDraftModal(ctk.CTkToplevel):
         ctk.CTkLabel(header, text="Revisar antes de exportar", text_color="#ffffff", font=("Segoe UI", 24, "bold")).pack(
             anchor="w", padx=22, pady=(18, 2)
         )
+        subtitle = (
+            "As imagens do template serão mantidas; ajuste margens e formatação do texto normalmente."
+            if self.settings.template_path
+            else "Ajuste texto, espaçamento e posição das imagens. O Word só será criado ao confirmar."
+        )
         ctk.CTkLabel(
             header,
-            text="Ajuste texto, espaçamento e posição das imagens. O Word só será criado ao confirmar.",
+            text=subtitle,
             text_color="#d1d5db",
             font=("Segoe UI", 13),
         ).pack(anchor="w", padx=22, pady=(0, 18))
@@ -798,13 +803,26 @@ class PreviewDraftModal(ctk.CTkToplevel):
             row=1, column=4, sticky="w", padx=12, pady=(0, 14)
         )
 
-        sliders = ctk.CTkFrame(self.editor, fg_color="#f8fafc", corner_radius=16)
-        sliders.grid(row=1, column=0, sticky="ew", padx=18, pady=(0, 12))
-        sliders.grid_columnconfigure((0, 1, 2, 3), weight=1)
-        self._slider(sliders, "Cabeçalho X", self.header_x_var, 0, -4.0, 4.0)
-        self._slider(sliders, "Cabeçalho Y", self.header_y_var, 1, -0.5, 1.5)
-        self._slider(sliders, "Rodapé X", self.footer_x_var, 2, -4.0, 4.0)
-        self._slider(sliders, "Rodapé Y", self.footer_y_var, 3, -0.5, 1.5)
+        template_active = bool(self.settings.template_path)
+        if template_active:
+            template_notice = ctk.CTkFrame(self.editor, fg_color="#eff6ff", corner_radius=16, border_width=1, border_color="#bfdbfe")
+            template_notice.grid(row=1, column=0, sticky="ew", padx=18, pady=(0, 12))
+            ctk.CTkLabel(
+                template_notice,
+                text="Cabeçalho e rodapé vêm do template Word e não são editáveis aqui. Margens e texto continuam seguindo o perfil.",
+                text_color="#1d4ed8",
+                font=("Segoe UI", 12, "bold"),
+                wraplength=650,
+                justify="left",
+            ).pack(anchor="w", padx=14, pady=12)
+        else:
+            sliders = ctk.CTkFrame(self.editor, fg_color="#f8fafc", corner_radius=16)
+            sliders.grid(row=1, column=0, sticky="ew", padx=18, pady=(0, 12))
+            sliders.grid_columnconfigure((0, 1, 2, 3), weight=1)
+            self._slider(sliders, "Cabeçalho X", self.header_x_var, 0, -4.0, 4.0)
+            self._slider(sliders, "Cabeçalho Y", self.header_y_var, 1, -0.5, 1.5)
+            self._slider(sliders, "Rodapé X", self.footer_x_var, 2, -4.0, 4.0)
+            self._slider(sliders, "Rodapé Y", self.footer_y_var, 3, -0.5, 1.5)
 
         ctk.CTkLabel(self.editor, text="Texto do documento", text_color=INK, font=("Segoe UI", 17, "bold")).grid(
             row=2, column=0, sticky="w", padx=18, pady=(0, 8)
@@ -935,24 +953,23 @@ class PreviewDraftModal(ctk.CTkToplevel):
         self.canvas.create_rectangle(x0 + 7, y0 + 8, x0 + width + 7, y0 + height + 8, fill="#cbd5e1", outline="")
         self.canvas.create_rectangle(x0, y0, x0 + width, y0 + height, fill="#ffffff", outline="#d0d5dd")
 
-        if settings.include_header:
-            if settings.template_path:
-                self.canvas.create_text(
-                    x0 + width / 2,
-                    y0 + 45,
-                    text="Cabeçalho preservado do template",
-                    fill="#2563eb",
-                    font=("Segoe UI", 8, "bold"),
-                )
-            else:
-                self._draw_image(
-                    settings.header_image_path,
-                    x0,
-                    y0 + 28 + settings.header_offset_y_cm * 16,
-                    width,
-                    42,
-                    settings.header_offset_x_cm,
-                )
+        if settings.template_path:
+            self.canvas.create_text(
+                x0 + width / 2,
+                y0 + 45,
+                text="Cabeçalho preservado exatamente do template",
+                fill="#2563eb",
+                font=("Segoe UI", 8, "bold"),
+            )
+        elif settings.include_header:
+            self._draw_image(
+                settings.header_image_path,
+                x0,
+                y0 + 28 + settings.header_offset_y_cm * 16,
+                width,
+                42,
+                settings.header_offset_x_cm,
+            )
         else:
             self.canvas.create_text(x0 + width / 2, y0 + 45, text="Sem cabeçalho", fill="#98a2b3", font=("Segoe UI", 8))
 
@@ -970,17 +987,16 @@ class PreviewDraftModal(ctk.CTkToplevel):
             text_y += 15 + int((settings.line_spacing - 1.0) * 7)
 
         footer_y = y0 + height - 62 + settings.footer_offset_y_cm * 16
-        if settings.include_footer:
-            if settings.template_path:
-                self.canvas.create_text(
-                    x0 + width / 2,
-                    y0 + height - 38,
-                    text="Rodapé preservado do template",
-                    fill="#2563eb",
-                    font=("Segoe UI", 8, "bold"),
-                )
-            else:
-                self._draw_image(settings.footer_image_path, x0, footer_y, width, 34, settings.footer_offset_x_cm)
+        if settings.template_path:
+            self.canvas.create_text(
+                x0 + width / 2,
+                y0 + height - 38,
+                text="Rodapé preservado exatamente do template",
+                fill="#2563eb",
+                font=("Segoe UI", 8, "bold"),
+            )
+        elif settings.include_footer:
+            self._draw_image(settings.footer_image_path, x0, footer_y, width, 34, settings.footer_offset_x_cm)
         else:
             self.canvas.create_text(x0 + width / 2, y0 + height - 38, text="Sem rodapé", fill="#98a2b3", font=("Segoe UI", 8))
 
