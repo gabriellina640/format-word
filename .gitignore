@@ -1,0 +1,22 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# Editor/local automation
+.vscode/
+.idea/
+.codex-kit/
+AGENTS.md
+
+# Local tests not needed in the repository
+tests/
+
+# Build outputs
+build/
+dist/
+*.spec
+
+# Runtime/local files
+*.log
+*.tmp

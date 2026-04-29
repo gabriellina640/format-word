@@ -1,0 +1,1 @@
+"""Format Word desktop application."""
