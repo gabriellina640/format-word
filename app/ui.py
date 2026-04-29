@@ -199,19 +199,19 @@ class FormatWordApp(ctk.CTk):
         )
 
         self.font_name_var = tk.StringVar()
-        self.font_size_var = tk.IntVar()
-        self.line_spacing_var = tk.DoubleVar()
-        self.space_after_var = tk.IntVar()
-        self.indent_var = tk.DoubleVar()
-        self.margin_top_var = tk.DoubleVar()
-        self.margin_bottom_var = tk.DoubleVar()
-        self.margin_left_var = tk.DoubleVar()
-        self.margin_right_var = tk.DoubleVar()
+        self.font_size_var = tk.StringVar()
+        self.line_spacing_var = tk.StringVar()
+        self.space_after_var = tk.StringVar()
+        self.indent_var = tk.StringVar()
+        self.margin_top_var = tk.StringVar()
+        self.margin_bottom_var = tk.StringVar()
+        self.margin_left_var = tk.StringVar()
+        self.margin_right_var = tk.StringVar()
         self.justify_var = tk.BooleanVar()
         self.include_header_var = tk.BooleanVar()
         self.include_footer_var = tk.BooleanVar()
         self.output_suffix_var = tk.StringVar()
-        self.max_input_mb_var = tk.IntVar()
+        self.max_input_mb_var = tk.StringVar()
         self.header_path_var = tk.StringVar()
         self.footer_path_var = tk.StringVar()
         self.template_path_var = tk.StringVar()
@@ -690,7 +690,8 @@ class FormatWordApp(ctk.CTk):
     @staticmethod
     def _int_from_var(var: tk.Variable, default: int, minimum: int, maximum: int) -> int:
         try:
-            value = int(var.get())
+            raw_value = _normalized_number(var.get())
+            value = int(float(raw_value))
         except (tk.TclError, ValueError):
             value = default
         return max(minimum, min(maximum, value))
@@ -698,7 +699,8 @@ class FormatWordApp(ctk.CTk):
     @staticmethod
     def _float_from_var(var: tk.Variable, default: float, minimum: float, maximum: float) -> float:
         try:
-            value = float(var.get())
+            raw_value = _normalized_number(var.get())
+            value = float(raw_value)
         except (tk.TclError, ValueError):
             value = default
         return max(minimum, min(maximum, value))
@@ -730,9 +732,9 @@ class PreviewDraftModal(ctk.CTkToplevel):
         self.transient(parent)
 
         self.font_name_var = tk.StringVar(value=settings.font_name)
-        self.font_size_var = tk.IntVar(value=settings.font_size)
-        self.line_spacing_var = tk.DoubleVar(value=settings.line_spacing)
-        self.space_after_var = tk.IntVar(value=settings.paragraph_spacing_after)
+        self.font_size_var = tk.StringVar(value=str(settings.font_size))
+        self.line_spacing_var = tk.StringVar(value=str(settings.line_spacing))
+        self.space_after_var = tk.StringVar(value=str(settings.paragraph_spacing_after))
         self.justify_var = tk.BooleanVar(value=settings.justify_text)
         self.header_x_var = tk.DoubleVar(value=settings.header_offset_x_cm)
         self.header_y_var = tk.DoubleVar(value=settings.header_offset_y_cm)
@@ -1048,7 +1050,8 @@ class PreviewDraftModal(ctk.CTkToplevel):
     @staticmethod
     def _int_value(var: tk.Variable, default: int, minimum: int, maximum: int) -> int:
         try:
-            value = int(var.get())
+            raw_value = _normalized_number(var.get())
+            value = int(float(raw_value))
         except (tk.TclError, ValueError):
             value = default
         return max(minimum, min(maximum, value))
@@ -1056,10 +1059,21 @@ class PreviewDraftModal(ctk.CTkToplevel):
     @staticmethod
     def _float_value(var: tk.Variable, default: float, minimum: float, maximum: float) -> float:
         try:
-            value = float(var.get())
+            raw_value = _normalized_number(var.get())
+            value = float(raw_value)
         except (tk.TclError, ValueError):
             value = default
         return max(minimum, min(maximum, value))
+
+
+def _normalized_number(value: object) -> str:
+    if isinstance(value, str):
+        normalized = value.strip().replace(",", ".")
+    else:
+        normalized = str(value).strip()
+    if normalized in {"", "-", ".", "-."}:
+        raise ValueError("Número incompleto.")
+    return normalized
 
 
 def split_paragraphs(text: str) -> list[str]:
