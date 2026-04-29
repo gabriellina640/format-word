@@ -12,6 +12,10 @@ from app.config import FormatSettings
 
 
 SUPPORTED_INPUT_EXTENSIONS = {".docx", ".pdf"}
+HEADER_IMAGE_WIDTH_CM = 15.5
+HEADER_IMAGE_HEIGHT_CM = 2.1
+FOOTER_IMAGE_WIDTH_CM = 15.5
+FOOTER_IMAGE_HEIGHT_CM = 1.7
 
 
 class FormatterError(Exception):
@@ -31,18 +35,34 @@ def format_document(input_path: Path, output_dir: Path, settings: FormatSettings
     validate_input(input_path, settings.max_input_mb)
     _prepare_output_dir(output_dir)
 
-    paragraphs = _read_paragraphs(input_path)
+    paragraphs = read_document_paragraphs(input_path)
     if not paragraphs:
         raise FormatterError("Não foi possível extrair texto do arquivo informado.")
+
+    return format_paragraphs(paragraphs, output_dir, input_path.stem, settings)
+
+
+def format_paragraphs(
+    paragraphs: list[str],
+    output_dir: Path,
+    input_stem: str,
+    settings: FormatSettings,
+) -> FormatResult:
+    output_dir = output_dir.expanduser().resolve()
+    _prepare_output_dir(output_dir)
+
+    cleaned_paragraphs = [paragraph.strip() for paragraph in paragraphs if paragraph.strip()]
+    if not cleaned_paragraphs:
+        raise FormatterError("Não há conteúdo para exportar.")
 
     document = Document()
     _configure_sections(document, settings)
     _apply_header_footer(document, settings)
-    _write_paragraphs(document, paragraphs, settings)
+    _write_paragraphs(document, cleaned_paragraphs, settings)
 
-    output_path = _unique_output_path(output_dir, input_path.stem, settings.output_suffix)
+    output_path = _unique_output_path(output_dir, input_stem, settings.output_suffix)
     document.save(output_path)
-    return FormatResult(output_path=output_path, paragraphs=len(paragraphs))
+    return FormatResult(output_path=output_path, paragraphs=len(cleaned_paragraphs))
 
 
 def validate_input(input_path: Path, max_input_mb: int) -> None:
@@ -63,7 +83,8 @@ def _prepare_output_dir(output_dir: Path) -> None:
         raise FormatterError(f"Não foi possível acessar a pasta de saída: {exc}") from exc
 
 
-def _read_paragraphs(input_path: Path) -> list[str]:
+def read_document_paragraphs(input_path: Path) -> list[str]:
+    input_path = input_path.expanduser().resolve()
     if input_path.suffix.lower() == ".docx":
         return _read_docx_paragraphs(input_path)
     if input_path.suffix.lower() == ".pdf":
@@ -113,6 +134,8 @@ def _configure_sections(document: Document, settings: FormatSettings) -> None:
     section.bottom_margin = Cm(settings.margin_bottom_cm)
     section.left_margin = Cm(settings.margin_left_cm)
     section.right_margin = Cm(settings.margin_right_cm)
+    section.header_distance = Cm(max(0.3, 0.8 + settings.header_offset_y_cm))
+    section.footer_distance = Cm(max(0.3, 0.7 - settings.footer_offset_y_cm))
 
     styles = document.styles
     normal_style = styles["Normal"]
@@ -130,17 +153,41 @@ def _apply_header_footer(document: Document, settings: FormatSettings) -> None:
     section = document.sections[0]
     available_width = section.page_width - section.left_margin - section.right_margin
     if settings.include_header and settings.header_image_path:
-        _add_section_image(section.header.paragraphs[0], Path(settings.header_image_path), available_width)
+        _add_section_image(
+            section.header.paragraphs[0],
+            Path(settings.header_image_path),
+            available_width,
+            settings.header_offset_x_cm,
+            HEADER_IMAGE_WIDTH_CM,
+            HEADER_IMAGE_HEIGHT_CM,
+        )
     if settings.include_footer and settings.footer_image_path:
-        _add_section_image(section.footer.paragraphs[0], Path(settings.footer_image_path), available_width)
+        _add_section_image(
+            section.footer.paragraphs[0],
+            Path(settings.footer_image_path),
+            available_width,
+            settings.footer_offset_x_cm,
+            FOOTER_IMAGE_WIDTH_CM,
+            FOOTER_IMAGE_HEIGHT_CM,
+        )
 
 
-def _add_section_image(paragraph, image_path: Path, width) -> None:
+def _add_section_image(
+    paragraph,
+    image_path: Path,
+    available_width,
+    offset_x_cm: float,
+    width_cm: float,
+    height_cm: float,
+) -> None:
     if not image_path.is_file():
         return
-    paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    available_width_cm = available_width / Cm(1)
+    base_indent_cm = max(0.0, (available_width_cm - width_cm) / 2)
+    paragraph.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    paragraph.paragraph_format.left_indent = Cm(max(0.0, base_indent_cm + offset_x_cm))
     run = paragraph.add_run()
-    run.add_picture(str(image_path), width=width)
+    run.add_picture(str(image_path), width=Cm(width_cm), height=Cm(height_cm))
 
 
 def _write_paragraphs(document: Document, paragraphs: list[str], settings: FormatSettings) -> None:

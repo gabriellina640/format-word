@@ -2,16 +2,30 @@ from __future__ import annotations
 
 import json
 import os
-import shutil
+import uuid
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
+
+from PIL import Image, ImageOps
 
 
 APP_NAME = "FormatWord"
 MAX_IMAGE_BYTES = 8 * 1024 * 1024
 SUPPORTED_IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg"}
 SUPPORTED_IMAGE_TYPES = {"header", "footer"}
+HEADER_IMAGE_PIXELS = (1600, 220)
+FOOTER_IMAGE_PIXELS = (1600, 180)
+FONT_OPTIONS = (
+    "Arial",
+    "Times New Roman",
+    "Calibri",
+    "Cambria",
+    "Georgia",
+    "Verdana",
+    "Tahoma",
+    "Courier New",
+)
 
 
 @dataclass(slots=True)
@@ -30,6 +44,10 @@ class FormatSettings:
     include_footer: bool = False
     header_image_path: str = ""
     footer_image_path: str = ""
+    header_offset_x_cm: float = 0.0
+    header_offset_y_cm: float = 0.0
+    footer_offset_x_cm: float = 0.0
+    footer_offset_y_cm: float = 0.0
     output_suffix: str = "_formatado"
     max_input_mb: int = 50
 
@@ -37,6 +55,8 @@ class FormatSettings:
 @dataclass(slots=True)
 class AppConfig:
     settings: FormatSettings = field(default_factory=FormatSettings)
+    stacks: dict[str, FormatSettings] = field(default_factory=dict)
+    active_stack: str = ""
 
 
 def get_config_dir() -> Path:
@@ -76,10 +96,26 @@ class ConfigStore:
 
         defaults = asdict(FormatSettings())
         merged = {**defaults, **self._filter_settings(settings_data)}
-        return AppConfig(settings=FormatSettings(**merged))
+        stacks: dict[str, FormatSettings] = {}
+        raw_stacks = data.get("stacks", {})
+        if isinstance(raw_stacks, dict):
+            for name, stack_data in raw_stacks.items():
+                if isinstance(name, str) and isinstance(stack_data, dict):
+                    stack_merged = {**defaults, **self._filter_settings(stack_data)}
+                    stacks[name] = FormatSettings(**stack_merged)
+
+        active_stack = data.get("active_stack", "")
+        if not isinstance(active_stack, str) or active_stack not in stacks:
+            active_stack = ""
+
+        return AppConfig(settings=FormatSettings(**merged), stacks=stacks, active_stack=active_stack)
 
     def save(self, config: AppConfig) -> None:
-        payload = {"settings": asdict(config.settings)}
+        payload = {
+            "settings": asdict(config.settings),
+            "stacks": {name: asdict(settings) for name, settings in config.stacks.items()},
+            "active_stack": config.active_stack if config.active_stack in config.stacks else "",
+        }
         tmp_path = self.config_path.with_suffix(".tmp")
         tmp_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
         tmp_path.replace(self.config_path)
@@ -98,8 +134,8 @@ class ConfigStore:
         if not self._has_valid_image_signature(image_path):
             raise ValueError("O conteúdo da imagem não parece ser PNG ou JPEG válido.")
 
-        target = self.assets_dir / f"{image_type}{image_path.suffix.lower()}"
-        shutil.copy2(image_path, target)
+        target = self.assets_dir / f"{image_type}_{uuid.uuid4().hex}.png"
+        self._normalize_image(image_path, target, image_type)
         return str(target)
 
     @staticmethod
@@ -111,6 +147,21 @@ class ConfigStore:
         is_png = signature.startswith(b"\x89PNG\r\n\x1a\n")
         is_jpeg = signature.startswith(b"\xff\xd8\xff")
         return is_png or is_jpeg
+
+    @staticmethod
+    def _normalize_image(source: Path, target: Path, image_type: str) -> None:
+        box = HEADER_IMAGE_PIXELS if image_type == "header" else FOOTER_IMAGE_PIXELS
+        try:
+            with Image.open(source) as image:
+                image = ImageOps.exif_transpose(image).convert("RGBA")
+                image.thumbnail(box, Image.Resampling.LANCZOS)
+                canvas = Image.new("RGBA", box, (255, 255, 255, 0))
+                x = (box[0] - image.width) // 2
+                y = (box[1] - image.height) // 2
+                canvas.alpha_composite(image, (x, y))
+                canvas.save(target, format="PNG", optimize=True)
+        except OSError as exc:
+            raise ValueError("Não foi possível processar a imagem selecionada.") from exc
 
     @staticmethod
     def _filter_settings(raw: dict[str, Any]) -> dict[str, Any]:

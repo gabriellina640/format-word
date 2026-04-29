@@ -7,8 +7,15 @@ Aplicativo desktop para receber um arquivo `.docx` ou `.pdf` e gerar um `.docx` 
 - Aba para subir arquivo e escolher pasta de saída.
 - Aba de configurações persistentes.
 - Fonte, tamanho, margens, espaçamento, recuo, justificação e sufixo configuráveis.
-- Imagem de cabeçalho e rodapé salvas localmente.
+- Lista de fontes padrão em dropdown.
+- Imagem de cabeçalho e rodapé salvas localmente com confirmação visual.
+- Imagens adaptadas automaticamente a uma área fixa profissional para evitar cabeçalho ou rodapé gigantes.
+- Stacks nomeadas de configuração, permitindo salvar perfis como `Documentos para PGJ` com fonte, margens, espaçamentos e imagens próprias.
+- Dropdown em Configurações para selecionar stacks já salvas antes de editar ou excluir.
+- Seleção da stack em dropdown antes de pré-visualizar e exportar cada documento.
+- Abas e modal de pré-visualização com layout adaptável e rolagem para evitar conteúdo cortado em janelas menores.
 - Opção rápida para aplicar ou não cabeçalho/rodapé na formatação.
+- Modal de pré-visualização antes da exportação, com edição de texto, fonte, espaçamento e posição das imagens.
 - Extração de parágrafos e texto de tabelas em arquivos `.docx`.
 - Validação de extensão, limite de tamanho e recusa de PDFs protegidos por senha.
 - Validação básica de assinatura PNG/JPEG no upload de imagens.
