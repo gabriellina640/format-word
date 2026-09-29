@@ -1,1091 +1,728 @@
+"""Desktop form and batch coordinator. Tk is only accessed by its main thread."""
 from __future__ import annotations
 
+import os
+from copy import deepcopy
+from pathlib import Path
+import queue
+import subprocess
+import sys
 import threading
 import tkinter as tk
+from tkinter import filedialog, font, messagebox, ttk
 from dataclasses import replace
-from pathlib import Path
-from tkinter import filedialog, messagebox
-from typing import Callable
 
 import customtkinter as ctk
-from PIL import Image, ImageTk
 
-from app.config import ConfigStore, FONT_OPTIONS, FormatSettings
-from app.formatter import FormatterError, format_paragraphs, read_document_paragraphs, validate_input
+from app.batch import BatchItem, format_documents_batch
+from app.config import AppConfig, ConfigStore, FONT_OPTIONS, FormatSettings, SettingsError
+from app.document_model import DocumentOverrides, inspect_document
+from app.review_dialogs import CategoryRulesDialog, DocumentReviewDialog
+from app.ui_fields import FIELDS, FIELD_MAP, form_values, settings_from_values, settings_summary, unique_profile_name
 
-
-APP_DISPLAY_NAME = "Formatador de Documentos"
-ICON_PATH = Path(__file__).resolve().parent.parent / "icone.ico"
-
-ctk.set_appearance_mode("light")
-ctk.set_default_color_theme("blue")
-
-BG = "#f3f6fb"
-SURFACE = "#ffffff"
-INK = "#101828"
-MUTED = "#667085"
-PRIMARY = "#2563eb"
-SUCCESS = "#047857"
+DEFAULT_PROFILE = 'Configuração atual'
+BG, SURFACE, INK, MUTED, PRIMARY = '#f3f6fb', '#ffffff', '#101828', '#475467', '#2563eb'
+ctk.set_appearance_mode('light')
+ctk.set_default_color_theme('blue')
 
 
 class FormatWordApp(ctk.CTk):
-    def __init__(self) -> None:
+    def __init__(self, config_dir: Path | None = None) -> None:
         super().__init__()
-        self.title(APP_DISPLAY_NAME)
-        self.geometry("1180x760")
-        self.minsize(980, 680)
+        self.title('Format Word')
+        if sys.platform == 'win32':
+            try:
+                self.iconbitmap(str(Path(__file__).resolve().parent.parent / 'icone.ico'))
+            except tk.TclError:
+                pass
+        self.geometry('1000x760')
+        self.minsize(760, 600)
         self.configure(fg_color=BG)
-        self._apply_window_icon()
-
-        self.store = ConfigStore()
+        self.store = ConfigStore(config_dir)
         self.config_model = self.store.load()
-        self.input_path = tk.StringVar()
-        self.output_dir = tk.StringVar(value=str(Path.home() / "Documents"))
-        self.selected_stack_var = tk.StringVar(value="Configuração atual")
-        self.manage_stack_var = tk.StringVar(value="Selecione um perfil")
-        self.stack_name_var = tk.StringVar()
-        self.status_text = tk.StringVar(value="Pronto para formatar.")
-        self.settings_summary = tk.StringVar()
-        self.header_status = tk.StringVar(value="Nenhuma imagem carregada")
-        self.footer_status = tk.StringVar(value="Nenhuma imagem carregada")
-        self.template_status = tk.StringVar(value="Nenhum template Word selecionado")
-        self.header_preview_image: ctk.CTkImage | None = None
-        self.footer_preview_image: ctk.CTkImage | None = None
-        self.last_output_path: Path | None = None
+        self.busy = False
+        self._destroyed = False
+        self._close_pending = False
+        self._loading = False
+        self._after_ids: set[str] = set()
+        self._summary_after = None
+        self._form_columns = 0
+        self._compact_layout = False
+        self._selected = self.config_model.active_stack
+        self._draft_base = deepcopy(self.config_model.stacks.get(self._selected, self.config_model.settings))
+        self._baseline_values = form_values(self._draft_base)
+        self._baseline_base = deepcopy(self._draft_base)
+        self._baseline_name = self._selected
+        self.field_vars = {name: tk.StringVar(self, value=value) for name, value in self._baseline_values.items()}
+        self.field_widgets = {}
+        self.field_errors = {}
+        self.field_cards = []
+        self.image_buttons = {}
+        self.mutation_widgets = []
+        self.paths: list[Path] = []
+        self.document_overrides: dict[Path, DocumentOverrides] = {}
+        self.results: list[BatchItem] = []
+        self.cancel_event = threading.Event()
+        self.events: queue.Queue = queue.Queue()
+        self.worker: threading.Thread | None = None
+        self.selected_profile = tk.StringVar(self, value=self._selected or DEFAULT_PROFILE)
+        self.profile_name = tk.StringVar(self, value=self._selected)
+        self.output_dir = tk.StringVar(self, value='')
+        self.status_text = tk.StringVar(self, value='Selecione arquivos Word e uma pasta de destino.')
+        self.error_text = tk.StringVar(self)
+        self.dirty_text = tk.StringVar(self)
+        self._build()
+        for variable in (*self.field_vars.values(), self.profile_name):
+            variable.trace_add('write', self._changed)
+        self.bind('<Configure>', self._resize)
+        for modifier in ('Control', 'Command') if sys.platform == 'darwin' else ('Control',):
+            self.bind(f'<{modifier}-s>', lambda _event: self.save_profile())
+            self.bind(f'<{modifier}-Return>', lambda _event: self.start_batch())
+            self.bind(f'<{modifier}-1>', lambda _event: self.tabs.set('Arquivos e resultados'))
+            self.bind(f'<{modifier}-2>', lambda _event: self.tabs.set('Perfis e formatação'))
+        self.bind('<Escape>', lambda _event: self.cancel_batch())
+        self.protocol('WM_DELETE_WINDOW', self.request_close)
+        self._refresh_form()
+        self._update_summary()
+        self._schedule(80, self._poll)
 
-        self._build_layout()
-        initial_settings = self.config_model.stacks.get(self.config_model.active_stack, self.config_model.settings)
-        initial_name = self.config_model.active_stack or "Configuração atual"
-        self.selected_stack_var.set(initial_name)
-        self.manage_stack_var.set(self.config_model.active_stack or "Selecione um perfil")
-        self.stack_name_var.set(self.config_model.active_stack)
-        self._load_settings_into_form(initial_settings)
-        self._refresh_stack_dropdowns()
+    @property
+    def dirty(self) -> bool:
+        return (self._values() != self._baseline_values or self._draft_base != self._baseline_base
+                or self.profile_name.get().strip() != self._baseline_name)
 
-    def _build_layout(self) -> None:
+    def _schedule(self, milliseconds, callback):
+        def run():
+            self._after_ids.discard(identifier)
+            if not self._destroyed:
+                callback()
+        identifier = self.after(milliseconds, run)
+        self._after_ids.add(identifier)
+        return identifier
+
+    def _button(self, parent, text, command, **kwargs):
+        widget = ctk.CTkButton(parent, text=text, command=command, fg_color=PRIMARY, height=36, **kwargs)
+        self._enable_keyboard(widget)
+        self.mutation_widgets.append(widget)
+        return widget
+
+    def _enable_keyboard(self, button):
+        # CustomTkinter buttons draw on a Canvas, whose default tab focus is off.
+        def activate(_event):
+            button.invoke()
+            return 'break'
+
+        def apply_shortcut(_event):
+            self.start_batch()
+            return 'break'
+
+        button._canvas.configure(takefocus=1)
+        button.bind('<Return>', activate)
+        button.bind('<space>', activate)
+        for modifier in ('Control', 'Command') if sys.platform == 'darwin' else ('Control',):
+            button.bind(f'<{modifier}-Return>', apply_shortcut)
+        button.bind('<FocusIn>', lambda _event: button.configure(border_width=2, border_color=INK))
+        button.bind('<FocusOut>', lambda _event: button.configure(border_width=0))
+
+    def _build(self):
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1)
+        top = ctk.CTkFrame(self, fg_color=SURFACE)
+        top.grid(row=0, column=0, sticky='ew', padx=16, pady=(16, 8))
+        top.grid_columnconfigure(1, weight=1)
+        ctk.CTkLabel(top, text='Format Word', font=ctk.CTkFont(size=24, weight='bold'), text_color=INK).grid(row=0, column=0, padx=16, pady=12)
+        self.profile_selector = ctk.CTkComboBox(top, variable=self.selected_profile, values=self._profile_names(), state='readonly', command=self.select_profile, width=230)
+        self.profile_selector.grid(row=0, column=1, sticky='e', padx=12)
+        self.mutation_widgets.append(self.profile_selector)
+        ctk.CTkLabel(top, textvariable=self.dirty_text, text_color=MUTED).grid(row=1, column=0, columnspan=2, sticky='w', padx=16)
+        self.tabs = ctk.CTkTabview(self, fg_color=SURFACE)
+        self.tabs.grid(row=1, column=0, sticky='nsew', padx=16, pady=4)
+        documents = self.tabs.add('Arquivos e resultados')
+        profiles = self.tabs.add('Perfis e formatação')
+        self._build_documents(documents)
+        self._build_profiles(profiles)
+        self.status_label = ctk.CTkLabel(self, textvariable=self.status_text, text_color=MUTED, anchor='w', wraplength=900)
+        self.status_label.grid(row=2, column=0, sticky='ew', padx=20, pady=(4, 12))
 
-        header = ctk.CTkFrame(self, fg_color="#111827", corner_radius=18)
-        header.grid(row=0, column=0, sticky="ew", padx=24, pady=(22, 16))
-        header.grid_columnconfigure(0, weight=1)
-        ctk.CTkLabel(header, text=APP_DISPLAY_NAME, text_color="#ffffff", font=("Segoe UI", 28, "bold")).grid(
-            row=0, column=0, sticky="w", padx=24, pady=(20, 2)
-        )
-        ctk.CTkLabel(
-            header,
-            text="Padronize documentos com prévia editável, cabeçalho, rodapé e preferências persistentes.",
-            text_color="#d1d5db",
-            font=("Segoe UI", 13),
-        ).grid(row=1, column=0, sticky="w", padx=24, pady=(0, 20))
-
-        self.tabs = ctk.CTkTabview(self, fg_color=BG, segmented_button_fg_color="#e5e7eb")
-        self.tabs.grid(row=1, column=0, sticky="nsew", padx=24)
-        self.upload_tab = self.tabs.add("Documento")
-        self.settings_tab = self.tabs.add("Configurações")
-        self.upload_tab.configure(fg_color=BG)
-        self.settings_tab.configure(fg_color=BG)
-        self.upload_tab.grid_columnconfigure(0, weight=1)
-        self.upload_tab.grid_rowconfigure(0, weight=1)
-        self.settings_tab.grid_columnconfigure(0, weight=1)
-        self.settings_tab.grid_rowconfigure(0, weight=1)
-
-        self._build_upload_tab()
-        self._build_settings_tab()
-
-        footer = ctk.CTkFrame(self, fg_color=SURFACE, corner_radius=14, border_width=1, border_color="#e5e7eb")
-        footer.grid(row=2, column=0, sticky="ew", padx=24, pady=(16, 22))
-        footer.grid_columnconfigure(0, weight=1)
-        ctk.CTkLabel(footer, textvariable=self.status_text, text_color=INK, font=("Segoe UI", 13, "bold")).grid(
-            row=0, column=0, sticky="w", padx=16, pady=12
-        )
-        self.progress = ctk.CTkProgressBar(footer, mode="indeterminate", width=190, progress_color=PRIMARY)
-        self.progress.grid(row=0, column=1, sticky="e", padx=16, pady=12)
+    def _build_documents(self, parent):
+        parent.grid_columnconfigure(0, weight=1)
+        parent.grid_rowconfigure(1, weight=1)
+        actions = ctk.CTkFrame(parent, fg_color='transparent')
+        actions.grid(row=0, column=0, sticky='ew', pady=4)
+        for column, (label, command) in enumerate((('Adicionar DOCX', self.choose_files), ('Remover selecionados', self.remove_selected), ('Limpar lista', self.clear_files))):
+            self._button(actions, label, command, width=145).grid(row=0, column=column, padx=(0, 8))
+        self._button(actions, 'Revisar documento', self.review_document, width=145).grid(row=0, column=3)
+        frame = ctk.CTkFrame(parent, fg_color=SURFACE)
+        frame.grid(row=1, column=0, sticky='nsew', pady=6)
+        frame.grid_columnconfigure(0, weight=1)
+        frame.grid_rowconfigure(0, weight=1)
+        self.file_tree = ttk.Treeview(frame, columns=('file', 'status'), show='headings', selectmode='extended', height=5)
+        self.file_tree.heading('file', text='Arquivo Word')
+        self.file_tree.heading('status', text='Resultado')
+        self.file_tree.column('file', width=440, minwidth=160)
+        self.file_tree.column('status', width=190, minwidth=120)
+        self.file_tree.grid(row=0, column=0, sticky='nsew')
+        scrollbar = ttk.Scrollbar(frame, orient='vertical', command=self.file_tree.yview)
+        scrollbar.grid(row=0, column=1, sticky='ns')
+        self.file_tree.configure(yscrollcommand=scrollbar.set)
+        self.file_tree.bind('<<TreeviewSelect>>', self._show_result)
+        destination = ctk.CTkFrame(parent, fg_color='transparent')
+        destination.grid(row=2, column=0, sticky='ew', pady=4)
+        destination.grid_columnconfigure(1, weight=1)
+        ctk.CTkLabel(destination, text='Pasta de destino').grid(row=0, column=0, padx=(0, 8))
+        entry = ctk.CTkEntry(destination, textvariable=self.output_dir)
+        entry.grid(row=0, column=1, sticky='ew')
+        self.mutation_widgets.append(entry)
+        self._button(destination, 'Escolher', self.choose_output, width=90).grid(row=0, column=2, padx=(8, 0))
+        ctk.CTkLabel(parent, text='Configuração que será aplicada', text_color=INK, anchor='w').grid(row=3, column=0, sticky='ew')
+        self.summary_box = ctk.CTkTextbox(parent, height=105, wrap='word')
+        self.summary_box.grid(row=4, column=0, sticky='ew')
+        run = ctk.CTkFrame(parent, fg_color='transparent')
+        run.grid(row=5, column=0, sticky='ew', pady=8)
+        run.grid_columnconfigure(2, weight=1)
+        self.apply_button = self._button(run, 'Aplicar aos arquivos', self.start_batch, width=170)
+        self.apply_button.grid(row=0, column=0, padx=(0, 8))
+        self.cancel_button = ctk.CTkButton(run, text='Cancelar lote', command=self.cancel_batch, state='disabled', width=120, height=36)
+        self._enable_keyboard(self.cancel_button)
+        self.cancel_button.grid(row=0, column=1, padx=(0, 12))
+        self.progress = ctk.CTkProgressBar(run)
+        self.progress.grid(row=0, column=2, sticky='ew')
         self.progress.set(0)
+        self.progress_label = ctk.CTkLabel(run, text='0 / 0', width=65)
+        self.progress_label.grid(row=0, column=3)
+        self.details_box = ctk.CTkTextbox(parent, height=65, wrap='word')
+        self.details_box.grid(row=6, column=0, sticky='ew')
+        self._set_text(self.details_box, '\n'.join(self.store.warnings) or 'Selecione um resultado para ver os detalhes.')
+        opening = ctk.CTkFrame(parent, fg_color='transparent')
+        opening.grid(row=7, column=0, sticky='ew', pady=(8, 0))
+        for label, command in (('Abrir DOCX selecionado', self.open_selected), ('Abrir pasta de saída', self.open_output)):
+            button = ctk.CTkButton(opening, text=label, command=command, height=36)
+            self._enable_keyboard(button)
+            button.pack(side='left', padx=(0, 8))
 
-    def _apply_window_icon(self) -> None:
-        if not ICON_PATH.is_file():
-            return
+    def _build_profiles(self, parent):
+        parent.grid_columnconfigure(0, weight=1)
+        parent.grid_rowconfigure(3, weight=1)
+        controls = ctk.CTkFrame(parent, fg_color='transparent')
+        controls.grid(row=0, column=0, sticky='ew', pady=4)
+        controls.grid_columnconfigure(1, weight=1)
+        ctk.CTkLabel(controls, text='Promotor / perfil').grid(row=0, column=0, padx=(0, 8))
+        self.name_entry = ctk.CTkEntry(controls, textvariable=self.profile_name, placeholder_text='Vazio salva a configuração atual')
+        self.name_entry.grid(row=0, column=1, sticky='ew')
+        self.mutation_widgets.append(self.name_entry)
+        buttons = ctk.CTkFrame(parent, fg_color='transparent')
+        buttons.grid(row=1, column=0, sticky='ew', pady=4)
+        for column, (text, command) in enumerate((('Criar', self.new_profile), ('Salvar', self.save_profile), ('Duplicar', self.duplicate_profile), ('Excluir', self.delete_profile), ('Restaurar', self.restore_profile))):
+            self._button(buttons, text, command, width=95).grid(row=0, column=column, padx=(0, 8))
+        notice = ctk.CTkFrame(parent, fg_color='transparent')
+        notice.grid(row=2, column=0, sticky='ew')
+        notice.grid_columnconfigure(0, weight=1)
+        ctk.CTkLabel(notice, textvariable=self.error_text, text_color='#b42318', wraplength=340, anchor='w', justify='left').grid(row=0, column=0, sticky='ew')
+        self.review_button = self._button(notice, 'Revisar perfil antigo', self.review_legacy, width=155)
+        self.review_button.grid(row=0, column=1, padx=6)
+        self._button(notice, 'Regras por tipo', self.edit_category_rules, width=135).grid(row=0, column=2)
+        self.form = ctk.CTkScrollableFrame(parent, fg_color=BG)
+        self.form.grid(row=3, column=0, sticky='nsew', pady=6)
         try:
-            self.iconbitmap(str(ICON_PATH))
+            families = sorted(set(font.families(self)) | set(FONT_OPTIONS))
         except tk.TclError:
+            families = list(FONT_OPTIONS)
+        self.group_labels = {}
+        for field in FIELDS:
+            if field.group not in self.group_labels:
+                self.group_labels[field.group] = ctk.CTkLabel(self.form, text=field.group, text_color=INK, font=ctk.CTkFont(size=18, weight='bold'), anchor='w')
+            card = ctk.CTkFrame(self.form, fg_color=SURFACE)
+            card.grid_columnconfigure(0, weight=1)
+            ctk.CTkLabel(card, text=field.label, anchor='w', text_color=INK).grid(row=0, column=0, sticky='ew', padx=10, pady=(6, 0))
+            if field.choices or field.kind == 'font':
+                widget = ctk.CTkComboBox(card, variable=self.field_vars[field.name], values=list(field.choices) if field.choices else families, state='readonly' if field.choices else 'normal')
+            else:
+                widget = ctk.CTkEntry(card, textvariable=self.field_vars[field.name], state='disabled' if field.kind == 'image' else 'normal')
+            widget.grid(row=1, column=0, sticky='ew', padx=10, pady=5)
+            self.field_widgets[field.name] = widget
+            widget.bind('<FocusIn>', lambda _event, name=field.name: self._scroll_to_field(name), add='+')
+            if field.kind == 'image':
+                slot = field.name.split('_')[0]
+                button = self._button(card, 'Escolher imagem PNG/JPEG', lambda slot=slot: self.choose_image(slot))
+                button.grid(row=2, column=0, sticky='ew', padx=10, pady=4)
+                self.image_buttons[slot] = button
+            if field.help:
+                ctk.CTkLabel(card, text=field.help, text_color=MUTED, wraplength=330, justify='left', anchor='w').grid(row=3, column=0, sticky='ew', padx=10, pady=3)
+            error = ctk.CTkLabel(card, text='', text_color='#b42318', wraplength=330, justify='left', anchor='w')
+            error.grid(row=4, column=0, sticky='ew', padx=10)
+            self.field_errors[field.name] = error
+            self.field_cards.append((field, card))
+        self._layout_form(2)
+
+    def _layout_form(self, columns):
+        self._form_columns = columns
+        for col in range(2):
+            self.form.grid_columnconfigure(col, weight=1 if col < columns else 0, uniform='fields' if col < columns else '')
+        row, previous, position = 0, None, 0
+        for field, card in self.field_cards:
+            if field.group != previous:
+                if position:
+                    row += 1
+                self.group_labels[field.group].grid(row=row, column=0, columnspan=columns, sticky='ew', padx=8, pady=(14, 4))
+                row += 1
+                position = 0
+                previous = field.group
+            card.grid(row=row, column=position, sticky='nsew', padx=5, pady=5)
+            position += 1
+            if position == columns:
+                row += 1
+                position = 0
+
+    def _resize(self, event):
+        if event.widget is self:
+            columns = 1 if event.width < 900 else 2
+            if columns != self._form_columns:
+                self._layout_form(columns)
+            self.status_label.configure(wraplength=max(650, event.width - 50))
+            compact = event.height < 700
+            if compact != self._compact_layout:
+                self._compact_layout = compact
+                self.summary_box.configure(height=55 if compact else 105)
+                self.details_box.configure(height=45 if compact else 65)
+
+    def _scroll_to_field(self, name):
+        widget = self.field_widgets[name]
+        if self.tabs.get() != 'Perfis e formatação':
             return
+        self.update_idletasks()
+        card = widget.master
+        canvas = self.form._parent_canvas
+        top = canvas.canvasy(0)
+        bottom = top + canvas.winfo_height()
+        if card.winfo_y() < top or card.winfo_y() + card.winfo_height() > bottom:
+            canvas.yview_moveto(max(0, card.winfo_y() / max(1, self.form.winfo_height())))
 
-    def _build_upload_tab(self) -> None:
-        content = ctk.CTkScrollableFrame(self.upload_tab, fg_color=BG)
-        content.grid(row=0, column=0, sticky="nsew")
-        content.grid_columnconfigure(0, weight=1)
+    def _values(self):
+        return {name: variable.get() for name, variable in self.field_vars.items()}
 
-        card = self._card(content)
-        card.grid(row=0, column=0, sticky="ew", pady=(6, 16))
-        card.grid_columnconfigure(0, weight=1)
-
-        ctk.CTkLabel(card, text="Preparar documento", text_color=INK, font=("Segoe UI", 19, "bold")).grid(
-            row=0, column=0, sticky="w", padx=22, pady=(20, 4)
-        )
-        ctk.CTkLabel(
-            card,
-            text="Selecione o arquivo, revise em uma prévia editável e exporte somente quando estiver pronto.",
-            text_color=MUTED,
-            font=("Segoe UI", 13),
-        ).grid(row=1, column=0, sticky="w", padx=22, pady=(0, 18))
-
-        self._path_picker(card, "Arquivo de entrada", self.input_path, self._choose_input_file, 2)
-        self._path_picker(card, "Pasta de saída", self.output_dir, self._choose_output_dir, 4)
-
-        stack_row = ctk.CTkFrame(card, fg_color="transparent")
-        stack_row.grid(row=6, column=0, sticky="ew", padx=22, pady=(0, 16))
-        stack_row.grid_columnconfigure(0, weight=1)
-        ctk.CTkLabel(stack_row, text="Perfil de configuração", text_color=INK, font=("Segoe UI", 13, "bold")).grid(
-            row=0, column=0, sticky="w", pady=(0, 6)
-        )
-        self.stack_dropdown = ctk.CTkOptionMenu(
-            stack_row,
-            values=self._stack_options(),
-            variable=self.selected_stack_var,
-            command=self._select_stack,
-            height=40,
-            corner_radius=12,
-        )
-        self.stack_dropdown.grid(row=1, column=0, sticky="ew")
-
-        switches = ctk.CTkFrame(card, fg_color="transparent")
-        switches.grid(row=7, column=0, sticky="w", padx=22, pady=(4, 14))
-        self.quick_header_var = tk.BooleanVar()
-        self.quick_footer_var = tk.BooleanVar()
-        ctk.CTkCheckBox(switches, text="Aplicar cabeçalho salvo", variable=self.quick_header_var).grid(
-            row=0, column=0, sticky="w", padx=(0, 18)
-        )
-        ctk.CTkCheckBox(switches, text="Aplicar rodapé salvo", variable=self.quick_footer_var).grid(row=0, column=1, sticky="w")
-
-        self.format_button = ctk.CTkButton(
-            card,
-            text="Pré-visualizar e exportar",
-            command=self._start_formatting,
-            height=42,
-            corner_radius=12,
-            fg_color=PRIMARY,
-            hover_color="#1d4ed8",
-            font=("Segoe UI", 14, "bold"),
-        )
-        self.format_button.grid(row=8, column=0, sticky="w", padx=22, pady=(0, 22))
-
-        summary = self._card(content)
-        summary.grid(row=1, column=0, sticky="ew")
-        summary.grid_columnconfigure(0, weight=1)
-        ctk.CTkLabel(summary, text="Configuração ativa", text_color=INK, font=("Segoe UI", 17, "bold")).grid(
-            row=0, column=0, sticky="w", padx=22, pady=(18, 4)
-        )
-        ctk.CTkLabel(
-            summary,
-            textvariable=self.settings_summary,
-            text_color=MUTED,
-            font=("Segoe UI", 13),
-            wraplength=940,
-            justify="left",
-        ).grid(row=1, column=0, sticky="w", padx=22, pady=(0, 18))
-
-    def _build_settings_tab(self) -> None:
-        content = ctk.CTkScrollableFrame(self.settings_tab, fg_color=BG)
-        content.grid(row=0, column=0, sticky="nsew")
-        content.grid_columnconfigure(0, weight=1)
-
-        card = self._card(content)
-        card.grid(row=0, column=0, sticky="nsew", pady=(6, 0))
-        card.grid_columnconfigure((0, 1, 2, 3), weight=1)
-
-        ctk.CTkLabel(card, text="Preferências de formatação", text_color=INK, font=("Segoe UI", 19, "bold")).grid(
-            row=0, column=0, columnspan=4, sticky="w", padx=22, pady=(20, 16)
-        )
-
-        self.font_name_var = tk.StringVar()
-        self.font_size_var = tk.StringVar()
-        self.line_spacing_var = tk.StringVar()
-        self.space_after_var = tk.StringVar()
-        self.indent_var = tk.StringVar()
-        self.margin_top_var = tk.StringVar()
-        self.margin_bottom_var = tk.StringVar()
-        self.margin_left_var = tk.StringVar()
-        self.margin_right_var = tk.StringVar()
-        self.justify_var = tk.BooleanVar()
-        self.include_header_var = tk.BooleanVar()
-        self.include_footer_var = tk.BooleanVar()
-        self.output_suffix_var = tk.StringVar()
-        self.max_input_mb_var = tk.StringVar()
-        self.header_path_var = tk.StringVar()
-        self.footer_path_var = tk.StringVar()
-        self.template_path_var = tk.StringVar()
-        self.header_offset_x_var = tk.DoubleVar()
-        self.header_offset_y_var = tk.DoubleVar()
-        self.footer_offset_x_var = tk.DoubleVar()
-        self.footer_offset_y_var = tk.DoubleVar()
-
-        self._field(card, "Fonte", ctk.CTkComboBox(card, values=list(FONT_OPTIONS), variable=self.font_name_var), 1, 0)
-        self._field(card, "Tamanho", ctk.CTkEntry(card, textvariable=self.font_size_var), 1, 1)
-        self._field(card, "Espaçamento entre linhas", ctk.CTkEntry(card, textvariable=self.line_spacing_var), 1, 2)
-        self._field(card, "Espaço após parágrafo", ctk.CTkEntry(card, textvariable=self.space_after_var), 1, 3)
-        self._field(card, "Recuo primeira linha cm", ctk.CTkEntry(card, textvariable=self.indent_var), 3, 0)
-        self._field(card, "Margem superior cm", ctk.CTkEntry(card, textvariable=self.margin_top_var), 3, 1)
-        self._field(card, "Margem inferior cm", ctk.CTkEntry(card, textvariable=self.margin_bottom_var), 3, 2)
-        self._field(card, "Limite do arquivo MB", ctk.CTkEntry(card, textvariable=self.max_input_mb_var), 3, 3)
-        self._field(card, "Margem esquerda cm", ctk.CTkEntry(card, textvariable=self.margin_left_var), 5, 0)
-        self._field(card, "Margem direita cm", ctk.CTkEntry(card, textvariable=self.margin_right_var), 5, 1)
-        self._field(card, "Sufixo do arquivo", ctk.CTkEntry(card, textvariable=self.output_suffix_var), 5, 2)
-
-        ctk.CTkCheckBox(card, text="Justificar texto", variable=self.justify_var).grid(
-            row=6, column=0, sticky="w", padx=22, pady=(6, 18)
-        )
-
-        media = ctk.CTkFrame(card, fg_color="#f8fafc", corner_radius=16, border_width=1, border_color="#e5e7eb")
-        media.grid(row=7, column=0, columnspan=4, sticky="ew", padx=22, pady=(4, 16))
-        media.grid_columnconfigure((0, 1), weight=1)
-
-        self._image_panel(media, "Cabeçalho", self.include_header_var, self.header_status, self._choose_header_image, "header", 0)
-        self._image_panel(media, "Rodapé", self.include_footer_var, self.footer_status, self._choose_footer_image, "footer", 1)
-
-        template_box = ctk.CTkFrame(card, fg_color="#f8fafc", corner_radius=16, border_width=1, border_color="#e5e7eb")
-        template_box.grid(row=8, column=0, columnspan=4, sticky="ew", padx=22, pady=(0, 16))
-        template_box.grid_columnconfigure(0, weight=1)
-        ctk.CTkLabel(template_box, text="Template Word do perfil", text_color=INK, font=("Segoe UI", 16, "bold")).grid(
-            row=0, column=0, sticky="w", padx=16, pady=(14, 4)
-        )
-        ctk.CTkLabel(
-            template_box,
-            text="Use um .docx pronto para preservar cabeçalhos, rodapés, imagens e variações por página.",
-            text_color=MUTED,
-            font=("Segoe UI", 12),
-        ).grid(row=1, column=0, sticky="w", padx=16, pady=(0, 10))
-        template_actions = ctk.CTkFrame(template_box, fg_color="transparent")
-        template_actions.grid(row=2, column=0, sticky="ew", padx=16, pady=(0, 12))
-        template_actions.grid_columnconfigure(0, weight=1)
-        ctk.CTkLabel(template_actions, textvariable=self.template_status, text_color=SUCCESS, font=("Segoe UI", 12, "bold")).grid(
-            row=0, column=0, sticky="w", padx=(0, 10)
-        )
-        ctk.CTkButton(template_actions, text="Importar template", command=self._choose_template, height=36, corner_radius=11).grid(
-            row=0, column=1, padx=(0, 10)
-        )
-        ctk.CTkButton(
-            template_actions,
-            text="Remover template",
-            command=self._remove_template,
-            height=36,
-            corner_radius=11,
-            fg_color="#e5e7eb",
-            hover_color="#d1d5db",
-            text_color=INK,
-        ).grid(row=0, column=2)
-
-        stack_box = ctk.CTkFrame(card, fg_color="#f8fafc", corner_radius=16, border_width=1, border_color="#e5e7eb")
-        stack_box.grid(row=9, column=0, columnspan=4, sticky="ew", padx=22, pady=(0, 16))
-        stack_box.grid_columnconfigure(0, weight=1)
-        ctk.CTkLabel(stack_box, text="Perfis salvos", text_color=INK, font=("Segoe UI", 16, "bold")).grid(
-            row=0, column=0, sticky="w", padx=16, pady=(14, 4)
-        )
-        ctk.CTkLabel(
-            stack_box,
-            text="Selecione um perfil para editar/excluir ou informe um novo nome para criar outro.",
-            text_color=MUTED,
-            font=("Segoe UI", 12),
-        ).grid(row=1, column=0, sticky="w", padx=16, pady=(0, 10))
-        self.manage_stack_dropdown = ctk.CTkOptionMenu(
-            stack_box,
-            values=self._manage_stack_options(),
-            variable=self.manage_stack_var,
-            command=self._select_stack_for_edit,
-            height=38,
-            corner_radius=11,
-        )
-        self.manage_stack_dropdown.grid(row=2, column=0, sticky="ew", padx=16, pady=(0, 10))
-        stack_actions = ctk.CTkFrame(stack_box, fg_color="transparent")
-        stack_actions.grid(row=3, column=0, sticky="ew", padx=16, pady=(0, 16))
-        stack_actions.grid_columnconfigure(0, weight=1)
-        ctk.CTkEntry(
-            stack_actions,
-            textvariable=self.stack_name_var,
-            placeholder_text="Ex: Documentos para PGJ",
-            height=38,
-            corner_radius=11,
-        ).grid(row=0, column=0, sticky="ew", padx=(0, 10))
-        ctk.CTkButton(stack_actions, text="Salvar perfil", command=self._save_stack, height=38, corner_radius=11).grid(
-            row=0, column=1, padx=(0, 10)
-        )
-        ctk.CTkButton(
-            stack_actions,
-            text="Excluir perfil",
-            command=self._delete_stack,
-            height=38,
-            corner_radius=11,
-            fg_color="#fee2e2",
-            hover_color="#fecaca",
-            text_color="#991b1b",
-        ).grid(row=0, column=2)
-
-        actions = ctk.CTkFrame(card, fg_color="transparent")
-        actions.grid(row=10, column=0, columnspan=4, sticky="ew", padx=22, pady=(0, 22))
-        ctk.CTkButton(actions, text="Salvar configurações", command=self._save_settings, height=40, corner_radius=12).pack(side="left")
-        ctk.CTkButton(
-            actions,
-            text="Restaurar padrão",
-            command=self._reset_settings,
-            height=40,
-            corner_radius=12,
-            fg_color="#e5e7eb",
-            hover_color="#d1d5db",
-            text_color=INK,
-        ).pack(side="left", padx=(10, 0))
-
-    def _card(self, parent) -> ctk.CTkFrame:
-        return ctk.CTkFrame(parent, fg_color=SURFACE, corner_radius=18, border_width=1, border_color="#e5e7eb")
-
-    def _path_picker(self, parent, label: str, variable: tk.StringVar, command: Callable[[], None], row: int) -> None:
-        ctk.CTkLabel(parent, text=label, text_color=INK, font=("Segoe UI", 13, "bold")).grid(
-            row=row, column=0, sticky="w", padx=22, pady=(0, 6)
-        )
-        line = ctk.CTkFrame(parent, fg_color="transparent")
-        line.grid(row=row + 1, column=0, sticky="ew", padx=22, pady=(0, 16))
-        line.grid_columnconfigure(0, weight=1)
-        ctk.CTkEntry(line, textvariable=variable, height=40, corner_radius=12).grid(row=0, column=0, sticky="ew", padx=(0, 10))
-        ctk.CTkButton(line, text="Selecionar", command=command, width=120, height=40, corner_radius=12).grid(row=0, column=1)
-
-    def _field(self, parent, label: str, widget, row: int, column: int) -> None:
-        ctk.CTkLabel(parent, text=label, text_color=INK, font=("Segoe UI", 12, "bold")).grid(
-            row=row, column=column, sticky="w", padx=22, pady=(0, 6)
-        )
-        widget.configure(height=38, corner_radius=11)
-        widget.grid(row=row + 1, column=column, sticky="ew", padx=22, pady=(0, 14))
-
-    def _stack_options(self) -> list[str]:
-        return ["Configuração atual", *sorted(self.config_model.stacks)]
-
-    def _manage_stack_options(self) -> list[str]:
-        return ["Selecione um perfil", *sorted(self.config_model.stacks)]
-
-    def _refresh_stack_dropdowns(self) -> None:
-        if hasattr(self, "stack_dropdown"):
-            self.stack_dropdown.configure(values=self._stack_options())
-        if hasattr(self, "manage_stack_dropdown"):
-            self.manage_stack_dropdown.configure(values=self._manage_stack_options())
-
-    def _select_stack(self, stack_name: str) -> None:
-        if stack_name == "Configuração atual":
-            settings = self.config_model.settings
-            self.config_model.active_stack = ""
-            self.stack_name_var.set("")
-            self.manage_stack_var.set("Selecione um perfil")
-        else:
-            settings = self.config_model.stacks.get(stack_name)
-            if settings is None:
-                return
-            self.config_model.active_stack = stack_name
-            self.stack_name_var.set(stack_name)
-            self.manage_stack_var.set(stack_name)
-
-        self._load_settings_into_form(settings)
-        self.store.save(self.config_model)
-        self.status_text.set(f"Perfil selecionado: {stack_name}.")
-
-    def _select_stack_for_edit(self, stack_name: str) -> None:
-        if stack_name == "Selecione um perfil":
-            self.stack_name_var.set("")
+    def _changed(self, *_):
+        if self._loading or self._destroyed:
             return
-        self.selected_stack_var.set(stack_name)
-        self._select_stack(stack_name)
+        self.dirty_text.set('Modificações não salvas' if self.dirty else 'Perfil salvo')
+        self._refresh_form()
+        if self._summary_after:
+            self.after_cancel(self._summary_after)
+            self._after_ids.discard(self._summary_after)
+        self._summary_after = self._schedule(180, self._update_summary)
 
-    def _save_stack(self) -> None:
-        stack_name = self.stack_name_var.get().strip()
-        if not stack_name:
-            messagebox.showerror("Nome obrigatório", "Informe um nome para salvar o perfil.")
-            return
-
-        settings = self._collect_settings()
-        self.config_model.settings = settings
-        self.config_model.stacks[stack_name] = settings
-        self.config_model.active_stack = stack_name
-        self.store.save(self.config_model)
-        self.selected_stack_var.set(stack_name)
-        self.manage_stack_var.set(stack_name)
-        self._refresh_stack_dropdowns()
-        self._update_settings_summary(settings)
-        self.status_text.set(f"Perfil '{stack_name}' salvo.")
-        messagebox.showinfo("Perfil salvo", f"O perfil '{stack_name}' foi salvo com sucesso.")
-
-    def _delete_stack(self) -> None:
-        selected_for_management = self.manage_stack_var.get()
-        stack_name = selected_for_management if selected_for_management != "Selecione um perfil" else self.stack_name_var.get().strip()
-        if not stack_name or stack_name == "Configuração atual" or stack_name not in self.config_model.stacks:
-            messagebox.showerror("Perfil não encontrado", "Selecione um perfil salvo para excluir.")
-            return
-        if not messagebox.askyesno("Excluir perfil", f"Excluir o perfil '{stack_name}'?"):
-            return
-
-        del self.config_model.stacks[stack_name]
-        self.config_model.active_stack = ""
-        self.selected_stack_var.set("Configuração atual")
-        self.manage_stack_var.set("Selecione um perfil")
-        self.stack_name_var.set("")
-        self._load_settings_into_form(self.config_model.settings)
-        self.store.save(self.config_model)
-        self._refresh_stack_dropdowns()
-        self.status_text.set(f"Perfil '{stack_name}' excluído.")
-
-    def _image_panel(
-        self,
-        parent,
-        title: str,
-        enabled_var: tk.BooleanVar,
-        status_var: tk.StringVar,
-        command: Callable[[], None],
-        image_type: str,
-        column: int,
-    ) -> None:
-        panel = ctk.CTkFrame(parent, fg_color=SURFACE, corner_radius=14, border_width=1, border_color="#e5e7eb")
-        panel.grid(row=0, column=column, sticky="nsew", padx=12, pady=12)
-        panel.grid_columnconfigure(0, weight=1)
-        ctk.CTkLabel(panel, text=title, text_color=INK, font=("Segoe UI", 15, "bold")).grid(
-            row=0, column=0, sticky="w", padx=16, pady=(14, 4)
-        )
-        ctk.CTkCheckBox(panel, text=f"Usar {title.lower()}", variable=enabled_var).grid(
-            row=1, column=0, sticky="w", padx=16, pady=(0, 8)
-        )
-        ctk.CTkButton(panel, text=f"Importar {title.lower()}", command=command, height=36, corner_radius=11).grid(
-            row=2, column=0, sticky="w", padx=16, pady=(0, 8)
-        )
-        ctk.CTkLabel(panel, textvariable=status_var, text_color=SUCCESS, font=("Segoe UI", 12, "bold")).grid(
-            row=3, column=0, sticky="w", padx=16, pady=(0, 8)
-        )
-        preview = ctk.CTkLabel(panel, text="", fg_color="#f8fafc", corner_radius=10, width=330, height=60)
-        preview.grid(row=4, column=0, sticky="ew", padx=16, pady=(0, 16))
-        if image_type == "header":
-            self.header_preview_label = preview
-        else:
-            self.footer_preview_label = preview
-
-    def _choose_input_file(self) -> None:
-        file_path = filedialog.askopenfilename(filetypes=[("Documentos", "*.docx *.pdf"), ("Word", "*.docx"), ("PDF", "*.pdf")])
-        if file_path:
-            self.input_path.set(file_path)
-
-    def _choose_output_dir(self) -> None:
-        folder = filedialog.askdirectory()
-        if folder:
-            self.output_dir.set(folder)
-
-    def _choose_header_image(self) -> None:
-        self._choose_image("header")
-
-    def _choose_footer_image(self) -> None:
-        self._choose_image("footer")
-
-    def _choose_template(self) -> None:
-        file_path = filedialog.askopenfilename(filetypes=[("Template Word", "*.docx")])
-        if not file_path:
-            return
-        try:
-            stored = self.store.store_template(Path(file_path))
-        except ValueError as exc:
-            messagebox.showerror("Template inválido", str(exc))
-            return
-
-        self.template_path_var.set(stored)
-        self._refresh_template_feedback()
-        self._update_settings_summary(self._collect_settings())
-        self.status_text.set("Template Word importado para o perfil.")
-
-    def _remove_template(self) -> None:
-        self.template_path_var.set("")
-        self._refresh_template_feedback()
-        self._update_settings_summary(self._collect_settings())
-        self.status_text.set("Template removido da configuração atual.")
-
-    def _choose_image(self, image_type: str) -> None:
-        file_path = filedialog.askopenfilename(filetypes=[("Imagens", "*.png *.jpg *.jpeg")])
-        if not file_path:
-            return
-        try:
-            stored = self.store.store_image(Path(file_path), image_type)
-        except ValueError as exc:
-            messagebox.showerror("Imagem inválida", str(exc))
-            return
-
-        if image_type == "header":
-            self.header_path_var.set(stored)
-            self.include_header_var.set(True)
-            self.quick_header_var.set(True)
-        else:
-            self.footer_path_var.set(stored)
-            self.include_footer_var.set(True)
-            self.quick_footer_var.set(True)
-        self._refresh_image_feedback(image_type)
-        self._update_settings_summary(self._collect_settings())
-        label = "Cabeçalho" if image_type == "header" else "Rodapé"
-        self.status_text.set(f"{label} importado e adaptado ao tamanho profissional.")
-
-    def _refresh_image_feedback(self, image_type: str) -> None:
-        path_var = self.header_path_var if image_type == "header" else self.footer_path_var
-        status_var = self.header_status if image_type == "header" else self.footer_status
-        preview_label = self.header_preview_label if image_type == "header" else self.footer_preview_label
-        image_path = Path(path_var.get()) if path_var.get() else Path()
-        if not image_path.is_file():
-            status_var.set("Nenhuma imagem carregada")
-            preview_label.configure(image=None, text="")
-            return
-
-        status_var.set(f"Imagem pronta: {image_path.name}")
-        try:
-            preview = Image.open(image_path).convert("RGBA")
-            preview.thumbnail((330, 60), Image.Resampling.LANCZOS)
-            photo = ctk.CTkImage(light_image=preview, dark_image=preview, size=preview.size)
-        except OSError:
-            preview_label.configure(image=None, text="Prévia indisponível")
-            return
-
-        if image_type == "header":
-            self.header_preview_image = photo
-        else:
-            self.footer_preview_image = photo
-        preview_label.configure(image=photo, text="")
-
-    def _refresh_template_feedback(self) -> None:
-        template_path = Path(self.template_path_var.get()) if self.template_path_var.get() else Path()
-        if template_path.is_file():
-            self.template_status.set(f"Template pronto: {template_path.name}")
-        else:
-            self.template_status.set("Nenhum template Word selecionado")
-
-    def _load_settings_into_form(self, settings: FormatSettings) -> None:
-        self.font_name_var.set(settings.font_name if settings.font_name in FONT_OPTIONS else "Arial")
-        self.font_size_var.set(settings.font_size)
-        self.line_spacing_var.set(settings.line_spacing)
-        self.space_after_var.set(settings.paragraph_spacing_after)
-        self.indent_var.set(settings.first_line_indent_cm)
-        self.margin_top_var.set(settings.margin_top_cm)
-        self.margin_bottom_var.set(settings.margin_bottom_cm)
-        self.margin_left_var.set(settings.margin_left_cm)
-        self.margin_right_var.set(settings.margin_right_cm)
-        self.justify_var.set(settings.justify_text)
-        self.include_header_var.set(settings.include_header)
-        self.include_footer_var.set(settings.include_footer)
-        self.quick_header_var.set(settings.include_header)
-        self.quick_footer_var.set(settings.include_footer)
-        self.output_suffix_var.set(settings.output_suffix)
-        self.max_input_mb_var.set(settings.max_input_mb)
-        self.header_path_var.set(settings.header_image_path)
-        self.footer_path_var.set(settings.footer_image_path)
-        self.template_path_var.set(settings.template_path)
-        self.header_offset_x_var.set(settings.header_offset_x_cm)
-        self.header_offset_y_var.set(settings.header_offset_y_cm)
-        self.footer_offset_x_var.set(settings.footer_offset_x_cm)
-        self.footer_offset_y_var.set(settings.footer_offset_y_cm)
-        self._refresh_image_feedback("header")
-        self._refresh_image_feedback("footer")
-        self._refresh_template_feedback()
-        self._update_settings_summary(settings)
-
-    def _collect_settings(self) -> FormatSettings:
-        return FormatSettings(
-            font_name=self.font_name_var.get().strip() or "Arial",
-            font_size=self._int_from_var(self.font_size_var, 12, 8, 32),
-            line_spacing=self._float_from_var(self.line_spacing_var, 1.5, 1.0, 3.0),
-            paragraph_spacing_after=self._int_from_var(self.space_after_var, 6, 0, 36),
-            first_line_indent_cm=self._float_from_var(self.indent_var, 1.25, 0.0, 5.0),
-            margin_top_cm=self._float_from_var(self.margin_top_var, 3.0, 0.5, 6.0),
-            margin_bottom_cm=self._float_from_var(self.margin_bottom_var, 2.0, 0.5, 6.0),
-            margin_left_cm=self._float_from_var(self.margin_left_var, 3.0, 0.5, 6.0),
-            margin_right_cm=self._float_from_var(self.margin_right_var, 2.0, 0.5, 6.0),
-            justify_text=bool(self.justify_var.get()),
-            include_header=bool(self.include_header_var.get()),
-            include_footer=bool(self.include_footer_var.get()),
-            header_image_path=self.header_path_var.get(),
-            footer_image_path=self.footer_path_var.get(),
-            header_offset_x_cm=self._float_from_var(self.header_offset_x_var, 0.0, -4.0, 4.0),
-            header_offset_y_cm=self._float_from_var(self.header_offset_y_var, 0.0, -0.5, 1.5),
-            footer_offset_x_cm=self._float_from_var(self.footer_offset_x_var, 0.0, -4.0, 4.0),
-            footer_offset_y_cm=self._float_from_var(self.footer_offset_y_var, 0.0, -0.5, 1.5),
-            template_path=self.template_path_var.get(),
-            output_suffix=self.output_suffix_var.get().strip() or "_formatado",
-            max_input_mb=self._int_from_var(self.max_input_mb_var, 50, 1, 300),
-        )
-
-    def _save_settings(self) -> None:
-        settings = self._collect_settings()
-        self.config_model.settings = settings
-        selected_stack = self.selected_stack_var.get()
-        if selected_stack in self.config_model.stacks:
-            self.config_model.stacks[selected_stack] = settings
-            self.config_model.active_stack = selected_stack
-        self.store.save(self.config_model)
-        self.quick_header_var.set(settings.include_header)
-        self.quick_footer_var.set(settings.include_footer)
-        self._refresh_stack_dropdowns()
-        self._update_settings_summary(settings)
-        self.status_text.set("Configurações salvas.")
-        messagebox.showinfo("Configurações", "Configurações salvas com sucesso.")
-
-    def _reset_settings(self) -> None:
-        self._load_settings_into_form(FormatSettings())
-        self.status_text.set("Configurações restauradas para o padrão. Salve para tornar permanente.")
-
-    def _start_formatting(self) -> None:
-        settings = self._collect_settings()
-        settings.include_header = bool(self.quick_header_var.get())
-        settings.include_footer = bool(self.quick_footer_var.get())
-        input_path = Path(self.input_path.get())
-        output_dir = Path(self.output_dir.get())
-
-        self._set_busy(True)
-        self.status_text.set("Preparando pré-visualização...")
-        thread = threading.Thread(target=self._preview_worker, args=(input_path, output_dir, settings), daemon=True)
-        thread.start()
-
-    def _preview_worker(self, input_path: Path, output_dir: Path, settings: FormatSettings) -> None:
-        try:
-            validate_input(input_path.expanduser().resolve(), settings.max_input_mb)
-            paragraphs = read_document_paragraphs(input_path)
-            if not paragraphs:
-                raise FormatterError("Não foi possível extrair texto do arquivo informado.")
-        except FormatterError as exc:
-            self.after(0, self._show_error, str(exc))
-        except Exception as exc:
-            self.after(0, self._show_error, f"Erro inesperado: {exc}")
-        else:
-            self.after(0, self._open_preview_modal, paragraphs, input_path.stem, output_dir, settings)
-
-    def _open_preview_modal(self, paragraphs: list[str], input_stem: str, output_dir: Path, settings: FormatSettings) -> None:
-        self._set_busy(False)
-        self.status_text.set("Pré-visualização pronta.")
-        PreviewDraftModal(self, paragraphs, input_stem, output_dir, settings, self._show_success)
-
-    def _show_error(self, message: str) -> None:
-        self._set_busy(False)
-        self.status_text.set("Falha ao preparar documento.")
-        messagebox.showerror("Não foi possível continuar", message)
-
-    def _show_success(self, output_path: str, paragraphs: int) -> None:
-        self._set_busy(False)
-        self.last_output_path = Path(output_path)
-        self.status_text.set(f"Arquivo gerado: {output_path}")
-        messagebox.showinfo("Documento gerado", f"Arquivo gerado com {paragraphs} parágrafos:\n{output_path}")
-
-    def _set_busy(self, is_busy: bool) -> None:
-        self.format_button.configure(state="disabled" if is_busy else "normal")
-        if is_busy:
-            self.progress.start()
-        else:
-            self.progress.stop()
-            self.progress.set(0)
-
-    def _update_settings_summary(self, settings: FormatSettings) -> None:
-        alignment = "justificado" if settings.justify_text else "alinhado à esquerda"
-        header = "cabeçalho ativo" if settings.include_header else "sem cabeçalho"
-        footer = "rodapé ativo" if settings.include_footer else "sem rodapé"
-        template = "template Word ativo" if settings.template_path else "sem template Word"
-        self.settings_summary.set(
-            f"{settings.font_name} {settings.font_size} pt, texto {alignment}, "
-            f"linhas {settings.line_spacing:.1f}, recuo {settings.first_line_indent_cm:.2f} cm, "
-            f"margens {settings.margin_top_cm:.2f}/{settings.margin_right_cm:.2f}/"
-            f"{settings.margin_bottom_cm:.2f}/{settings.margin_left_cm:.2f} cm, {template}, {header}, {footer}. "
-            "Quando há template, cabeçalhos, rodapés e imagens vêm do próprio Word modelo."
-        )
+    def _refresh_form(self):
+        for field in FIELDS:
+            enabled = not self.busy
+            if field.name.startswith(('header_', 'footer_')) and field.name.endswith('alignment'):
+                enabled = enabled and self.field_vars[field.name.split('_')[0] + '_mode'].get() == 'Imagem do perfil'
+            state = 'disabled' if not enabled or field.kind == 'image' else ('readonly' if field.choices else 'normal')
+            self.field_widgets[field.name].configure(state=state)
+        for slot, button in self.image_buttons.items():
+            button.configure(state='normal' if not self.busy and self.field_vars[slot + '_mode'].get() == 'Imagem do perfil' else 'disabled')
+        legacy = bool(self._draft_base.template_path or self._draft_base.migration_warnings)
+        self.review_button.configure(state='normal' if legacy and not self.busy else 'disabled')
 
     @staticmethod
-    def _int_from_var(var: tk.Variable, default: int, minimum: int, maximum: int) -> int:
+    def _set_text(widget, text):
+        widget.configure(state='normal')
+        widget.delete('1.0', 'end')
+        widget.insert('1.0', text)
+        widget.configure(state='disabled')
+
+    def _parse(self, *, check_assets=False, focus=False):
+        for label in self.field_errors.values():
+            label.configure(text='')
         try:
-            raw_value = _normalized_number(var.get())
-            value = int(float(raw_value))
-        except (tk.TclError, ValueError):
-            value = default
-        return max(minimum, min(maximum, value))
-
-    @staticmethod
-    def _float_from_var(var: tk.Variable, default: float, minimum: float, maximum: float) -> float:
-        try:
-            raw_value = _normalized_number(var.get())
-            value = float(raw_value)
-        except (tk.TclError, ValueError):
-            value = default
-        return max(minimum, min(maximum, value))
-
-
-class PreviewDraftModal(ctk.CTkToplevel):
-    def __init__(
-        self,
-        parent: FormatWordApp,
-        paragraphs: list[str],
-        input_stem: str,
-        output_dir: Path,
-        settings: FormatSettings,
-        on_export: Callable[[str, int], None],
-    ) -> None:
-        super().__init__(parent)
-        self.title("Pré-visualização do documento")
-        self.parent = parent
-        self.input_stem = input_stem
-        self.output_dir = output_dir
-        self.settings = settings
-        self.on_export = on_export
-        self.preview_images: list[ImageTk.PhotoImage] = []
-
-        self._apply_window_icon()
-        self.geometry("1220x780")
-        self.minsize(920, 640)
-        self.configure(fg_color=BG)
-        self.transient(parent)
-
-        self.font_name_var = tk.StringVar(value=settings.font_name)
-        self.font_size_var = tk.StringVar(value=str(settings.font_size))
-        self.line_spacing_var = tk.StringVar(value=str(settings.line_spacing))
-        self.space_after_var = tk.StringVar(value=str(settings.paragraph_spacing_after))
-        self.justify_var = tk.BooleanVar(value=settings.justify_text)
-        self.header_x_var = tk.DoubleVar(value=settings.header_offset_x_cm)
-        self.header_y_var = tk.DoubleVar(value=settings.header_offset_y_cm)
-        self.footer_x_var = tk.DoubleVar(value=settings.footer_offset_x_cm)
-        self.footer_y_var = tk.DoubleVar(value=settings.footer_offset_y_cm)
-
-        self._build(paragraphs)
-        self._redraw_preview()
-        self.grab_set()
-
-    def _apply_window_icon(self) -> None:
-        if not ICON_PATH.is_file():
-            return
-        try:
-            self.iconbitmap(str(ICON_PATH))
-        except tk.TclError:
-            return
-
-    def _build(self, paragraphs: list[str]) -> None:
-        self.grid_columnconfigure(0, weight=1)
-        self.grid_rowconfigure(1, weight=1)
-
-        header = ctk.CTkFrame(self, fg_color="#111827", corner_radius=18)
-        header.grid(row=0, column=0, sticky="ew", padx=22, pady=(20, 14))
-        ctk.CTkLabel(header, text="Revisar antes de exportar", text_color="#ffffff", font=("Segoe UI", 24, "bold")).pack(
-            anchor="w", padx=22, pady=(18, 2)
-        )
-        subtitle = (
-            "As imagens do template serão mantidas; ajuste margens e formatação do texto normalmente."
-            if self.settings.template_path
-            else "Ajuste texto, espaçamento e posição das imagens. O Word só será criado ao confirmar."
-        )
-        ctk.CTkLabel(
-            header,
-            text=subtitle,
-            text_color="#d1d5db",
-            font=("Segoe UI", 13),
-        ).pack(anchor="w", padx=22, pady=(0, 18))
-
-        body = ctk.CTkFrame(self, fg_color="transparent")
-        body.grid(row=1, column=0, sticky="nsew", padx=22)
-        self.body = body
-        body.grid_columnconfigure(1, weight=1)
-        body.grid_rowconfigure(0, weight=1)
-
-        self.preview_card = ctk.CTkFrame(body, fg_color=SURFACE, corner_radius=18, border_width=1, border_color="#e5e7eb")
-        self.preview_card.grid(row=0, column=0, sticky="ns", padx=(0, 14))
-        ctk.CTkLabel(self.preview_card, text="Prévia visual", text_color=INK, font=("Segoe UI", 17, "bold")).pack(
-            anchor="w", padx=18, pady=(18, 10)
-        )
-        self.canvas = tk.Canvas(self.preview_card, width=390, height=550, bg="#eef2f7", highlightthickness=0)
-        self.canvas.pack(padx=18, pady=(0, 18))
-
-        self.editor = ctk.CTkFrame(body, fg_color=SURFACE, corner_radius=18, border_width=1, border_color="#e5e7eb")
-        self.editor.grid(row=0, column=1, sticky="nsew")
-        self.editor.grid_columnconfigure(0, weight=1)
-        self.editor.grid_rowconfigure(3, weight=1)
-
-        controls = ctk.CTkFrame(self.editor, fg_color="#f8fafc", corner_radius=16)
-        controls.grid(row=0, column=0, sticky="ew", padx=18, pady=(18, 12))
-        controls.grid_columnconfigure((0, 1, 2, 3, 4), weight=1)
-
-        self._modal_field(controls, "Fonte", ctk.CTkComboBox(controls, values=list(FONT_OPTIONS), variable=self.font_name_var), 0, 0)
-        self._modal_field(controls, "Tamanho", ctk.CTkEntry(controls, textvariable=self.font_size_var), 0, 1)
-        self._modal_field(controls, "Linhas", ctk.CTkEntry(controls, textvariable=self.line_spacing_var), 0, 2)
-        self._modal_field(controls, "Após parágrafo", ctk.CTkEntry(controls, textvariable=self.space_after_var), 0, 3)
-        ctk.CTkCheckBox(controls, text="Justificar", variable=self.justify_var, command=self._redraw_preview).grid(
-            row=1, column=4, sticky="w", padx=12, pady=(0, 14)
-        )
-
-        template_active = bool(self.settings.template_path)
-        if template_active:
-            template_notice = ctk.CTkFrame(self.editor, fg_color="#eff6ff", corner_radius=16, border_width=1, border_color="#bfdbfe")
-            template_notice.grid(row=1, column=0, sticky="ew", padx=18, pady=(0, 12))
-            ctk.CTkLabel(
-                template_notice,
-                text="Cabeçalho e rodapé vêm do template Word e não são editáveis aqui. Margens e texto continuam seguindo o perfil.",
-                text_color="#1d4ed8",
-                font=("Segoe UI", 12, "bold"),
-                wraplength=650,
-                justify="left",
-            ).pack(anchor="w", padx=14, pady=12)
-        else:
-            sliders = ctk.CTkFrame(self.editor, fg_color="#f8fafc", corner_radius=16)
-            sliders.grid(row=1, column=0, sticky="ew", padx=18, pady=(0, 12))
-            sliders.grid_columnconfigure((0, 1, 2, 3), weight=1)
-            self._slider(sliders, "Cabeçalho X", self.header_x_var, 0, -4.0, 4.0)
-            self._slider(sliders, "Cabeçalho Y", self.header_y_var, 1, -0.5, 1.5)
-            self._slider(sliders, "Rodapé X", self.footer_x_var, 2, -4.0, 4.0)
-            self._slider(sliders, "Rodapé Y", self.footer_y_var, 3, -0.5, 1.5)
-
-        ctk.CTkLabel(self.editor, text="Texto do documento", text_color=INK, font=("Segoe UI", 17, "bold")).grid(
-            row=2, column=0, sticky="w", padx=18, pady=(0, 8)
-        )
-        text_frame = ctk.CTkFrame(self.editor, fg_color="#f8fafc", corner_radius=16)
-        text_frame.grid(row=3, column=0, sticky="nsew", padx=18, pady=(0, 18))
-        text_frame.grid_columnconfigure(0, weight=1)
-        text_frame.grid_rowconfigure(0, weight=1)
-
-        self.text = tk.Text(
-            text_frame,
-            wrap="word",
-            undo=True,
-            font=("Segoe UI", 11),
-            relief="flat",
-            padx=14,
-            pady=14,
-            bg="#f8fafc",
-            fg=INK,
-            insertbackground=INK,
-        )
-        self.text.grid(row=0, column=0, sticky="nsew", padx=(8, 0), pady=8)
-        scrollbar = ctk.CTkScrollbar(text_frame, command=self.text.yview)
-        scrollbar.grid(row=0, column=1, sticky="ns", padx=(0, 8), pady=8)
-        self.text.configure(yscrollcommand=scrollbar.set)
-        self.text.insert("1.0", "\n\n".join(paragraphs))
-        self.text.bind("<KeyRelease>", lambda _event: self._redraw_preview())
-
-        actions = ctk.CTkFrame(self, fg_color="transparent")
-        actions.grid(row=2, column=0, sticky="ew", padx=22, pady=(14, 20))
-        ctk.CTkButton(
-            actions,
-            text="Cancelar",
-            command=self.destroy,
-            height=40,
-            corner_radius=12,
-            fg_color="#e5e7eb",
-            hover_color="#d1d5db",
-            text_color=INK,
-        ).pack(side="right")
-        ctk.CTkButton(actions, text="Exportar Word", command=self._export, height=40, corner_radius=12).pack(
-            side="right", padx=(0, 10)
-        )
-
-        for var in (
-            self.font_name_var,
-            self.font_size_var,
-            self.line_spacing_var,
-            self.space_after_var,
-            self.header_x_var,
-            self.header_y_var,
-            self.footer_x_var,
-            self.footer_y_var,
-        ):
-            var.trace_add("write", lambda *_args: self._redraw_preview())
-        self.bind("<Configure>", self._apply_responsive_layout)
-
-    def _apply_responsive_layout(self, _event=None) -> None:
-        if not hasattr(self, "preview_card") or not hasattr(self, "editor"):
-            return
-        try:
-            if not self.winfo_exists() or not self.body.winfo_exists():
-                return
-            if self.winfo_width() < 1080:
-                self.body.grid_columnconfigure(0, weight=1)
-                self.body.grid_columnconfigure(1, weight=0)
-                self.body.grid_rowconfigure(0, weight=0)
-                self.body.grid_rowconfigure(1, weight=1)
-                self.preview_card.grid(row=0, column=0, sticky="ew", padx=0, pady=(0, 14))
-                self.editor.grid(row=1, column=0, sticky="nsew")
-                return
-            self.body.grid_columnconfigure(0, weight=0)
-            self.body.grid_columnconfigure(1, weight=1)
-            self.body.grid_rowconfigure(0, weight=1)
-            self.body.grid_rowconfigure(1, weight=0)
-            self.preview_card.grid(row=0, column=0, sticky="ns", padx=(0, 14), pady=0)
-            self.editor.grid(row=0, column=1, sticky="nsew")
-        except tk.TclError:
-            return
-
-    def destroy(self) -> None:
-        try:
-            self.unbind("<Configure>")
-        except tk.TclError:
-            pass
-        super().destroy()
-
-    def _modal_field(self, parent, label: str, widget, row: int, column: int) -> None:
-        ctk.CTkLabel(parent, text=label, text_color=INK, font=("Segoe UI", 12, "bold")).grid(
-            row=row, column=column, sticky="w", padx=12, pady=(12, 6)
-        )
-        widget.configure(height=36, corner_radius=10)
-        widget.grid(row=row + 1, column=column, sticky="ew", padx=12, pady=(0, 14))
-
-    def _slider(self, parent, label: str, variable: tk.DoubleVar, column: int, minimum: float, maximum: float) -> None:
-        frame = ctk.CTkFrame(parent, fg_color="transparent")
-        frame.grid(row=0, column=column, sticky="ew", padx=12, pady=12)
-        ctk.CTkLabel(frame, text=label, text_color=INK, font=("Segoe UI", 12, "bold")).pack(anchor="w")
-        ctk.CTkSlider(frame, from_=minimum, to=maximum, variable=variable, command=lambda _value: self._redraw_preview()).pack(
-            fill="x", pady=(8, 0)
-        )
-
-    def _current_settings(self) -> FormatSettings:
-        settings = replace(self.settings)
-        settings.font_name = self.font_name_var.get()
-        settings.font_size = self._int_value(self.font_size_var, settings.font_size, 8, 32)
-        settings.line_spacing = self._float_value(self.line_spacing_var, settings.line_spacing, 1.0, 3.0)
-        settings.paragraph_spacing_after = self._int_value(self.space_after_var, settings.paragraph_spacing_after, 0, 36)
-        settings.justify_text = bool(self.justify_var.get())
-        settings.header_offset_x_cm = self._float_value(self.header_x_var, 0.0, -4.0, 4.0)
-        settings.header_offset_y_cm = self._float_value(self.header_y_var, 0.0, -0.5, 1.5)
-        settings.footer_offset_x_cm = self._float_value(self.footer_x_var, 0.0, -4.0, 4.0)
-        settings.footer_offset_y_cm = self._float_value(self.footer_y_var, 0.0, -0.5, 1.5)
+            settings = settings_from_values(self._values(), self._draft_base, check_assets=check_assets)
+        except SettingsError as exc:
+            field = FIELD_MAP.get(exc.field)
+            message = f'{field.label}: {exc}' if field else str(exc)
+            self.error_text.set(message)
+            if field:
+                self.field_errors[exc.field].configure(text=message)
+            if focus:
+                self.tabs.set('Perfis e formatação')
+                if field:
+                    widget = self.field_widgets[exc.field]
+                    self.update_idletasks()
+                    card = widget.master
+                    self.form._parent_canvas.yview_moveto(max(0, card.winfo_y() / max(1, self.form.winfo_height())))
+                    widget.focus_set()
+                else:
+                    self.review_button.focus_set()
+            return None
+        self.error_text.set('')
         return settings
 
-    def _draft_paragraphs(self) -> list[str]:
-        raw = self.text.get("1.0", "end").strip()
-        return [" ".join(block.split()) for block in split_paragraphs(raw)]
+    def _update_summary(self):
+        self._summary_after = None
+        settings = self._parse()
+        self._set_text(self.summary_box, settings_summary(settings) if settings else 'Configuração inválida. ' + self.error_text.get())
+        self.apply_button.configure(state='normal' if settings and not self.busy else 'disabled')
+        self.dirty_text.set('Modificações não salvas' if self.dirty else 'Perfil salvo')
 
-    def _redraw_preview(self) -> None:
-        if not hasattr(self, "canvas"):
-            return
-        settings = self._current_settings()
-        self.canvas.delete("all")
-        self.preview_images.clear()
+    def _profile_names(self):
+        return [DEFAULT_PROFILE, *sorted(self.config_model.stacks)]
 
-        x0, y0, width, height = 30, 18, 325, 500
-        self.canvas.create_rectangle(x0 + 7, y0 + 8, x0 + width + 7, y0 + height + 8, fill="#cbd5e1", outline="")
-        self.canvas.create_rectangle(x0, y0, x0 + width, y0 + height, fill="#ffffff", outline="#d0d5dd")
+    def _load_draft(self, settings, selected):
+        self._loading = True
+        self._selected = selected
+        self._draft_base = deepcopy(settings)
+        self._baseline_base = deepcopy(settings)
+        self._baseline_values = form_values(settings)
+        self._baseline_name = selected
+        for name, value in self._baseline_values.items():
+            self.field_vars[name].set(value)
+        self.profile_name.set(selected)
+        self.selected_profile.set(selected or DEFAULT_PROFILE)
+        self.profile_selector.configure(values=self._profile_names())
+        self._loading = False
+        self._refresh_form()
+        self._update_summary()
 
-        if settings.template_path:
-            self.canvas.create_text(
-                x0 + width / 2,
-                y0 + 45,
-                text="Cabeçalho preservado exatamente do template",
-                fill="#2563eb",
-                font=("Segoe UI", 8, "bold"),
-            )
-        elif settings.include_header:
-            self._draw_image(
-                settings.header_image_path,
-                x0,
-                y0 + 28 + settings.header_offset_y_cm * 16,
-                width,
-                42,
-                settings.header_offset_x_cm,
-            )
-        else:
-            self.canvas.create_text(x0 + width / 2, y0 + 45, text="Sem cabeçalho", fill="#98a2b3", font=("Segoe UI", 8))
+    def _resolve_dirty(self):
+        if not self.dirty:
+            return True
+        answer = messagebox.askyesnocancel('Modificações não salvas', 'Salvar as modificações antes de continuar?\nSim: salvar. Não: descartar. Cancelar: continuar editando.', parent=self)
+        return self.save_profile() if answer is True else answer is False
 
-        text_y = y0 + 98
-        font_size = max(7, min(12, int(settings.font_size * 0.75)))
-        for line in self._preview_lines()[:10]:
-            self.canvas.create_text(
-                x0 + 34,
-                text_y,
-                text=line[:78],
-                anchor="w",
-                fill="#1f2937",
-                font=(settings.font_name, font_size),
-            )
-            text_y += 15 + int((settings.line_spacing - 1.0) * 7)
-
-        footer_y = y0 + height - 62 + settings.footer_offset_y_cm * 16
-        if settings.template_path:
-            self.canvas.create_text(
-                x0 + width / 2,
-                y0 + height - 38,
-                text="Rodapé preservado exatamente do template",
-                fill="#2563eb",
-                font=("Segoe UI", 8, "bold"),
-            )
-        elif settings.include_footer:
-            self._draw_image(settings.footer_image_path, x0, footer_y, width, 34, settings.footer_offset_x_cm)
-        else:
-            self.canvas.create_text(x0 + width / 2, y0 + height - 38, text="Sem rodapé", fill="#98a2b3", font=("Segoe UI", 8))
-
-    def _draw_image(self, path_value: str, page_x: int, y: float, page_width: int, max_height: int, offset_x_cm: float) -> None:
-        image_path = Path(path_value) if path_value else Path()
-        if not image_path.is_file():
-            self.canvas.create_text(page_x + page_width / 2, y + 15, text="Imagem não encontrada", fill="#b42318", font=("Segoe UI", 8))
-            return
+    def select_profile(self, name):
+        if self.busy:
+            self.selected_profile.set(self._selected or DEFAULT_PROFILE)
+            return False
+        selected = '' if name == DEFAULT_PROFILE else name
+        if selected == self._selected:
+            return True
+        if selected and selected not in self.config_model.stacks:
+            return False
+        if not self._resolve_dirty():
+            self.selected_profile.set(self._selected or DEFAULT_PROFILE)
+            return False
+        candidate = replace(self.config_model, active_stack=selected)
         try:
-            image = Image.open(image_path).convert("RGBA")
-            image.thumbnail((page_width - 60, max_height), Image.Resampling.LANCZOS)
-            photo = ImageTk.PhotoImage(image)
-        except OSError:
-            self.canvas.create_text(page_x + page_width / 2, y + 15, text="Prévia indisponível", fill="#b42318", font=("Segoe UI", 8))
-            return
+            self.store.save(candidate)
+        except (OSError, ValueError) as exc:
+            self.status_text.set(f'Não foi possível selecionar o perfil: {exc}')
+            self.selected_profile.set(self._selected or DEFAULT_PROFILE)
+            return False
+        self.config_model = candidate
+        self._load_draft(candidate.stacks.get(selected, candidate.settings), selected)
+        return True
 
-        self.preview_images.append(photo)
-        x = page_x + page_width / 2 - image.width / 2 + offset_x_cm * 18
-        self.canvas.create_image(x, y, image=photo, anchor="nw")
-        self.canvas.create_rectangle(x, y, x + image.width, y + image.height, outline="#93c5fd")
-
-    def _preview_lines(self) -> list[str]:
-        lines: list[str] = []
-        for paragraph in self._draft_paragraphs():
-            words = paragraph.split()
-            current = ""
-            for word in words:
-                if len(current) + len(word) > 64:
-                    lines.append(current)
-                    current = word
-                else:
-                    current = f"{current} {word}".strip()
-            if current:
-                lines.append(current)
-        return lines or ["Digite o texto do documento aqui."]
-
-    def _export(self) -> None:
+    def save_profile(self):
+        if self.busy:
+            return False
+        settings = self._parse(check_assets=True, focus=True)
+        if settings is None:
+            return False
+        name = self.profile_name.get().strip()
+        if name == DEFAULT_PROFILE or (not name and self._selected):
+            self.error_text.set('Informe um nome de perfil; “Configuração atual” é reservado.')
+            self.name_entry.focus_set()
+            return False
+        if name and name in self.config_model.stacks and name != self._selected:
+            if not messagebox.askyesno('Substituir perfil', f'Substituir o perfil “{name}”?', parent=self):
+                return False
+        stacks = dict(self.config_model.stacks)
+        if name:
+            stacks[name] = settings
+        candidate = AppConfig(settings if not name else self.config_model.settings, stacks, name)
         try:
-            result = format_paragraphs(self._draft_paragraphs(), self.output_dir, self.input_stem, self._current_settings())
-        except FormatterError as exc:
-            messagebox.showerror("Não foi possível exportar", str(exc), parent=self)
+            self.store.save(candidate)
+        except (OSError, ValueError) as exc:
+            self.status_text.set(f'Não foi possível salvar: {exc}')
+            return False
+        self.config_model = candidate
+        self._load_draft(settings, name)
+        self.status_text.set(f'{name or DEFAULT_PROFILE}: salvo.')
+        return True
+
+    def new_profile(self):
+        if self.busy or not self._resolve_dirty():
             return
+        self._load_draft(FormatSettings(formatting_mode='by_category'), '')
+        self.profile_name.set(unique_profile_name('Novo perfil', set(self.config_model.stacks)))
+        self.name_entry.focus_set()
+
+    def duplicate_profile(self):
+        if self.busy:
+            return
+        settings = self._parse(check_assets=True, focus=True)
+        if settings is None:
+            return
+        name = unique_profile_name((self.profile_name.get().strip() or 'Perfil') + ' cópia', set(self.config_model.stacks))
+        self.profile_name.set(name)
+        self.save_profile()
+
+    def delete_profile(self):
+        if self.busy or not self._selected:
+            return
+        if not messagebox.askyesno('Excluir perfil', f'Excluir “{self._selected}” e descartar suas modificações não salvas?\nOs documentos e imagens externos serão mantidos.', parent=self):
+            return
+        stacks = dict(self.config_model.stacks)
+        del stacks[self._selected]
+        candidate = replace(self.config_model, stacks=stacks, active_stack='')
+        try:
+            self.store.save(candidate)
+        except (OSError, ValueError) as exc:
+            self.status_text.set(f'Não foi possível excluir: {exc}')
+            return
+        self.config_model = candidate
+        self._load_draft(candidate.settings, '')
+
+    def restore_profile(self):
+        if self.busy:
+            return
+        if self.dirty and not messagebox.askyesno('Restaurar perfil', 'Descartar modificações não salvas e restaurar os valores salvos?', parent=self):
+            return
+        self._load_draft(self.config_model.stacks.get(self._selected, self.config_model.settings), self._selected)
+
+    def review_legacy(self):
+        if self.busy:
+            return
+        details = list(self._draft_base.migration_warnings)
+        if self._draft_base.template_path:
+            details.insert(0, 'Referência ao template: ' + self._draft_base.template_path)
+        if not details:
+            return
+        if messagebox.askyesno('Revisar perfil antigo', 'Remover deste rascunho as opções antigas abaixo?\n\n' + '\n'.join(details) + '\n\nArquivos externos serão preservados. Revise cabeçalho/rodapé e salve o perfil para confirmar.', parent=self):
+            self._draft_base = replace(self._draft_base, template_path='', migration_warnings=())
+            self._changed()
+            self._update_summary()
+
+    def _accept_category_rules(self, settings):
+        self._draft_base.category_rules = deepcopy(settings.category_rules)
+        self.field_vars['formatting_mode'].set('Por categoria')
+        self._changed()
+        self._update_summary()
+
+    def edit_category_rules(self):
+        if self.busy:
+            return
+        settings = self._parse(focus=True)
+        if settings is not None:
+            return CategoryRulesDialog(self, settings, self._accept_category_rules)
+
+    def _accept_document_review(self, path, overrides, settings):
+        self.document_overrides[path] = deepcopy(overrides)
+        self._draft_base.style_categories = deepcopy(settings.style_categories)
+        if settings.formatting_mode == 'by_category':
+            self.field_vars['formatting_mode'].set('Por categoria')
+        self._changed()
+        self._update_summary()
+        if path in self.paths:
+            self.file_tree.set(str(self.paths.index(path)), 'status', 'Revisado')
+        self.status_text.set('Revisão confirmada. Use Aplicar aos arquivos para gerar o documento.')
+
+    def review_document(self):
+        if self.busy:
+            return
+        selection = self.file_tree.selection()
+        if len(selection) != 1:
+            self.status_text.set('Selecione um único documento para revisar.')
+            return
+        settings = self._parse(focus=True)
+        if settings is None:
+            return
+        path = self.paths[int(selection[0])]
+        try:
+            inspection = inspect_document(path, settings)
         except Exception as exc:
-            messagebox.showerror("Não foi possível exportar", f"Erro inesperado: {exc}", parent=self)
+            self.status_text.set(f'Não foi possível revisar: {exc}')
             return
-        self.destroy()
-        self.on_export(str(result.output_path), result.paragraphs)
+        return DocumentReviewDialog(self, path, inspection, settings, self.document_overrides.get(path),
+                                    lambda overrides, reviewed: self._accept_document_review(path, overrides, reviewed))
 
-    @staticmethod
-    def _int_value(var: tk.Variable, default: int, minimum: int, maximum: int) -> int:
+    def choose_image(self, slot):
+        if self.busy:
+            return
+        path = filedialog.askopenfilename(parent=self, title='Escolher imagem', filetypes=[('PNG/JPEG', '*.png *.jpg *.jpeg')])
+        if path:
+            try:
+                self.field_vars[slot + '_image_path'].set(self.store.store_image(Path(path), slot))
+            except (OSError, ValueError) as exc:
+                self.error_text.set(str(exc))
+
+    def choose_files(self):
+        if not self.busy:
+            self.add_files(filedialog.askopenfilenames(parent=self, title='Selecionar documentos Word', filetypes=[('Documentos Word', '*.docx')]))
+
+    def add_files(self, paths):
+        if self.busy:
+            return
+        rejected = []
+        for value in paths:
+            path = Path(value).expanduser().resolve()
+            if path.suffix.lower() != '.docx':
+                rejected.append(path.name)
+            elif path not in self.paths:
+                self.paths.append(path)
+        self._render_files()
+        self.status_text.set('Somente DOCX é aceito: ' + ', '.join(rejected) if rejected else f'{len(self.paths)} arquivo(s) selecionado(s).')
+
+    def _render_files(self):
+        self.document_overrides = {path: value for path, value in self.document_overrides.items() if path in self.paths}
+        self.file_tree.delete(*self.file_tree.get_children())
+        self.results = []
+        self.progress.set(0)
+        self.progress_label.configure(text=f'0 / {len(self.paths)}')
+        for index, path in enumerate(self.paths):
+            self.file_tree.insert('', 'end', iid=str(index), values=(str(path), 'Revisado' if path in self.document_overrides else 'Aguardando'))
+
+    def remove_selected(self):
+        if not self.busy:
+            selected = set(self.file_tree.selection())
+            self.paths = [path for i, path in enumerate(self.paths) if str(i) not in selected]
+            self._render_files()
+
+    def clear_files(self):
+        if not self.busy:
+            self.paths.clear()
+            self._render_files()
+
+    def choose_output(self):
+        if not self.busy:
+            path = filedialog.askdirectory(parent=self, title='Pasta de destino')
+            if path:
+                self.output_dir.set(path)
+
+    def _set_busy(self, busy):
+        self.busy = busy
+        for widget in self.mutation_widgets:
+            widget.configure(state='disabled' if busy else 'normal')
+        self.profile_selector.configure(state='disabled' if busy else 'readonly')
+        self.cancel_button.configure(state='normal' if busy else 'disabled')
+        self._refresh_form()
+        if not busy:
+            self._update_summary()
+
+    def start_batch(self):
+        if self.busy:
+            return False
+        if not self.paths:
+            self.status_text.set('Selecione ao menos um arquivo Word.')
+            return False
+        if not self.output_dir.get().strip():
+            self.status_text.set('Escolha uma pasta de destino.')
+            return False
+        settings = self._parse(check_assets=True, focus=True)
+        if settings is None:
+            return False
+        settings = deepcopy(settings)
+        overrides = deepcopy(self.document_overrides)
+        destination = Path(self.output_dir.get().strip()).expanduser().resolve()
+        paths = tuple(self.paths)
+        self._render_files()
+        self.cancel_event = threading.Event()
+        self._set_busy(True)
+        self.status_text.set('Processando. O cancelamento ocorre entre arquivos.')
+        events, cancel = self.events, self.cancel_event
+
+        def work():
+            try:
+                format_documents_batch(paths, destination, settings, cancel_event=cancel, overrides_by_path=overrides,
+                                       on_result=lambda item: events.put(('result', item)))
+            except Exception as exc:
+                events.put(('error', str(exc)))
+            finally:
+                events.put(('done', None))
+
+        self.worker = threading.Thread(target=work, name='format-word-batch', daemon=True)
+        self.worker.start()
+        return True
+
+    def cancel_batch(self):
+        if self.busy:
+            self.cancel_event.set()
+            self.cancel_button.configure(state='disabled')
+            self.status_text.set('Cancelamento solicitado; aguardando o arquivo em andamento.')
+
+    def _poll(self):
+        while not self.events.empty():
+            kind, payload = self.events.get_nowait()
+            if kind == 'result':
+                self.results.append(payload)
+                index = len(self.results) - 1
+                status = ('Cancelado' if payload.cancelled else 'Erro' if payload.error else
+                          'Concluído com ressalvas' if payload.result.warnings else 'Concluído')
+                self.file_tree.set(str(index), 'status', status)
+                self.progress.set(len(self.results) / max(1, len(self.paths)))
+                self.progress_label.configure(text=f'{len(self.results)} / {len(self.paths)}')
+                self.file_tree.selection_set(str(index))
+                self._show_result()
+            elif kind == 'error':
+                self.status_text.set('Falha no lote: ' + payload)
+                self._set_text(self.details_box, payload)
+            elif kind == 'done':
+                self._set_busy(False)
+                if len(self.results) == len(self.paths):
+                    ok = sum(bool(item.result and not item.result.warnings) for item in self.results)
+                    warnings = sum(bool(item.result and item.result.warnings) for item in self.results)
+                    errors = sum(bool(item.error) for item in self.results)
+                    cancelled = sum(item.cancelled for item in self.results)
+                    self.status_text.set(f'Lote encerrado: {ok} concluído(s), {warnings} com ressalvas, {errors} erro(s), {cancelled} cancelado(s).')
+                if self._close_pending:
+                    self._close_pending = False
+                    if self._resolve_dirty():
+                        self.destroy()
+                        return
+        self._schedule(80, self._poll)
+
+    def _show_result(self, *_):
+        selection = self.file_tree.selection()
+        if not selection:
+            return
+        index = int(selection[0])
+        if index >= len(self.results):
+            self._set_text(self.details_box, str(self.paths[index]) + '\nAguardando processamento.')
+            return
+        item = self.results[index]
+        text = str(item.input_path) + '\n'
+        if item.result:
+            text += str(item.result.output_path) + '\n' + '\n'.join(item.result.warnings)
+        else:
+            text += item.error or 'Cancelado antes de processar este arquivo.'
+        self._set_text(self.details_box, text)
+
+    def _open_path(self, path):
         try:
-            raw_value = _normalized_number(var.get())
-            value = int(float(raw_value))
-        except (tk.TclError, ValueError):
-            value = default
-        return max(minimum, min(maximum, value))
+            if not path.exists():
+                raise OSError('Caminho não encontrado.')
+            if sys.platform == 'win32':
+                os.startfile(str(path))
+            else:
+                subprocess.Popen(['open' if sys.platform == 'darwin' else 'xdg-open', str(path)])
+        except OSError as exc:
+            self.status_text.set(f'Não foi possível abrir: {exc}')
 
-    @staticmethod
-    def _float_value(var: tk.Variable, default: float, minimum: float, maximum: float) -> float:
-        try:
-            raw_value = _normalized_number(var.get())
-            value = float(raw_value)
-        except (tk.TclError, ValueError):
-            value = default
-        return max(minimum, min(maximum, value))
+    def open_selected(self):
+        selection = self.file_tree.selection()
+        if selection:
+            index = int(selection[0])
+            if index < len(self.results) and self.results[index].result:
+                self._open_path(self.results[index].result.output_path)
 
+    def open_output(self):
+        if self.output_dir.get().strip():
+            self._open_path(Path(self.output_dir.get().strip()).expanduser().resolve())
 
-def _normalized_number(value: object) -> str:
-    if isinstance(value, str):
-        normalized = value.strip().replace(",", ".")
-    else:
-        normalized = str(value).strip()
-    if normalized in {"", "-", ".", "-."}:
-        raise ValueError("Número incompleto.")
-    return normalized
+    def request_close(self):
+        if self.busy:
+            if messagebox.askyesno('Lote em andamento', 'Cancelar os arquivos pendentes e fechar quando o arquivo atual terminar?', parent=self):
+                self._close_pending = True
+                self.cancel_batch()
+        elif self._resolve_dirty():
+            self.destroy()
 
-
-def split_paragraphs(text: str) -> list[str]:
-    blocks: list[str] = []
-    current: list[str] = []
-    for line in text.splitlines():
-        if line.strip():
-            current.append(line.strip())
-            continue
-        if current:
-            blocks.append(" ".join(current))
-            current = []
-    if current:
-        blocks.append(" ".join(current))
-    return blocks
+    def destroy(self):
+        if self._destroyed:
+            return
+        self._destroyed = True
+        self.cancel_event.set()
+        for identifier in self._after_ids:
+            try:
+                self.after_cancel(identifier)
+            except tk.TclError:
+                pass
+        self._after_ids.clear()
+        super().destroy()

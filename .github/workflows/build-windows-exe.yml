@@ -12,9 +12,36 @@ permissions:
   contents: read
 
 jobs:
+  test:
+    name: Test (${{ matrix.os }}, Python ${{ matrix.python }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.12', '3.14']
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+      - run: python -m unittest discover -s tests -v
+      - name: Install virtual display
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y xvfb
+      - name: Test desktop flow
+        if: runner.os == 'Linux'
+        env:
+          FORMATWORD_GUI_TESTS: '1'
+        run: xvfb-run -a python -m unittest discover -s tests -p test_ui_integration.py -v
+
   build:
     name: Build FormatadorDocumentos.exe
     runs-on: windows-latest
+    needs: test
+    timeout-minutes: 15
 
     steps:
       - name: Checkout repository
@@ -33,11 +60,23 @@ jobs:
 
       - name: Build executable
         run: |
-          pyinstaller --noconsole --onefile --name FormatadorDocumentos --icon icone.ico --hidden-import pypdf --hidden-import PIL.ImageTk --collect-data customtkinter main.py
+          pyinstaller --noconsole --onefile --name FormatadorDocumentos --icon icone.ico --add-data "icone.ico;." --hidden-import PIL.ImageTk --collect-data customtkinter main.py
+
+      - name: Test packaged executable
+        shell: pwsh
+        run: |
+          $reportPath = Join-Path $PWD "dist/self-test.json"
+          $process = Start-Process -FilePath "dist/FormatadorDocumentos.exe" -ArgumentList @("--self-test", "`"$reportPath`"") -PassThru
+          if (!$process.WaitForExit(120000)) { $process.Kill(); throw "Executable smoke test timed out." }
+          if ($process.ExitCode -ne 0) { throw "Executable smoke test failed." }
+          $report = Get-Content $reportPath -Raw | ConvertFrom-Json
+          if (!$report.ok) { throw "Executable smoke test reported failure." }
 
       - name: Upload executable
         uses: actions/upload-artifact@v7
         with:
           name: FormatadorDocumentos-windows-exe
-          path: dist/FormatadorDocumentos.exe
+          path: |
+            dist/FormatadorDocumentos.exe
+            dist/self-test.json
           if-no-files-found: error

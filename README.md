@@ -1,66 +1,175 @@
-# Formatador de Documentos
+# Format Word
 
-Aplicativo desktop para receber um arquivo `.docx` ou `.pdf` e gerar um `.docx` formatado conforme configurações salvas pelo usuário.
+Aplicativo desktop para aplicar perfis de formatação a **um ou vários arquivos
+Word `.docx`**, preservando o conteúdo e salvando cópias em uma pasta escolhida.
 
-## Funcionalidades
+## Como usar
 
-- Aba para subir arquivo e escolher pasta de saída.
-- Aba de configurações persistentes.
-- Fonte, tamanho, margens, espaçamento, recuo, justificação e sufixo configuráveis.
-- Lista de fontes padrão em dropdown.
-- Imagem de cabeçalho e rodapé salvas localmente com confirmação visual.
-- Imagens avulsas adaptadas automaticamente a uma área fixa profissional para evitar cabeçalho ou rodapé gigantes.
-- Perfis de configuração nomeados, permitindo salvar modelos como `Documentos para PGJ` com fonte, margens, espaçamentos e imagens próprias.
-- Template Word por perfil: o usuário pode importar um `.docx` modelo para usar as imagens de cabeçalho e rodapé, mantendo a formatação de texto e página controlada pelo perfil.
-- Dropdown em Configurações para selecionar perfis já salvos antes de editar ou excluir.
-- Seleção do perfil em dropdown antes de pré-visualizar e exportar cada documento.
-- Abas e modal de pré-visualização com layout adaptável e rolagem para evitar conteúdo cortado em janelas menores.
-- Opção rápida para aplicar ou não cabeçalho/rodapé na formatação.
-- Modal de pré-visualização antes da exportação, com edição de texto, fonte, espaçamento e posição das imagens.
-- Extração de parágrafos e texto de tabelas em arquivos `.docx`.
-- Validação de extensão, limite de tamanho e recusa de PDFs protegidos por senha.
-- Validação básica de assinatura PNG/JPEG no upload de imagens.
-- Sanitização do nome de saída e geração sem sobrescrever arquivos existentes.
-- Interface com resumo da configuração ativa, barra de progresso e bloqueio de cliques duplicados durante a conversão.
+1. Clique em **Adicionar DOCX** e selecione os documentos.
+2. Escolha um perfil no seletor superior. Em **Perfis e formatação**, ajuste os
+   valores, informe um nome e clique em **Salvar**. **Duplicar** cria outro perfil
+   sem alterar o anterior. Sem nome, você salva a **Configuração atual**.
+3. Se necessário, abra **Regras por tipo** para personalizar títulos, citações,
+   assinaturas, tabelas e caixas de texto. Selecione um documento e clique em
+   **Revisar documento** para classificar trechos ou ajustar imagens.
+4. Escolha a pasta de destino e confira o resumo em **Arquivos e resultados**.
+5. Clique em **Aplicar aos arquivos**. Cada arquivo recebe um resultado próprio;
+   uma falha não interrompe os demais. **Cancelar lote** cancela os próximos
+   arquivos e deixa terminar o que já está em andamento.
+6. Selecione o resultado para ver detalhes e use **Abrir DOCX selecionado** ou
+   **Abrir pasta de saída**. Confira documentos com ressalvas no Word.
+
+Os originais e as saídas anteriores não são sobrescritos. Arquivos com nomes
+iguais recebem um número adicional. A exportação reabre o DOCX gravado e verifica
+as propriedades configuradas antes de publicar o resultado.
+
+Guia para o dia a dia: [Perfis por promotor](docs/guia-rapido.md).
+
+## Configurações disponíveis
+
+| Grupo | Opções |
+| --- | --- |
+| Texto | Fonte livre, tamanho de 1 a 400 pt em incrementos de 0,5, negrito, itálico, sublinhado e cor hexadecimal |
+| Parágrafo | Esquerda, centro, direita ou justificado; espaçamento antes/depois em pt; entrelinhas múltiplo, exato ou mínimo; recuos esquerdo/direito e primeira linha/deslocado em cm |
+| Paginação | Manter com próximo, manter linhas juntas e controle de viúvas/órfãs |
+| Página | A4, Carta ou papel personalizado; retrato/paisagem; quatro margens; distâncias de cabeçalho/rodapé |
+| Cabeçalho e rodapé | Preservar original, remover ou aplicar imagem PNG/JPEG do perfil; largura e alinhamento da imagem |
+| Tipos de texto | Corpo, título, subtítulo, citação, assinatura, tabela e caixa de texto: seguir corpo, preservar ou personalizar |
+| Imagens no corpo | Largura proporcional e alinhamento por perfil; ajustes individuais e movimento antes/depois de um parágrafo |
+| Saída | Sufixo e limite de tamanho por arquivo |
+
+- Aceita vírgula ou ponto decimal. Valores inválidos são destacados para
+  correção; o aplicativo não limita nem substitui silenciosamente os valores.
+- **Uniforme** aplica a mesma fonte e parágrafo ao corpo e tabelas.
+  **Por categoria** usa regras separadas; novos perfis preservam os tipos especiais
+  até você configurá-los. O tipo é identificado pelo estilo do Word, pelo contexto
+  de tabela/caixa ou pela revisão manual. Texto em estilo Normal não é adivinhado.
+  As opções de página valem para todas as seções sem revisões protegidas.
+- Negrito, itálico, sublinhado, cor e controles de paginação podem ser preservados.
+  As demais opções aplicam os valores mostrados no formulário.
+- Dimensões personalizadas só são usadas com papel **Personalizado**. Largura e
+  alinhamento de imagem só são usados no modo **Imagem do perfil**. Números
+  continuam acessíveis para correção, mesmo quando o modo não os utiliza.
+- No papel personalizado, informe os lados menor e maior; a orientação define
+  qual é a largura. Recuo de primeira linha negativo produz deslocamento.
+- Cabeçalhos e rodapés originais preservam seu texto, imagens e variações de
+  página; a distância à borda segue o perfil. No modo imagem, todas as variantes
+  recebem a imagem, com proporção preservada. A altura proporcional, a distância
+  e uma folga de 0,1 cm precisam caber na margem. Caso contrário, ajuste os valores.
+- Imagens importadas: até 8 MB e 40 megapixels. São copiadas para o perfil e
+  normalizadas sem recortar ou deformar; o arquivo interno pode ser maior que o
+  original. Alterar a imagem de um perfil não substitui imagens de outros perfis.
+- A fonte escolhida precisa estar instalada no computador que abre o documento.
+  Word e outros editores podem substituir fontes ausentes.
+- O Word armazena medidas de parágrafo/página em unidades de 1/20 pt e múltiplos
+  de entrelinhas em 1/240. Os testes e a verificação toleram apenas o arredondamento
+  dessas unidades; fonte é armazenada em meios pontos.
+
+## Preservação e limites
+
+Tabelas, células mescladas, imagens, hyperlinks, listas, parágrafos vazios,
+quebras e seções permanecem no documento. A lista mantém sua numeração e seus
+símbolos; os parágrafos recebem os recuos do perfil. Larguras de tabelas e
+posições de imagens flutuantes são preservadas, então confira seu encaixe ao
+reduzir a área útil da página.
+
+Campos e sumários são preservados, com ressalva: atualizá-los no Word pode
+recalcular texto/formatação. Notas e comentários também são preservados, mas seu
+texto não recebe o perfil. Tais situações aparecem nos detalhes do resultado.
+
+Por padrão, trechos com alterações controladas, equações e objetos incorporados
+são preservados com ressalvas. O aplicativo não aceita/rejeita revisões nem
+reconstrói objetos. Caixas de texto recebem somente a regra de texto escolhida,
+conservando tamanho/posição: confira seu encaixe no Word. Seções com revisões
+preservam também suas configurações de página; substituir cabeçalho/rodapé nesses
+casos é bloqueado. A opção **Recusar documento** bloqueia conteúdo complexo.
+Documentos com macros, assinaturas digitais ou protegidos por senha são recusados.
+
+Ajustes de imagens aceitam imagens em linha fora de caixas de texto e de revisões.
+Redimensionar, alinhar ou mover cria um parágrafo próprio, com recuos zerados, sem
+alterar o texto adjacente. A largura deve caber na área útil e a altura proporcional
+na página. Mover exige um parágrafo de referência do corpo, fora de tabelas/caixas.
+Imagens flutuantes são preservadas; para ajustá-las, converta para **Em linha** no
+Word. Ajustes individuais podem preservar uma imagem mesmo quando o perfil define
+uma largura global. A revisão fica vinculada ao conteúdo do arquivo: modificações
+posteriores exigem revisá-lo novamente. Esses ajustes por arquivo valem para a
+sessão atual; regras do perfil e vínculos de estilos persistem ao salvar o perfil.
+
+PDF e `.doc` antigo não fazem parte deste fluxo. Abra/converta para `.docx` no
+Word. A antiga prévia aproximada e o editor de texto simples foram retirados:
+eles descartavam a estrutura do arquivo. A conferência visual é feita no DOCX
+real, usando o editor instalado.
+
+Teclado: Tab percorre os controles; Enter ou Espaço aciona o botão em foco.
+Ctrl+S salva o perfil, Ctrl+Enter aplica, Ctrl+1/Ctrl+2 troca as abas e Esc
+cancela os arquivos pendentes. No macOS, os atalhos também aceitam Command.
+
+## Perfis antigos e recuperação
+
+As configurações ficam na pasta do usuário (`FormatWord` em Application Support
+no macOS, AppData/Roaming no Windows ou XDG_CONFIG_HOME no Linux).
+
+Fontes, valores decimais e perfis são mantidos entre sessões. As opções antigas
+compatíveis são migradas. Templates externos e deslocamentos sem equivalência
+ficam bloqueados até **Revisar perfil antigo**: a tela explica o que será
+removido do perfil, preserva os arquivos externos e pede que você revise os
+modos suportados antes de salvar. Cabeçalhos/rodapés já presentes nos arquivos
+Word continuam suportados.
+
+Configurações corrompidas são recuperadas com aviso e cópia
+`settings.<identificador>.bak`. Perfis válidos não são descartados por causa de
+outro perfil inválido. Um perfil antigo chamado “Configuração atual” é renomeado
+sem sobrescrever outros perfis. Importação/exportação de pacotes portáteis e
+aplicação de templates Word externos não estão disponíveis nesta versão.
 
 ## Rodar localmente
 
-```bash
+Python 3.12 ou posterior com Tk disponível.
+
+macOS/Linux:
+
+```sh
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 python main.py
 ```
 
-No Windows:
+Windows:
 
 ```powershell
 py -m venv .venv
-.\.venv\Scripts\activate
-pip install -r requirements.txt
-python main.py
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe main.py
 ```
 
-## Gerar executável
+Algumas distribuições Linux e instalações Homebrew oferecem Tk em um pacote
+separado. O comando `python -m tkinter` permite confirmar se a janela de teste
+abre no seu ambiente.
 
-No Windows, execute:
+## Testes e executável
 
-```powershell
-.\build_windows.ps1
+Testes do motor, configuração e formulário, sem precisar abrir uma janela:
+
+```sh
+python -m unittest discover -s tests -v
 ```
 
-O `.exe` ficará em `dist/FormatadorDocumentos.exe` e usará o ícone `icone.ico`.
+Testes de integração com uma sessão gráfica, usando arquivos e perfis temporários:
 
-> Observação: executáveis Windows devem ser gerados no Windows. Se gerar no macOS, o PyInstaller cria um app/binário para macOS, não um `.exe`.
+```sh
+FORMATWORD_GUI_TESTS=1 python -m unittest discover -s tests -p test_ui_integration.py -v
+```
 
-## Build automático no GitHub Actions
+No PowerShell, defina `$env:FORMATWORD_GUI_TESTS="1"` antes do comando Python.
+Em Linux sem monitor, use `xvfb-run -a` antes de `python`.
 
-Ao enviar o projeto para o GitHub, o workflow `.github/workflows/build-windows-exe.yml` gera o executável em `windows-latest` e publica o arquivo como artifact chamado `FormatadorDocumentos-windows-exe`.
+No Windows, `build_windows.ps1` executa os testes e gera
+`dist/FormatadorDocumentos.exe`, abre o executável com arquivos temporários e
+exige um relatório de sucesso em `dist/self-test.json`. O workflow do GitHub testa Python 3.12/3.14 em
+Windows/Linux e a interface em Xvfb antes de gerar o artifact
+`FormatadorDocumentos-windows-exe`. O build Windows precisa ser executado no
+Windows; validação local no macOS não comprova o executável Windows.
 
-## Observações
-
-- O app aceita `.docx` e `.pdf`. Arquivos `.doc` antigos não são aceitos por segurança.
-- A importação de PDF depende do texto estar extraível. PDF escaneado como imagem precisará de OCR em uma etapa futura.
-- Tabelas de `.docx` são convertidas para linhas de texto separadas por `|`.
-- As configurações são salvas no perfil do usuário, fora da pasta do projeto.
-- Quando um perfil usa template Word, o app mantém cabeçalho e rodapé do template, mas margens, espaçamentos e formatação do texto continuam sendo aplicados pelo perfil.
+Os resultados locais, correções de revisão e limites de validação estão em
+[docs/validation/2026-09-29-perfis-promotoria.md](docs/validation/2026-09-29-perfis-promotoria.md).
