@@ -9,9 +9,6 @@ __pycache__/
 .codex-kit/
 AGENTS.md
 
-# Local tests not needed in the repository
-tests/
-
 # Build outputs
 build/
 dist/

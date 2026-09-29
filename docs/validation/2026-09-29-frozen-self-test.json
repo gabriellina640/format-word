@@ -1,0 +1,7 @@
+{
+  "ok": true,
+  "checks": [
+    "DOCX, categorias, imagem proporcional, lote e original intacto",
+    "Interface Tk, recursos empacotados e persistência isolada"
+  ]
+}
