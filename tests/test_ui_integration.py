@@ -37,6 +37,298 @@ class UIIntegrationTests(unittest.TestCase):
         doc.save(path)
         return path
 
+    def test_dropdown_choices_take_effect_on_first_selection(self):
+        from app.ui_fields import FIELDS
+        # Exercise the actual menu path: CTk deletes and inserts in its Entry.
+        # StringVar.set alone misses the re-entrant readonly-state regression.
+        self.app.field_vars['header_mode'].set('Imagem do perfil')
+        self.app.field_vars['footer_mode'].set('Imagem do perfil')
+        self.app.update()
+        for field in FIELDS:
+            if not field.choices:
+                continue
+            widget = self.app.field_widgets[field.name]
+            if field.name in ('header_alignment', 'footer_alignment'):
+                self.app.field_vars[field.name.split('_')[0] + '_mode'].set('Imagem do perfil')
+                self.app.update()
+            for value in list(field.choices) + list(reversed(field.choices)):
+                with self.subTest(field=field.name, value=value):
+                    widget._dropdown_callback(value)
+                    self.assertEqual(self.app.field_vars[field.name].get(), value)
+                    self.app.update()
+                    self.assertEqual(widget.get(), value)
+
+    def test_dropdown_dependent_controls_busy_and_pending_close(self):
+        self.app.field_widgets['header_mode']._dropdown_callback('Imagem do perfil')
+        self.app.update()
+        self.assertEqual(self.app.field_widgets['header_alignment'].cget('state'), 'readonly')
+        self.app.field_widgets['header_mode']._dropdown_callback('Preservar original')
+        self.app.update()
+        self.assertEqual(self.app.field_widgets['header_alignment'].cget('state'), 'disabled')
+        self.app.field_vars['alignment'].set('Centralizado')
+        self.app._set_busy(True)
+        self.app.update()
+        self.assertEqual(self.app.field_widgets['alignment'].cget('state'), 'disabled')
+        self.app._set_busy(False)
+        self.app.field_vars['alignment'].set('Direita')
+        self.app.destroy()
+        self.assertFalse(self.app._after_ids)
+
+    def test_guided_sections_keep_values_and_reveal_invalid_field(self):
+        self.app.tabs.set('Perfis e formatação')
+        self.assertEqual(self.app.profile_section.get(), 'Fonte')
+        self.app.field_vars['font_size'].set('14,5')
+        self.app.show_profile_section('Página')
+        self.app.update()
+        self.assertTrue(self.app.field_widgets['margin_left_cm'].winfo_ismapped())
+        self.assertFalse(self.app.field_widgets['font_size'].winfo_ismapped())
+        self.app.move_profile_section(-1)
+        self.assertEqual(self.app.profile_section.get(), 'Parágrafo')
+        self.assertEqual(self.app.field_vars['font_size'].get(), '14,5')
+        self.app.field_vars['max_input_mb'].set('abc')
+        self.assertFalse(self.app.save_profile())
+        self.assertEqual(self.app.profile_section.get(), 'Opções avançadas')
+        self.app.update()
+        self.assertTrue(self.app.field_widgets['max_input_mb'].winfo_ismapped())
+
+    def test_word_spacing_presets_indent_and_color_cancel(self):
+        self.app.show_profile_section('Parágrafo')
+        for button, expected in zip(self.app.spacing_buttons, (1, 1.5, 2)):
+            button.invoke()
+            self.app.update()
+            self.assertEqual(self.app._parse().line_spacing, expected)
+            self.assertEqual(self.app._parse().line_spacing_mode, 'multiple')
+        control = self.app.field_widgets['first_line_indent_cm']
+        control.kind.set('Deslocado')
+        control.selector.event_generate('<<ComboboxSelected>>')
+        control.amount.set('0,75')
+        self.assertEqual(self.app._parse().first_line_indent_cm, -.75)
+        self.app.field_vars['font_color'].set('123456')
+        with patch('app.ui.colorchooser.askcolor', return_value=(None, None)):
+            self.app.choose_font_color()
+        self.assertEqual(self.app.field_vars['font_color'].get(), '123456')
+        with patch('app.ui.colorchooser.askcolor', return_value=((17, 34, 51), '#112233')):
+            self.app.choose_font_color()
+        self.assertEqual(self.app._parse().font_color, '112233')
+        self.app._set_busy(True)
+        self.assertTrue(all(str(button.cget('state')) == 'disabled' for button in self.app.spacing_buttons))
+        self.app._set_busy(False)
+
+    def test_category_editor_uses_word_controls_without_losing_precision(self):
+        self.app.new_profile()
+        dialog = self.app.edit_category_rules()
+        dialog.category_var.set('Citação')
+        dialog.switch_category()
+        dialog.mode_var.set('Personalizar')
+        dialog.refresh_controls()
+        control = dialog.controls['first_line_indent_cm']
+        control.kind.set('Deslocado')
+        control.selector.event_generate('<<ComboboxSelected>>')
+        control.amount.set('0,7654321')
+        dialog.spacing_buttons[2].invoke()
+        with patch('app.review_dialogs.colorchooser.askcolor', return_value=((17, 34, 51), '#112233')):
+            dialog.choose_font_color()
+        dialog.confirm()
+        self.assertFalse(dialog.winfo_exists())
+        values = self.app._draft_base.category_rules['quote']['values']
+        self.assertEqual(values['first_line_indent_cm'], -.7654321)
+        self.assertEqual(values['line_spacing_mode'], 'multiple')
+        self.assertEqual(values['line_spacing'], 2)
+        self.assertEqual(values['font_color'], '112233')
+        self.assertTrue(self.app.save_profile())
+        self.assertEqual(self.app.store.load().stacks[self.app._selected].category_rules['quote']['values'], values)
+
+    def test_profile_navigation_fits_minimum_window_and_keyboard(self):
+        from app.ui import PROFILE_SECTIONS
+        self.app.geometry('760x600')
+        self.app.tabs.set('Perfis e formatação')
+        self.app.update()
+        for section in PROFILE_SECTIONS:
+            self.app.show_profile_section(section)
+            self.app.update()
+            self.assertGreaterEqual(self.app.form._parent_canvas.winfo_height(), 70)
+            for widget in (self.app.section_selector, self.app.previous_section_button, self.app.next_section_button):
+                self.assertLessEqual(widget.winfo_rootx() - self.app.winfo_rootx() + widget.winfo_width(), self.app.winfo_width())
+                self.assertLessEqual(widget.winfo_rooty() - self.app.winfo_rooty() + widget.winfo_height(), self.app.winfo_height())
+        button = self.app.section_selector._buttons_dict['Parágrafo']
+        self.app.focus_force()
+        button._canvas.focus_force()
+        self.app.update()
+        button._canvas.event_generate('<Return>')
+        self.app.update()
+        self.assertEqual(self.app.profile_section.get(), 'Parágrafo')
+
+    def test_word_shortcut_buttons_scroll_fully_into_view_on_focus(self):
+        self.app.geometry('760x600')
+        self.app.tabs.set('Perfis e formatação')
+        self.app.focus_force()
+        self.app.update()
+        from app.ui import field_section
+        from app.ui_fields import FIELD_MAP
+        for name in ('font_color', 'line_spacing_mode'):
+            self.app.show_profile_section(field_section(FIELD_MAP[name]))
+            self.app._scroll_to_field(name)
+            buttons = self.app.color_buttons if name == 'font_color' else self.app.spacing_buttons
+            for button in buttons:
+                target = getattr(button, '_canvas', button)
+                target.focus_force()
+                self.app.update()
+                canvas = self.app.form._parent_canvas
+                top = button.winfo_rooty() - canvas.winfo_rooty()
+                self.assertGreaterEqual(top, 0)
+                self.assertLessEqual(top + button.winfo_height(), canvas.winfo_height())
+
+    def test_import_cancel_preserves_unsaved_profile(self):
+        self.app.profile_name.set('Meu rascunho')
+        self.app.field_vars['font_size'].set('17')
+        before = self.app._values()
+        self.assertTrue(self.app.import_profile(self.source()))
+        self.pump_until(lambda: self.app.import_dialog is not None)
+        self.app.import_dialog.destroy()
+        self.assertEqual(self.app._values(), before)
+        self.assertEqual(self.app.profile_name.get(), 'Meu rascunho')
+        self.assertTrue(self.app.dirty)
+        self.assertFalse(self.app.config_model.stacks)
+
+    def test_import_confirm_save_reload_and_name_collision(self):
+        from docx.shared import Pt
+        path = self.root / 'Modelo.docx'
+        doc = Document()
+        doc.add_paragraph('Texto modelo').runs[0].font.size = Pt(14)
+        doc.add_heading('Título modelo', 1).runs[0].font.size = Pt(22)
+        doc.save(path)
+        original = path.read_bytes()
+        self.app.profile_name.set('Modelo')
+        self.assertTrue(self.app.save_profile())
+        self.assertTrue(self.app.import_profile(path))
+        self.pump_until(lambda: self.app.import_dialog is not None)
+        dialog = self.app.import_dialog
+        self.assertIn('14', dialog.summary.get('1.0', 'end'))
+        dialog.confirm()
+        self.assertFalse(dialog.winfo_exists())
+        self.assertTrue(self.app.dirty)
+        self.assertEqual(self.app.profile_name.get(), 'Modelo 2')
+        self.assertNotIn('Modelo 2', self.app.store.load().stacks)
+        self.assertEqual(self.app.field_vars['font_size'].get(), '14')
+        self.assertTrue(self.app.save_profile())
+        saved = self.app.store.load().stacks['Modelo 2']
+        self.assertEqual(saved.font_size, 14)
+        self.assertEqual(saved.category_rules['title']['values']['font_size'], 22)
+        self.assertEqual(path.read_bytes(), original)
+
+    def test_import_dirty_confirmation_can_be_cancelled(self):
+        self.app.field_vars['font_size'].set('17')
+        self.assertTrue(self.app.import_profile(self.source()))
+        self.pump_until(lambda: self.app.import_dialog is not None)
+        dialog = self.app.import_dialog
+        with patch('app.ui.messagebox.askyesnocancel', return_value=None):
+            dialog.confirm()
+        self.assertTrue(dialog.winfo_exists())
+        self.assertEqual(self.app.field_vars['font_size'].get(), '17')
+        with patch('app.ui.messagebox.askyesnocancel', return_value=False):
+            dialog.confirm()
+        self.assertFalse(dialog.winfo_exists())
+        self.assertTrue(self.app.dirty)
+
+    def test_import_failure_picker_cancel_and_busy_leave_profile_intact(self):
+        before = self.app._values()
+        with patch('app.ui.filedialog.askopenfilename', return_value=''):
+            self.assertFalse(self.app.import_profile())
+        invalid = self.root / 'invalid.docx'
+        invalid.write_text('not a Word')
+        self.assertTrue(self.app.import_profile(invalid))
+        self.pump_until(lambda: not self.app.busy)
+        self.assertIn('importar', self.app.status_text.get())
+        self.assertEqual(self.app._values(), before)
+        self.assertIsNone(self.app.import_dialog)
+        self.app._set_busy(True)
+        self.assertFalse(self.app.import_profile(self.source()))
+        self.assertEqual(self.app.import_button.cget('state'), 'disabled')
+        self.app._set_busy(False)
+
+    def test_import_page_and_category_alternatives_update_preview(self):
+        from docx.shared import Cm, Pt
+        path = self.root / 'Variações.docx'
+        doc = Document()
+        doc.add_paragraph('Primeiro padrão').runs[0].font.size = Pt(12)
+        doc.add_paragraph('Segundo padrão').runs[0].font.size = Pt(16)
+        doc.sections[0].left_margin = Cm(2)
+        doc.add_section().left_margin = Cm(4)
+        doc.save(path)
+        self.assertTrue(self.app.import_profile(path))
+        self.pump_until(lambda: self.app.import_dialog is not None)
+        dialog = self.app.import_dialog
+        dialog.page_selector.current(1)
+        dialog.page_selector.event_generate('<<ComboboxSelected>>')
+        dialog.option_selector.current(1)
+        dialog.option_selector.event_generate('<<ComboboxSelected>>')
+        self.app.update()
+        expected = dialog.report.build_settings(page_index=1, selections={'body': 1})
+        dialog.confirm()
+        self.assertAlmostEqual(self.app._draft_base.margin_left_cm, expected.margin_left_cm)
+        self.assertEqual(self.app._draft_base.font_size, expected.font_size)
+
+    def test_import_cancel_during_read_discards_result_and_keeps_ui_responsive(self):
+        import threading
+        from app.profile_import import inspect_profile
+        entered, release = threading.Event(), threading.Event()
+        path = self.source()
+        before = self.app._values()
+
+        def delayed_read(source):
+            entered.set()
+            if not release.wait(5):
+                raise RuntimeError('Test did not release import worker')
+            return inspect_profile(source)
+
+        with patch('app.profile_import.inspect_profile', side_effect=delayed_read):
+            self.assertTrue(self.app.import_profile(path))
+            self.pump_until(entered.is_set)
+            self.assertTrue(self.app.busy)
+            self.assertFalse(self.app.import_profile(path))
+            self.app.cancel_batch()
+            release.set()
+            self.pump_until(lambda: not self.app.busy)
+        self.assertIsNone(self.app.import_dialog)
+        self.assertEqual(self.app._values(), before)
+        self.assertIn('cancelada', self.app.status_text.get())
+
+    def test_import_invalid_settings_disable_confirmation(self):
+        from docx.shared import Cm
+        path = self.root / 'invalid-geometry.docx'
+        doc = Document()
+        doc.add_paragraph('Um recuo que ultrapassa a página').paragraph_format.left_indent = Cm(40)
+        doc.save(path)
+        before = self.app._values()
+        self.assertTrue(self.app.import_profile(path))
+        self.pump_until(lambda: self.app.import_dialog is not None)
+        dialog = self.app.import_dialog
+        self.assertEqual(str(dialog.confirm_button.cget('state')), 'disabled')
+        self.assertTrue(dialog.error_var.get())
+        dialog.confirm()
+        self.assertTrue(dialog.winfo_exists())
+        self.assertEqual(self.app._values(), before)
+
+    def test_import_close_during_read_finishes_without_opening_review(self):
+        import threading
+        from app.profile_import import inspect_profile
+        release = threading.Event()
+        path = self.source()
+
+        def delayed_read(source):
+            if not release.wait(5):
+                raise RuntimeError('Test did not release import worker')
+            return inspect_profile(source)
+
+        with patch('app.profile_import.inspect_profile', side_effect=delayed_read):
+            self.assertTrue(self.app.import_profile(path))
+            with patch('app.ui.messagebox.askyesno', return_value=True):
+                self.app.request_close()
+            release.set()
+            self.pump_until(lambda: self.app._destroyed)
+        self.assertIsNone(self.app.import_dialog)
+        self.assertFalse(self.app._after_ids)
+
     def test_save_reload_custom_font_decimal_and_active_profile(self):
         self.app.tabs.set('Perfis e formatação')
         self.app.profile_name.set('Meu perfil')
@@ -227,7 +519,7 @@ class UIIntegrationTests(unittest.TestCase):
 
     def test_category_rules_confirm_cancel_restore_and_deep_isolation(self):
         self.app.new_profile()
-        self.assertEqual(self.app.field_vars['formatting_mode'].get(), 'Por categoria')
+        self.assertEqual(self.app.field_vars['formatting_mode'].get(), 'Por tipo de texto')
         self.assertTrue(self.app.save_profile())
         dialog = self.app.edit_category_rules()
         dialog.category_var.set('Título')
@@ -299,7 +591,7 @@ class UIIntegrationTests(unittest.TestCase):
         self.assertTrue(dialog.winfo_exists())
         self.assertNotIn(path, self.app.document_overrides)
         dialog.width_var.set('4,5')
-        dialog.alignment_var.set('Centro')
+        dialog.alignment_var.set('Centralizado')
         dialog.target_var.set(next(label for label, value in dialog.targets.items() if value == 0))
         dialog.placement_var.set('Antes')
         dialog.confirm()
@@ -336,14 +628,14 @@ class UIIntegrationTests(unittest.TestCase):
         doc.add_picture(str(image), width=Cm(3))
         doc.save(path)
         self.app.field_vars['body_image_width_cm'].set('8')
-        self.app.field_vars['body_image_alignment'].set('Centro')
+        self.app.field_vars['body_image_alignment'].set('Centralizado')
         self.app.add_files([path])
         self.app.file_tree.selection_set('0')
         dialog = self.app.review_document()
         dialog.image_tree.selection_set('0')
         dialog.select_image()
         self.assertEqual(dialog.width_var.get(), '8')
-        self.assertEqual(dialog.alignment_var.get(), 'Centro')
+        self.assertEqual(dialog.alignment_var.get(), 'Centralizado')
         dialog.width_var.set('')
         dialog.alignment_var.set('Preservar')
         dialog.confirm()

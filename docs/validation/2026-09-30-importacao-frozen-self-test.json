@@ -1,0 +1,8 @@
+{
+  "ok": true,
+  "checks": [
+    "DOCX, categorias, imagem proporcional, lote e original intacto",
+    "Importação de perfil DOCX e aplicação em outro documento",
+    "Interface Tk, seletores, revisão da importação e persistência isolada"
+  ]
+}

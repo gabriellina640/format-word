@@ -4,20 +4,21 @@ from __future__ import annotations
 from copy import deepcopy
 import math
 import tkinter as tk
-from tkinter import ttk
+from tkinter import colorchooser, ttk
 
 from app.config import CATEGORY_LABELS, TEXT_FIELDS, SettingsError, paper_dimensions, validate_settings
 from app.document_model import DocumentOverrides, ImageEdit
 from app.ui_fields import FIELDS, form_values, settings_from_values, number_text
+from app.word_controls import SpecialIndentControl, spacing_shortcuts
 
 RULE_MODES = {'Seguir corpo': 'inherit', 'Preservar original': 'preserve', 'Personalizar': 'custom'}
-IMAGE_ALIGNMENT = {'Preservar': 'preserve', 'Esquerda': 'left', 'Centro': 'center', 'Direita': 'right'}
+IMAGE_ALIGNMENT = {'Preservar': 'preserve', 'Esquerda': 'left', 'Centralizado': 'center', 'Direita': 'right'}
 
 
 class CategoryRulesDialog(tk.Toplevel):
     def __init__(self, parent, settings, on_confirm):
         super().__init__(parent)
-        self.title('Regras por tipo de texto')
+        self.title('Formatação por tipo de texto')
         self.geometry('660x670')
         self.minsize(540, 480)
         self.transient(parent)
@@ -29,9 +30,11 @@ class CategoryRulesDialog(tk.Toplevel):
         self.error_var = tk.StringVar(self)
         self.variables = {}
         self.controls = {}
+        self.labels = {}
+        self.extra_controls = []
         self.columnconfigure(0, weight=1)
         self.rowconfigure(3, weight=1)
-        ttk.Label(self, text='O formulário principal define o corpo. Aqui, escolha o que cada tipo segue.\nAs regras são usadas no modo Por categoria.', wraplength=600).grid(row=0, column=0, sticky='ew', padx=16, pady=12)
+        ttk.Label(self, text='Escolha o tipo de texto e como formatá-lo. Seguir corpo usa o perfil principal.\nPreservar original mantém o destino; Personalizar permite definir valores abaixo.', wraplength=600).grid(row=0, column=0, sticky='ew', padx=16, pady=12)
         selector = ttk.Combobox(self, textvariable=self.category_var, values=list(CATEGORY_LABELS.values()), state='readonly')
         selector.grid(row=1, column=0, sticky='ew', padx=16)
         selector.bind('<<ComboboxSelected>>', self.switch_category)
@@ -55,22 +58,47 @@ class CategoryRulesDialog(tk.Toplevel):
         for row, field in enumerate(f for f in FIELDS if f.name in TEXT_FIELDS):
             variable = tk.StringVar(self)
             self.variables[field.name] = variable
-            ttk.Label(form, text=field.label).grid(row=row, column=0, sticky='w', pady=7, padx=(0, 12))
-            control = (ttk.Combobox(form, textvariable=variable, values=list(field.choices), state='readonly')
-                       if field.choices else ttk.Entry(form, textvariable=variable))
-            control.grid(row=row, column=1, sticky='ew', pady=7)
-            def reveal(_event, widget=control):
+            label = ttk.Label(form, text=field.label, wraplength=180)
+            label.grid(row=row, column=0, sticky='w', pady=7, padx=(0, 12))
+            self.labels[field.name] = label
+            cell = ttk.Frame(form)
+            cell.grid(row=row, column=1, sticky='ew', pady=7)
+            cell.columnconfigure(0, weight=1)
+            extra_focus = []
+            if field.name == 'first_line_indent_cm':
+                control = SpecialIndentControl(cell, variable)
+            else:
+                control = (ttk.Combobox(cell, textvariable=variable, values=list(field.choices), state='readonly')
+                           if field.choices else ttk.Entry(cell, textvariable=variable))
+            control.grid(row=0, column=0, sticky='ew')
+            if field.name == 'line_spacing_mode':
+                shortcuts, self.spacing_buttons = spacing_shortcuts(cell, self.variables)
+                shortcuts.grid(row=1, column=0, sticky='ew', pady=(4, 0))
+                self.extra_controls.extend(self.spacing_buttons)
+                extra_focus.extend(self.spacing_buttons)
+            if field.name == 'font_color':
+                colors = ttk.Frame(cell)
+                colors.grid(row=1, column=0, sticky='ew', pady=(4, 0))
+                for text, command in (('Escolher cor…', self.choose_font_color),
+                                      ('Manter original', lambda: self.variables['font_color'].set(''))):
+                    button = ttk.Button(colors, text=text, command=command)
+                    button.pack(side='left', padx=(0, 4))
+                    self.extra_controls.append(button)
+                    extra_focus.append(button)
+            def reveal(_event, widget=cell):
                 self.update_idletasks()
                 y = widget.winfo_y()
                 if y < canvas.canvasy(0) or y + widget.winfo_height() > canvas.canvasy(canvas.winfo_height()):
                     canvas.yview_moveto(y / max(1, form.winfo_height()))
-            control.bind('<FocusIn>', reveal)
+            for target in (*getattr(control, 'focus_targets', (control,)), *extra_focus):
+                target.bind('<FocusIn>', reveal)
             self.controls[field.name] = control
+        self.variables['line_spacing_mode'].trace_add('write', self._spacing_unit)
         ttk.Label(self, textvariable=self.error_var, foreground='#b42318', wraplength=600).grid(row=4, column=0, sticky='ew', padx=16, pady=6)
         actions = ttk.Frame(self)
         actions.grid(row=5, column=0, sticky='e', padx=16, pady=12)
         ttk.Button(actions, text='Cancelar', command=self.destroy).pack(side='left', padx=6)
-        ttk.Button(actions, text='Confirmar regras', command=self.confirm).pack(side='left')
+        ttk.Button(actions, text='Confirmar formatação', command=self.confirm).pack(side='left')
         self.bind('<Escape>', lambda _event: self.destroy())
         self.load_category()
         self.grab_set()
@@ -92,6 +120,21 @@ class CategoryRulesDialog(tk.Toplevel):
         for field in FIELDS:
             if field.name in self.controls:
                 self.controls[field.name].configure(state=('readonly' if field.choices else 'normal') if custom else 'disabled')
+        for button in self.extra_controls:
+            button.configure(state='normal' if custom else 'disabled')
+        self._spacing_unit()
+
+    def _spacing_unit(self, *_):
+        self.labels['line_spacing'].configure(text='Em (múltiplo de linhas)' if self.variables['line_spacing_mode'].get() == 'Múltiplo' else 'Em (pt)')
+
+    def choose_font_color(self):
+        if RULE_MODES[self.mode_var.get()] != 'custom':
+            return
+        raw = self.variables['font_color'].get().lstrip('#')
+        initial = '#' + raw if len(raw) == 6 and all(c in '0123456789abcdefABCDEF' for c in raw) else '#000000'
+        _rgb, selected = colorchooser.askcolor(color=initial, title='Cor da fonte', parent=self)
+        if selected:
+            self.variables['font_color'].set(selected.lstrip('#').upper())
 
     def save_category(self):
         mode = RULE_MODES[self.mode_var.get()]
