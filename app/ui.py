@@ -9,7 +9,7 @@ import subprocess
 import sys
 import threading
 import tkinter as tk
-from tkinter import filedialog, font, messagebox, ttk
+from tkinter import colorchooser, filedialog, font, messagebox, ttk
 from dataclasses import replace
 
 import customtkinter as ctk
@@ -19,9 +19,18 @@ from app.config import AppConfig, ConfigStore, FONT_OPTIONS, FormatSettings, Set
 from app.document_model import DocumentOverrides, inspect_document
 from app.review_dialogs import CategoryRulesDialog, DocumentReviewDialog
 from app.ui_fields import FIELDS, FIELD_MAP, form_values, settings_from_values, settings_summary, unique_profile_name
+from app.word_controls import SpecialIndentControl, spacing_shortcuts
 
 DEFAULT_PROFILE = 'Configuração atual'
 BG, SURFACE, INK, MUTED, PRIMARY = '#f3f6fb', '#ffffff', '#101828', '#475467', '#2563eb'
+PROFILE_SECTIONS = ('Fonte', 'Parágrafo', 'Página', 'Cabeçalho e rodapé', 'Imagens', 'Opções avançadas')
+
+
+def field_section(field):
+    if field.name in ('keep_with_next', 'keep_together', 'widow_control') or field.group == 'Saída':
+        return 'Opções avançadas'
+    return {'Texto': 'Fonte', 'Cabeçalho': 'Cabeçalho e rodapé', 'Rodapé': 'Cabeçalho e rodapé'}.get(field.group, field.group)
+
 ctk.set_appearance_mode('light')
 ctk.set_default_color_theme('blue')
 
@@ -46,6 +55,7 @@ class FormatWordApp(ctk.CTk):
         self._loading = False
         self._after_ids: set[str] = set()
         self._summary_after = None
+        self._form_after = None
         self._form_columns = 0
         self._compact_layout = False
         self._selected = self.config_model.active_stack
@@ -55,6 +65,7 @@ class FormatWordApp(ctk.CTk):
         self._baseline_name = self._selected
         self.field_vars = {name: tk.StringVar(self, value=value) for name, value in self._baseline_values.items()}
         self.field_widgets = {}
+        self.field_labels = {}
         self.field_errors = {}
         self.field_cards = []
         self.image_buttons = {}
@@ -65,8 +76,12 @@ class FormatWordApp(ctk.CTk):
         self.cancel_event = threading.Event()
         self.events: queue.Queue = queue.Queue()
         self.worker: threading.Thread | None = None
+        self._importing = False
+        self.import_dialog = None
         self.selected_profile = tk.StringVar(self, value=self._selected or DEFAULT_PROFILE)
         self.profile_name = tk.StringVar(self, value=self._selected)
+        self.profile_section = tk.StringVar(self, value=PROFILE_SECTIONS[0])
+        self.section_hint = tk.StringVar(self)
         self.output_dir = tk.StringVar(self, value='')
         self.status_text = tk.StringVar(self, value='Selecione arquivos Word e uma pasta de destino.')
         self.error_text = tk.StringVar(self)
@@ -202,27 +217,41 @@ class FormatWordApp(ctk.CTk):
 
     def _build_profiles(self, parent):
         parent.grid_columnconfigure(0, weight=1)
-        parent.grid_rowconfigure(3, weight=1)
+        parent.grid_rowconfigure(4, weight=1)
         controls = ctk.CTkFrame(parent, fg_color='transparent')
         controls.grid(row=0, column=0, sticky='ew', pady=4)
         controls.grid_columnconfigure(1, weight=1)
-        ctk.CTkLabel(controls, text='Promotor / perfil').grid(row=0, column=0, padx=(0, 8))
-        self.name_entry = ctk.CTkEntry(controls, textvariable=self.profile_name, placeholder_text='Vazio salva a configuração atual')
+        ctk.CTkLabel(controls, text='Nome do perfil').grid(row=0, column=0, padx=(0, 8))
+        self.name_entry = ctk.CTkEntry(controls, textvariable=self.profile_name, placeholder_text='Ex.: Promotor João — manifestações')
         self.name_entry.grid(row=0, column=1, sticky='ew')
         self.mutation_widgets.append(self.name_entry)
         buttons = ctk.CTkFrame(parent, fg_color='transparent')
         buttons.grid(row=1, column=0, sticky='ew', pady=4)
-        for column, (text, command) in enumerate((('Criar', self.new_profile), ('Salvar', self.save_profile), ('Duplicar', self.duplicate_profile), ('Excluir', self.delete_profile), ('Restaurar', self.restore_profile))):
+        for column, (text, command) in enumerate((('Novo perfil', self.new_profile), ('Salvar', self.save_profile), ('Duplicar', self.duplicate_profile), ('Excluir', self.delete_profile), ('Restaurar', self.restore_profile))):
             self._button(buttons, text, command, width=95).grid(row=0, column=column, padx=(0, 8))
+        self.import_button = self._button(buttons, 'Importar de Word', self.import_profile, width=145)
+        self.import_button.grid(row=1, column=0, columnspan=2, sticky='w', pady=(8, 0))
+        ctk.CTkLabel(buttons, text='1. Importe um Word ou crie um perfil.\n2. Confira as seções abaixo.  3. Salve para reutilizar.',
+            text_color=MUTED, justify='left', anchor='w').grid(row=1, column=2, columnspan=3, sticky='w', padx=8, pady=(8, 0))
         notice = ctk.CTkFrame(parent, fg_color='transparent')
         notice.grid(row=2, column=0, sticky='ew')
         notice.grid_columnconfigure(0, weight=1)
         ctk.CTkLabel(notice, textvariable=self.error_text, text_color='#b42318', wraplength=340, anchor='w', justify='left').grid(row=0, column=0, sticky='ew')
         self.review_button = self._button(notice, 'Revisar perfil antigo', self.review_legacy, width=155)
         self.review_button.grid(row=0, column=1, padx=6)
-        self._button(notice, 'Regras por tipo', self.edit_category_rules, width=135).grid(row=0, column=2)
+        self._button(notice, 'Tipos de texto…', self.edit_category_rules, width=135).grid(row=0, column=2)
+        navigation = ctk.CTkFrame(parent, fg_color='transparent')
+        navigation.grid(row=3, column=0, sticky='ew', pady=(8, 0))
+        navigation.grid_columnconfigure(0, weight=1)
+        self.section_selector = ctk.CTkSegmentedButton(navigation, values=list(PROFILE_SECTIONS),
+            variable=self.profile_section, command=self.show_profile_section, height=32)
+        self.section_selector.grid(row=0, column=0, sticky='ew')
+        for button in self.section_selector._buttons_dict.values():
+            self._enable_keyboard(button)
+        ctk.CTkLabel(navigation, textvariable=self.section_hint, text_color=MUTED,
+            anchor='w').grid(row=1, column=0, sticky='ew', pady=3)
         self.form = ctk.CTkScrollableFrame(parent, fg_color=BG)
-        self.form.grid(row=3, column=0, sticky='nsew', pady=6)
+        self.form.grid(row=4, column=0, sticky='nsew', pady=6)
         try:
             families = sorted(set(font.families(self)) | set(FONT_OPTIONS))
         except tk.TclError:
@@ -233,37 +262,99 @@ class FormatWordApp(ctk.CTk):
                 self.group_labels[field.group] = ctk.CTkLabel(self.form, text=field.group, text_color=INK, font=ctk.CTkFont(size=18, weight='bold'), anchor='w')
             card = ctk.CTkFrame(self.form, fg_color=SURFACE)
             card.grid_columnconfigure(0, weight=1)
-            ctk.CTkLabel(card, text=field.label, anchor='w', text_color=INK).grid(row=0, column=0, sticky='ew', padx=10, pady=(6, 0))
-            if field.choices or field.kind == 'font':
+            label = ctk.CTkLabel(card, text=field.label, anchor='w', text_color=INK)
+            label.grid(row=0, column=0, sticky='ew', padx=10, pady=(6, 0))
+            self.field_labels[field.name] = label
+            if field.name == 'first_line_indent_cm':
+                widget = SpecialIndentControl(card, self.field_vars[field.name])
+            elif field.choices or field.kind == 'font':
                 widget = ctk.CTkComboBox(card, variable=self.field_vars[field.name], values=list(field.choices) if field.choices else families, state='readonly' if field.choices else 'normal')
             else:
                 widget = ctk.CTkEntry(card, textvariable=self.field_vars[field.name], state='disabled' if field.kind == 'image' else 'normal')
             widget.grid(row=1, column=0, sticky='ew', padx=10, pady=5)
             self.field_widgets[field.name] = widget
-            widget.bind('<FocusIn>', lambda _event, name=field.name: self._scroll_to_field(name), add='+')
+            for focus_target in getattr(widget, 'focus_targets', (widget,)):
+                focus_target.bind('<FocusIn>', lambda _event, name=field.name, target=focus_target: self._scroll_to_field(name, target), add='+')
+            if field.name == 'line_spacing_mode':
+                shortcuts, self.spacing_buttons = spacing_shortcuts(card, self.field_vars)
+                shortcuts.grid(row=2, column=0, sticky='ew', padx=10, pady=4)
+                for button in self.spacing_buttons:
+                    button.bind('<FocusIn>', lambda _event, target=button: self._scroll_to_field('line_spacing_mode', target), add='+')
+            if field.name == 'font_color':
+                colors = ctk.CTkFrame(card, fg_color='transparent')
+                colors.grid(row=2, column=0, sticky='ew', padx=10, pady=4)
+                self.color_buttons = []
+                for text, command in (('Escolher cor…', self.choose_font_color),
+                                      ('Manter original', lambda: self.field_vars['font_color'].set(''))):
+                    button = self._button(colors, text, command, width=125)
+                    button.pack(side='left', padx=(0, 8))
+                    button.bind('<FocusIn>', lambda _event, target=button: self._scroll_to_field('font_color', target), add='+')
+                    self.color_buttons.append(button)
             if field.kind == 'image':
                 slot = field.name.split('_')[0]
                 button = self._button(card, 'Escolher imagem PNG/JPEG', lambda slot=slot: self.choose_image(slot))
                 button.grid(row=2, column=0, sticky='ew', padx=10, pady=4)
                 self.image_buttons[slot] = button
+                button.bind('<FocusIn>', lambda _event, name=field.name, target=button: self._scroll_to_field(name, target), add='+')
             if field.help:
                 ctk.CTkLabel(card, text=field.help, text_color=MUTED, wraplength=330, justify='left', anchor='w').grid(row=3, column=0, sticky='ew', padx=10, pady=3)
             error = ctk.CTkLabel(card, text='', text_color='#b42318', wraplength=330, justify='left', anchor='w')
             error.grid(row=4, column=0, sticky='ew', padx=10)
             self.field_errors[field.name] = error
             self.field_cards.append((field, card))
+        actions = ctk.CTkFrame(parent, fg_color='transparent')
+        actions.grid(row=5, column=0, sticky='ew', pady=(0, 4))
+        actions.grid_columnconfigure(2, weight=1)
+        self.previous_section_button = self._button(actions, 'Anterior', lambda: self.move_profile_section(-1), width=95)
+        self.previous_section_button.grid(row=0, column=0, padx=(0, 8))
+        self.next_section_button = self._button(actions, 'Próximo', lambda: self.move_profile_section(1), width=95)
+        self.next_section_button.grid(row=0, column=1)
+        self._button(actions, 'Salvar perfil', self.save_profile, width=135).grid(row=0, column=3)
         self._layout_form(2)
+
+    def show_profile_section(self, section):
+        if section not in PROFILE_SECTIONS:
+            return
+        self.section_selector.set(section)
+        self._layout_form(self._form_columns or 2)
+        self.form._parent_canvas.yview_moveto(0)
+
+    def move_profile_section(self, direction):
+        index = PROFILE_SECTIONS.index(self.profile_section.get())
+        self.show_profile_section(PROFILE_SECTIONS[max(0, min(len(PROFILE_SECTIONS) - 1, index + direction))])
+
+    def choose_font_color(self):
+        if self.busy:
+            return
+        raw = self.field_vars['font_color'].get().lstrip('#')
+        initial = '#' + raw if len(raw) == 6 and all(c in '0123456789abcdefABCDEF' for c in raw) else '#000000'
+        _rgb, selected = colorchooser.askcolor(color=initial, title='Cor da fonte', parent=self)
+        if selected:
+            self.field_vars['font_color'].set(selected.lstrip('#').upper())
 
     def _layout_form(self, columns):
         self._form_columns = columns
+        section = self.profile_section.get()
+        index = PROFILE_SECTIONS.index(section)
+        self.section_hint.set(f'{index + 1} de {len(PROFILE_SECTIONS)} — {section}. Você pode abrir qualquer seção ou salvar quando terminar.')
+        self.previous_section_button.configure(state='normal' if index and not self.busy else 'disabled')
+        self.next_section_button.configure(state='normal' if index < len(PROFILE_SECTIONS) - 1 and not self.busy else 'disabled')
+        for label in self.group_labels.values():
+            label.grid_remove()
         for col in range(2):
             self.form.grid_columnconfigure(col, weight=1 if col < columns else 0, uniform='fields' if col < columns else '')
         row, previous, position = 0, None, 0
         for field, card in self.field_cards:
+            if field_section(field) != section:
+                card.grid_remove()
+                continue
             if field.group != previous:
                 if position:
                     row += 1
-                self.group_labels[field.group].grid(row=row, column=0, columnspan=columns, sticky='ew', padx=8, pady=(14, 4))
+                title = ('Quebras de linha e de página' if field.group == 'Parágrafo' and section == 'Opções avançadas'
+                         else 'Fonte' if field.group == 'Texto' else field.group)
+                self.group_labels[field.group].configure(text=title)
+                self.group_labels[field.group].grid(row=row, column=0, columnspan=columns, sticky='ew', padx=8, pady=(6, 4))
                 row += 1
                 position = 0
                 previous = field.group
@@ -285,17 +376,23 @@ class FormatWordApp(ctk.CTk):
                 self.summary_box.configure(height=55 if compact else 105)
                 self.details_box.configure(height=45 if compact else 65)
 
-    def _scroll_to_field(self, name):
-        widget = self.field_widgets[name]
+    def _scroll_to_field(self, name, target=None):
+        widget = target if target is not None else self.field_widgets[name]
         if self.tabs.get() != 'Perfis e formatação':
             return
+        section = field_section(FIELD_MAP[name])
+        if self.profile_section.get() != section:
+            self.show_profile_section(section)
         self.update_idletasks()
-        card = widget.master
         canvas = self.form._parent_canvas
         top = canvas.canvasy(0)
         bottom = top + canvas.winfo_height()
-        if card.winfo_y() < top or card.winfo_y() + card.winfo_height() > bottom:
-            canvas.yview_moveto(max(0, card.winfo_y() / max(1, self.form.winfo_height())))
+        y = widget.winfo_rooty() - self.form.winfo_rooty()
+        if y < top:
+            canvas.yview_moveto(max(0, (y - 4) / max(1, self.form.winfo_height())))
+        elif y + widget.winfo_height() > bottom:
+            canvas.yview_moveto(max(0, (y + widget.winfo_height() - canvas.winfo_height() + 4)
+                                    / max(1, self.form.winfo_height())))
 
     def _values(self):
         return {name: variable.get() for name, variable in self.field_vars.items()}
@@ -304,11 +401,18 @@ class FormatWordApp(ctk.CTk):
         if self._loading or self._destroyed:
             return
         self.dirty_text.set('Modificações não salvas' if self.dirty else 'Perfil salvo')
-        self._refresh_form()
+        # CTkComboBox deletes its Entry text before inserting the selection.
+        # A synchronous readonly refresh here interrupts that insert operation.
+        if self._form_after is None:
+            self._form_after = self._schedule(0, self._refresh_after_change)
         if self._summary_after:
             self.after_cancel(self._summary_after)
             self._after_ids.discard(self._summary_after)
         self._summary_after = self._schedule(180, self._update_summary)
+
+    def _refresh_after_change(self):
+        self._form_after = None
+        self._refresh_form()
 
     def _refresh_form(self):
         for field in FIELDS:
@@ -317,6 +421,12 @@ class FormatWordApp(ctk.CTk):
                 enabled = enabled and self.field_vars[field.name.split('_')[0] + '_mode'].get() == 'Imagem do perfil'
             state = 'disabled' if not enabled or field.kind == 'image' else ('readonly' if field.choices else 'normal')
             self.field_widgets[field.name].configure(state=state)
+        for button in self.spacing_buttons:
+            button.configure(state='disabled' if self.busy else 'normal')
+        self.field_labels['line_spacing'].configure(text='Em (múltiplo de linhas)' if self.field_vars['line_spacing_mode'].get() == 'Múltiplo' else 'Em (pt)')
+        index = PROFILE_SECTIONS.index(self.profile_section.get())
+        self.previous_section_button.configure(state='normal' if index and not self.busy else 'disabled')
+        self.next_section_button.configure(state='normal' if index < len(PROFILE_SECTIONS) - 1 and not self.busy else 'disabled')
         for slot, button in self.image_buttons.items():
             button.configure(state='normal' if not self.busy and self.field_vars[slot + '_mode'].get() == 'Imagem do perfil' else 'disabled')
         legacy = bool(self._draft_base.template_path or self._draft_base.migration_warnings)
@@ -343,6 +453,7 @@ class FormatWordApp(ctk.CTk):
             if focus:
                 self.tabs.set('Perfis e formatação')
                 if field:
+                    self.show_profile_section(field_section(field))
                     widget = self.field_widgets[exc.field]
                     self.update_idletasks()
                     card = widget.master
@@ -380,10 +491,10 @@ class FormatWordApp(ctk.CTk):
         self._refresh_form()
         self._update_summary()
 
-    def _resolve_dirty(self):
+    def _resolve_dirty(self, parent=None):
         if not self.dirty:
             return True
-        answer = messagebox.askyesnocancel('Modificações não salvas', 'Salvar as modificações antes de continuar?\nSim: salvar. Não: descartar. Cancelar: continuar editando.', parent=self)
+        answer = messagebox.askyesnocancel('Modificações não salvas', 'Salvar as modificações antes de continuar?\nSim: salvar. Não: descartar. Cancelar: continuar editando.', parent=parent or self)
         return self.save_profile() if answer is True else answer is False
 
     def select_profile(self, name):
@@ -442,7 +553,72 @@ class FormatWordApp(ctk.CTk):
             return
         self._load_draft(FormatSettings(formatting_mode='by_category'), '')
         self.profile_name.set(unique_profile_name('Novo perfil', set(self.config_model.stacks)))
+        self.show_profile_section('Fonte')
         self.name_entry.focus_set()
+
+    def import_profile(self, path=None):
+        if self.busy:
+            return False
+        if self.import_dialog is not None and self.import_dialog.winfo_exists():
+            self.import_dialog.lift()
+            return False
+        if path is None:
+            path = filedialog.askopenfilename(parent=self, title='Importar perfil de Word',
+                filetypes=[('Documentos Word', '*.docx')])
+        if not path:
+            return False
+        path = Path(path).expanduser().resolve()
+        self.import_dialog = None
+        self._importing = True
+        self.cancel_event = threading.Event()
+        self._set_busy(True)
+        self.status_text.set('Lendo configurações do Word. Aguarde a revisão para criar o perfil.')
+        events = self.events
+
+        def work():
+            try:
+                from app.profile_import import inspect_profile
+                report = inspect_profile(path)
+                events.put(('profile_imported', (path, report)))
+            except Exception as exc:
+                events.put(('profile_import_error', str(exc)))
+
+        self.worker = threading.Thread(target=work, name='format-word-import', daemon=True)
+        self.worker.start()
+        return True
+
+    def _finish_profile_import(self, kind, payload):
+        self._importing = False
+        self._set_busy(False)
+        if self._close_pending:
+            self._close_pending = False
+            if self._resolve_dirty():
+                self.destroy()
+            return
+        if self.cancel_event.is_set():
+            self.status_text.set('Importação cancelada. O perfil foi mantido.')
+            return
+        if kind == 'profile_import_error':
+            self.status_text.set('Não foi possível importar: ' + payload)
+            return
+        from app.profile_import_dialog import ProfileImportDialog
+        path, report = payload
+        self.import_dialog = ProfileImportDialog(self, path, report,
+            lambda settings: self._accept_profile_import(path, settings))
+        self.status_text.set('Revise as configurações detectadas antes de criar o perfil.')
+
+    def _accept_profile_import(self, path, settings):
+        if self.busy or not self._resolve_dirty(parent=self.import_dialog):
+            return False
+        name = unique_profile_name(path.stem.strip() or 'Perfil importado',
+            set(self.config_model.stacks) | {DEFAULT_PROFILE})
+        self._load_draft(settings, '')
+        self.profile_name.set(name)
+        self.tabs.set('Perfis e formatação')
+        self.show_profile_section('Fonte')
+        self._update_summary()
+        self.status_text.set('Perfil importado como rascunho. Confira os campos e clique em Salvar.')
+        return True
 
     def duplicate_profile(self):
         if self.busy:
@@ -492,7 +668,7 @@ class FormatWordApp(ctk.CTk):
 
     def _accept_category_rules(self, settings):
         self._draft_base.category_rules = deepcopy(settings.category_rules)
-        self.field_vars['formatting_mode'].set('Por categoria')
+        self.field_vars['formatting_mode'].set('Por tipo de texto')
         self._changed()
         self._update_summary()
 
@@ -507,7 +683,7 @@ class FormatWordApp(ctk.CTk):
         self.document_overrides[path] = deepcopy(overrides)
         self._draft_base.style_categories = deepcopy(settings.style_categories)
         if settings.formatting_mode == 'by_category':
-            self.field_vars['formatting_mode'].set('Por categoria')
+            self.field_vars['formatting_mode'].set('Por tipo de texto')
         self._changed()
         self._update_summary()
         if path in self.paths:
@@ -635,12 +811,17 @@ class FormatWordApp(ctk.CTk):
         if self.busy:
             self.cancel_event.set()
             self.cancel_button.configure(state='disabled')
-            self.status_text.set('Cancelamento solicitado; aguardando o arquivo em andamento.')
+            self.status_text.set('Cancelamento solicitado; aguardando a leitura do Word.' if self._importing
+                else 'Cancelamento solicitado; aguardando o arquivo em andamento.')
 
     def _poll(self):
         while not self.events.empty():
             kind, payload = self.events.get_nowait()
-            if kind == 'result':
+            if kind in ('profile_imported', 'profile_import_error'):
+                self._finish_profile_import(kind, payload)
+                if self._destroyed:
+                    return
+            elif kind == 'result':
                 self.results.append(payload)
                 index = len(self.results) - 1
                 status = ('Cancelado' if payload.cancelled else 'Erro' if payload.error else
@@ -708,7 +889,10 @@ class FormatWordApp(ctk.CTk):
 
     def request_close(self):
         if self.busy:
-            if messagebox.askyesno('Lote em andamento', 'Cancelar os arquivos pendentes e fechar quando o arquivo atual terminar?', parent=self):
+            title = 'Importação em andamento' if self._importing else 'Lote em andamento'
+            prompt = ('Cancelar a importação e fechar quando a leitura terminar?' if self._importing
+                else 'Cancelar os arquivos pendentes e fechar quando o arquivo atual terminar?')
+            if messagebox.askyesno(title, prompt, parent=self):
                 self._close_pending = True
                 self.cancel_batch()
         elif self._resolve_dirty():

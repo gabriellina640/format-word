@@ -28,7 +28,7 @@ class UiValuesTest(unittest.TestCase):
         summary = ui_fields.settings_summary(FormatSettings(formatting_mode='by_category',
             category_rules={'title': {'mode': 'custom', 'values': {'font_size': 18}}},
             body_image_width_cm=8.5, body_image_alignment='center', complex_content_mode='reject'))
-        for text in ('Por categoria', 'Título', 'Personalizar', '8,5', 'Centro', 'Recusar'):
+        for text in ('Por tipo de texto', 'Título', 'Personalizar', '8,5', 'Centralizado', 'Recusar'):
             self.assertIn(text, summary)
 
     def test_roundtrip_preserves_custom_font_decimals_and_tristates(self):
@@ -86,6 +86,58 @@ class UiValuesTest(unittest.TestCase):
     def test_form_does_not_round_valid_precision_silently(self):
         settings = FormatSettings(line_spacing=1.23456789)
         self.assertEqual(ui_fields.settings_from_values(ui_fields.form_values(settings)), settings)
+
+    def test_word_labels_keep_existing_values_and_groups(self):
+        self.assertEqual(ui_fields.FIELD_MAP['formatting_mode'].choices,
+                         {'Todo o texto': 'uniform', 'Por tipo de texto': 'by_category'})
+        self.assertEqual(ui_fields.FIELD_MAP['line_spacing_mode'].choices,
+                         {'Múltiplo': 'multiple', 'Exatamente': 'exact', 'Pelo menos': 'at_least'})
+        expected = {'font_color': 'Cor da fonte', 'line_spacing_mode': 'Espaçamento entre linhas',
+                    'line_spacing': 'Em', 'paragraph_spacing_before': 'Espaçamento antes (pt)',
+                    'paragraph_spacing_after': 'Espaçamento depois (pt)',
+                    'first_line_indent_cm': 'Recuo especial (cm)',
+                    'left_indent_cm': 'Recuo à esquerda (cm)', 'right_indent_cm': 'Recuo à direita (cm)',
+                    'keep_with_next': 'Manter com o próximo', 'widow_control': 'Controle de viúvas/órfãs',
+                    'paper_size': 'Tamanho do papel'}
+        for name, label in expected.items():
+            self.assertEqual(ui_fields.FIELD_MAP[name].label, label)
+        self.assertEqual(ui_fields.FIELD_MAP['first_line_indent_cm'].group, 'Parágrafo')
+        self.assertEqual(ui_fields.TRISTATE, {'Preservar': None, 'Ativar': True, 'Desativar': False})
+        for name in ('alignment', 'header_alignment', 'footer_alignment', 'body_image_alignment'):
+            self.assertEqual(ui_fields.FIELD_MAP[name].choices['Centralizado'], 'center')
+
+    def test_every_choice_roundtrips_without_changing_serialized_values(self):
+        for field in ui_fields.FIELDS:
+            for label, value in (field.choices or {}).items():
+                with self.subTest(field=field.name, choice=label):
+                    settings = FormatSettings()
+                    setattr(settings, field.name, value)
+                    displayed = ui_fields.form_values(settings)
+                    self.assertEqual(displayed[field.name], label)
+                    self.assertEqual(asdict(ui_fields.settings_from_values(displayed)), asdict(settings))
+
+    def test_summary_uses_word_line_spacing_and_special_indent(self):
+        for mode, value, expected in (
+                ('multiple', 1, 'Simples'), ('multiple', 1.5, '1,5 linhas'),
+                ('multiple', 2, 'Duplo'), ('multiple', 1.25, 'Múltiplo 1,25'),
+                ('exact', 18, 'Exatamente 18 pt'), ('at_least', 14.5, 'Pelo menos 14,5 pt')):
+            with self.subTest(mode=mode, value=value):
+                summary = ui_fields.settings_summary(FormatSettings(line_spacing_mode=mode, line_spacing=value))
+                self.assertIn('Espaçamento entre linhas: ' + expected, summary)
+        for indent, expected in ((0, 'Nenhum'), (1.25, 'Primeira linha 1,25 cm'), (-1.5, 'Deslocado 1,5 cm')):
+            with self.subTest(indent=indent):
+                summary = ui_fields.settings_summary(FormatSettings(first_line_indent_cm=indent))
+                self.assertIn('Recuo especial: ' + expected, summary)
+                self.assertNotIn('-1,5', summary)
+
+    def test_custom_type_summary_explains_hanging_indent_and_line_spacing(self):
+        settings = FormatSettings(formatting_mode='by_category', category_rules={
+            'quote': {'mode': 'custom', 'values': {'first_line_indent_cm': -1.5,
+                'line_spacing_mode': 'at_least', 'line_spacing': 15}}})
+        summary = ui_fields.settings_summary(settings)
+        self.assertIn('Recuo especial: Deslocado 1,5 cm', summary)
+        self.assertIn('Espaçamento entre linhas: Pelo menos 15 pt', summary)
+        self.assertNotIn('-1,5', summary)
 
 
 if __name__ == '__main__':

@@ -12,6 +12,7 @@ class SelfTestTests(unittest.TestCase):
             report = Path(tmp)/'report.json'
             self.assertEqual(run_self_test(report,gui=False),0)
             self.assertTrue(json.loads(report.read_text())['ok'])
+            self.assertTrue(any('Importação' in check for check in json.loads(report.read_text())['checks']))
             self.assertEqual(list(Path(tmp).iterdir()),[report])
 
     def test_reports_failure_without_false_success(self):

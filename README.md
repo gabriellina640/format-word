@@ -9,7 +9,7 @@ Word `.docx`**, preservando o conteúdo e salvando cópias em uma pasta escolhid
 2. Escolha um perfil no seletor superior. Em **Perfis e formatação**, ajuste os
    valores, informe um nome e clique em **Salvar**. **Duplicar** cria outro perfil
    sem alterar o anterior. Sem nome, você salva a **Configuração atual**.
-3. Se necessário, abra **Regras por tipo** para personalizar títulos, citações,
+3. Se necessário, abra **Tipos de texto…** para personalizar títulos, citações,
    assinaturas, tabelas e caixas de texto. Selecione um documento e clique em
    **Revisar documento** para classificar trechos ou ajustar imagens.
 4. Escolha a pasta de destino e confira o resumo em **Arquivos e resultados**.
@@ -25,7 +25,44 @@ as propriedades configuradas antes de publicar o resultado.
 
 Guia para o dia a dia: [Perfis por promotor](docs/guia-rapido.md).
 
+## Criar perfil a partir de um Word
+
+Em **Perfis e formatação → Importar de Word**, selecione um `.docx` já formatado.
+A leitura acontece em segundo plano. Na revisão, confira a página e o padrão
+de cada tipo de texto; havendo diferenças, escolha entre as alternativas
+detectadas. O resumo acompanha as escolhas. Leia também **Avisos e limites**.
+
+**Usar estas configurações** preenche o formulário e as regras por tipo.
+Revise o nome e clique em **Salvar** para reutilizar o perfil. Nomes repetidos
+recebem um número. Cancelar a revisão mantém o perfil e as edições anteriores;
+confirmar oferece salvar/descartar/cancelar caso existam alterações não salvas.
+O arquivo de referência nunca é alterado.
+
+A importação lê fonte, tamanho, ênfase, cor, alinhamento, espaçamentos, recuos,
+controles de parágrafo, papel, orientação, margens e distâncias de cabeçalho e
+rodapé. Considera formatação direta, herança de estilos, padrões e tema do DOCX.
+Alternativas de texto são ordenadas por frequência; diferenças dentro de uma
+categoria exigem escolher um padrão. Categorias ausentes preservam o destino.
+Valores não resolvidos têm avisos e sugestões explícitas para revisão.
+
+O perfil usa uma configuração de página para todas as seções do destino.
+**Cabeçalhos, rodapés, timbres, imagens, numerações e estruturas de tabelas da
+referência não são copiados.** Preservar original mantém esses elementos do
+documento de destino. O importador não adivinha títulos ou citações digitados
+como texto comum; use **Revisar documento** para classificá-los. A importação
+de configurações não equivale à reprodução integral de um template Word.
+
 ## Configurações disponíveis
+
+O editor organiza os campos em **Fonte**, **Parágrafo**, **Página**, **Cabeçalho
+e rodapé**, **Imagens** e **Opções avançadas**. Abra a seção desejada ou use
+**Anterior/Próximo**; **Salvar perfil** fica acessível no rodapé. Erros ao salvar
+abrem a seção do campo correspondente.
+
+Controles usam linguagem familiar ao Word: atalhos **Simples/1,5 linhas/Duplo**,
+**Espaçamento entre linhas**, **Especial: Primeira linha/Deslocado** com medida
+positiva em **Por**, e seletor visual de **Cor da fonte**. As mesmas opções
+aparecem na personalização por tipo de texto. Perfis já salvos são compatíveis.
 
 | Grupo | Opções |
 | --- | --- |
@@ -40,8 +77,8 @@ Guia para o dia a dia: [Perfis por promotor](docs/guia-rapido.md).
 
 - Aceita vírgula ou ponto decimal. Valores inválidos são destacados para
   correção; o aplicativo não limita nem substitui silenciosamente os valores.
-- **Uniforme** aplica a mesma fonte e parágrafo ao corpo e tabelas.
-  **Por categoria** usa regras separadas; novos perfis preservam os tipos especiais
+- **Todo o texto** aplica a mesma fonte e parágrafo ao corpo e tabelas.
+  **Por tipo de texto** usa regras separadas; novos perfis preservam os tipos especiais
   até você configurá-los. O tipo é identificado pelo estilo do Word, pelo contexto
   de tabela/caixa ou pela revisão manual. Texto em estilo Normal não é adivinhado.
   As opções de página valem para todas as seções sem revisões protegidas.
@@ -51,7 +88,8 @@ Guia para o dia a dia: [Perfis por promotor](docs/guia-rapido.md).
   alinhamento de imagem só são usados no modo **Imagem do perfil**. Números
   continuam acessíveis para correção, mesmo quando o modo não os utiliza.
 - No papel personalizado, informe os lados menor e maior; a orientação define
-  qual é a largura. Recuo de primeira linha negativo produz deslocamento.
+  qual é a largura. Para recuo deslocado, escolha **Deslocado** e uma medida
+  positiva em **Por (cm)**.
 - Cabeçalhos e rodapés originais preservam seu texto, imagens e variações de
   página; a distância à borda segue o perfil. No modo imagem, todas as variantes
   recebem a imagem, com proporção preservada. A altura proporcional, a distância
@@ -173,3 +211,7 @@ Windows; validação local no macOS não comprova o executável Windows.
 
 Os resultados locais, correções de revisão e limites de validação estão em
 [docs/validation/2026-09-29-perfis-promotoria.md](docs/validation/2026-09-29-perfis-promotoria.md).
+Para os seletores e a importação de perfis, veja
+[docs/validation/2026-09-30-importacao-perfil.md](docs/validation/2026-09-30-importacao-perfil.md).
+A reorganização e os termos familiares ao Word estão registrados em
+[docs/validation/2026-09-30-usabilidade-word.md](docs/validation/2026-09-30-usabilidade-word.md).
