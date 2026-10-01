@@ -1,0 +1,9551 @@
+{
+  "01-inicio": {
+    "width": 1000,
+    "height": 760,
+    "pixels": [
+      2000,
+      1520
+    ],
+    "widgets": [
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "PY_VAR41",
+        "x": 748,
+        "y": 33,
+        "w": 193,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 32,
+        "y": 69,
+        "w": 67,
+        "h": 28
+      },
+      {
+        "text": "Perfil salvo",
+        "x": 32,
+        "y": 75,
+        "w": 67,
+        "h": 16
+      },
+      {
+        "text": "Adicionar DOCX",
+        "x": 22,
+        "y": 155,
+        "w": 145,
+        "h": 36
+      },
+      {
+        "text": "Adicionar DOCX",
+        "x": 44,
+        "y": 163,
+        "w": 101,
+        "h": 18
+      },
+      {
+        "text": "Remover selecionados",
+        "x": 175,
+        "y": 155,
+        "w": 151,
+        "h": 36
+      },
+      {
+        "text": "Remover selecionados",
+        "x": 181,
+        "y": 163,
+        "w": 139,
+        "h": 18
+      },
+      {
+        "text": "Limpar lista",
+        "x": 334,
+        "y": 155,
+        "w": 145,
+        "h": 36
+      },
+      {
+        "text": "Limpar lista",
+        "x": 370,
+        "y": 163,
+        "w": 72,
+        "h": 18
+      },
+      {
+        "text": "Revisar documento",
+        "x": 487,
+        "y": 155,
+        "w": 145,
+        "h": 36
+      },
+      {
+        "text": "Revisar documento",
+        "x": 500,
+        "y": 163,
+        "w": 119,
+        "h": 18
+      },
+      {
+        "text": "Pasta de destino",
+        "x": 22,
+        "y": 396,
+        "w": 102,
+        "h": 28
+      },
+      {
+        "text": "Pasta de destino",
+        "x": 22,
+        "y": 402,
+        "w": 102,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR45",
+        "x": 138,
+        "y": 398,
+        "w": 736,
+        "h": 23
+      },
+      {
+        "text": "Escolher",
+        "x": 888,
+        "y": 392,
+        "w": 90,
+        "h": 36
+      },
+      {
+        "text": "Escolher",
+        "x": 905,
+        "y": 400,
+        "w": 55,
+        "h": 18
+      },
+      {
+        "text": "Configuração que será aplicada",
+        "x": 22,
+        "y": 432,
+        "w": 956,
+        "h": 28
+      },
+      {
+        "text": "Configuração que será aplicada",
+        "x": 22,
+        "y": 438,
+        "w": 192,
+        "h": 16
+      },
+      {
+        "text": "Aplicar aos arquivos",
+        "x": 22,
+        "y": 573,
+        "w": 170,
+        "h": 36
+      },
+      {
+        "text": "Aplicar aos arquivos",
+        "x": 44,
+        "y": 581,
+        "w": 125,
+        "h": 18
+      },
+      {
+        "text": "Cancelar lote",
+        "x": 200,
+        "y": 573,
+        "w": 120,
+        "h": 36
+      },
+      {
+        "text": "Cancelar lote",
+        "x": 219,
+        "y": 581,
+        "w": 82,
+        "h": 18
+      },
+      {
+        "text": "0 / 0",
+        "x": 913,
+        "y": 577,
+        "w": 65,
+        "h": 28
+      },
+      {
+        "text": "0 / 0",
+        "x": 931,
+        "y": 583,
+        "w": 28,
+        "h": 16
+      },
+      {
+        "text": "Abrir DOCX selecionado",
+        "x": 22,
+        "y": 670,
+        "w": 161,
+        "h": 36
+      },
+      {
+        "text": "Abrir DOCX selecionado",
+        "x": 28,
+        "y": 678,
+        "w": 149,
+        "h": 18
+      },
+      {
+        "text": "Abrir pasta de saída",
+        "x": 191,
+        "y": 670,
+        "w": 140,
+        "h": 36
+      },
+      {
+        "text": "Abrir pasta de saída",
+        "x": 199,
+        "y": 678,
+        "w": 123,
+        "h": 18
+      },
+      {
+        "text": "Fonte",
+        "x": 24,
+        "y": 115,
+        "w": 664,
+        "h": 28
+      },
+      {
+        "text": "Fonte",
+        "x": 24,
+        "y": 118,
+        "w": 50,
+        "h": 21
+      },
+      {
+        "text": "Modo de formatação",
+        "x": 31,
+        "y": 158,
+        "w": 310,
+        "h": 28
+      },
+      {
+        "text": "Modo de formatação",
+        "x": 31,
+        "y": 164,
+        "w": 126,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR0",
+        "x": 37,
+        "y": 196,
+        "w": 273,
+        "h": 18
+      },
+      {
+        "text": "Por tipo de texto permite preservar ou personalizar corpo, títulos, citações e outros trechos.",
+        "x": 31,
+        "y": 227,
+        "w": 310,
+        "h": 32
+      },
+      {
+        "text": "Por tipo de texto permite preservar ou personalizar corpo, títulos, citações e outros trechos.",
+        "x": 31,
+        "y": 227,
+        "w": 310,
+        "h": 32
+      },
+      {
+        "text": "Fonte",
+        "x": 371,
+        "y": 158,
+        "w": 310,
+        "h": 28
+      },
+      {
+        "text": "Fonte",
+        "x": 371,
+        "y": 164,
+        "w": 35,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR1",
+        "x": 377,
+        "y": 196,
+        "w": 273,
+        "h": 18
+      },
+      {
+        "text": "O Word precisa ter a fonte instalada para exibi-la.",
+        "x": 371,
+        "y": 227,
+        "w": 310,
+        "h": 28
+      },
+      {
+        "text": "O Word precisa ter a fonte instalada para exibi-la.",
+        "x": 371,
+        "y": 233,
+        "w": 302,
+        "h": 16
+      },
+      {
+        "text": "Tamanho da fonte (pt)",
+        "x": 31,
+        "y": 306,
+        "w": 310,
+        "h": 28
+      },
+      {
+        "text": "Tamanho da fonte (pt)",
+        "x": 31,
+        "y": 312,
+        "w": 137,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR2",
+        "x": 37,
+        "y": 341,
+        "w": 298,
+        "h": 23
+      },
+      {
+        "text": "De 1 a 400 pt; aceita meio ponto, como 12,5.",
+        "x": 31,
+        "y": 375,
+        "w": 310,
+        "h": 28
+      },
+      {
+        "text": "De 1 a 400 pt; aceita meio ponto, como 12,5.",
+        "x": 31,
+        "y": 381,
+        "w": 271,
+        "h": 16
+      },
+      {
+        "text": "Negrito",
+        "x": 371,
+        "y": 306,
+        "w": 310,
+        "h": 28
+      },
+      {
+        "text": "Negrito",
+        "x": 371,
+        "y": 312,
+        "w": 46,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR3",
+        "x": 377,
+        "y": 344,
+        "w": 273,
+        "h": 18
+      },
+      {
+        "text": "Itálico",
+        "x": 31,
+        "y": 450,
+        "w": 310,
+        "h": 28
+      },
+      {
+        "text": "Itálico",
+        "x": 31,
+        "y": 456,
+        "w": 37,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR4",
+        "x": 37,
+        "y": 488,
+        "w": 273,
+        "h": 18
+      },
+      {
+        "text": "Sublinhado",
+        "x": 371,
+        "y": 450,
+        "w": 310,
+        "h": 28
+      },
+      {
+        "text": "Sublinhado",
+        "x": 371,
+        "y": 456,
+        "w": 68,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR5",
+        "x": 377,
+        "y": 488,
+        "w": 273,
+        "h": 18
+      },
+      {
+        "text": "Cor da fonte",
+        "x": 31,
+        "y": 560,
+        "w": 310,
+        "h": 28
+      },
+      {
+        "text": "Cor da fonte",
+        "x": 31,
+        "y": 566,
+        "w": 76,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR6",
+        "x": 37,
+        "y": 595,
+        "w": 298,
+        "h": 23
+      },
+      {
+        "text": "Escolher cor…",
+        "x": 31,
+        "y": 630,
+        "w": 125,
+        "h": 36
+      },
+      {
+        "text": "Escolher cor…",
+        "x": 49,
+        "y": 638,
+        "w": 88,
+        "h": 18
+      },
+      {
+        "text": "Manter original",
+        "x": 164,
+        "y": 630,
+        "w": 125,
+        "h": 36
+      },
+      {
+        "text": "Manter original",
+        "x": 180,
+        "y": 638,
+        "w": 93,
+        "h": 18
+      },
+      {
+        "text": "Use Escolher cor ou informe um código, como #1F2937. Deixe vazio para preservar a cor original.",
+        "x": 31,
+        "y": 673,
+        "w": 310,
+        "h": 32
+      },
+      {
+        "text": "Use Escolher cor ou informe um código, como #1F2937. Deixe vazio para preservar a cor original.",
+        "x": 31,
+        "y": 673,
+        "w": 308,
+        "h": 32
+      },
+      {
+        "text": "CTkLabel",
+        "x": 20,
+        "y": 720,
+        "w": 960,
+        "h": 28
+      },
+      {
+        "text": "Selecione arquivos Word e uma pasta de destino.",
+        "x": 20,
+        "y": 726,
+        "w": 300,
+        "h": 16
+      }
+    ]
+  },
+  "02-perfis": {
+    "width": 1000,
+    "height": 760,
+    "pixels": [
+      2000,
+      1520
+    ],
+    "widgets": [
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "PY_VAR41",
+        "x": 748,
+        "y": 33,
+        "w": 193,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 32,
+        "y": 69,
+        "w": 67,
+        "h": 28
+      },
+      {
+        "text": "Perfil salvo",
+        "x": 32,
+        "y": 75,
+        "w": 67,
+        "h": 16
+      },
+      {
+        "text": "Nome do perfil",
+        "x": 22,
+        "y": 155,
+        "w": 90,
+        "h": 28
+      },
+      {
+        "text": "Nome do perfil",
+        "x": 22,
+        "y": 161,
+        "w": 90,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR42",
+        "x": 126,
+        "y": 157,
+        "w": 846,
+        "h": 23
+      },
+      {
+        "text": "Novo perfil",
+        "x": 22,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Novo perfil",
+        "x": 35,
+        "y": 199,
+        "w": 69,
+        "h": 18
+      },
+      {
+        "text": "Salvar",
+        "x": 125,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Salvar",
+        "x": 152,
+        "y": 199,
+        "w": 40,
+        "h": 18
+      },
+      {
+        "text": "Duplicar",
+        "x": 232,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Duplicar",
+        "x": 253,
+        "y": 199,
+        "w": 53,
+        "h": 18
+      },
+      {
+        "text": "Excluir",
+        "x": 343,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Excluir",
+        "x": 369,
+        "y": 199,
+        "w": 43,
+        "h": 18
+      },
+      {
+        "text": "Restaurar",
+        "x": 454,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Restaurar",
+        "x": 471,
+        "y": 199,
+        "w": 61,
+        "h": 18
+      },
+      {
+        "text": "Importar de Word",
+        "x": 22,
+        "y": 235,
+        "w": 145,
+        "h": 36
+      },
+      {
+        "text": "Importar de Word",
+        "x": 40,
+        "y": 243,
+        "w": 109,
+        "h": 18
+      },
+      {
+        "text": "1. Importe um Word ou crie um perfil.\n2. Confira as seções abaixo.  3. Salve para reutilizar.",
+        "x": 236,
+        "y": 237,
+        "w": 317,
+        "h": 32
+      },
+      {
+        "text": "1. Importe um Word ou crie um perfil.\n2. Confira as seções abaixo.  3. Salve para reutilizar.",
+        "x": 236,
+        "y": 237,
+        "w": 317,
+        "h": 32
+      },
+      {
+        "text": "CTkLabel",
+        "x": 22,
+        "y": 279,
+        "w": 654,
+        "h": 28
+      },
+      {
+        "text": "Revisar perfil antigo",
+        "x": 682,
+        "y": 275,
+        "w": 155,
+        "h": 36
+      },
+      {
+        "text": "Revisar perfil antigo",
+        "x": 698,
+        "y": 283,
+        "w": 123,
+        "h": 18
+      },
+      {
+        "text": "Tipos de texto…",
+        "x": 843,
+        "y": 275,
+        "w": 135,
+        "h": 36
+      },
+      {
+        "text": "Tipos de texto…",
+        "x": 860,
+        "y": 283,
+        "w": 100,
+        "h": 18
+      },
+      {
+        "text": "Fonte",
+        "x": 22,
+        "y": 319,
+        "w": 123,
+        "h": 32
+      },
+      {
+        "text": "Fonte",
+        "x": 65,
+        "y": 325,
+        "w": 37,
+        "h": 18
+      },
+      {
+        "text": "Parágrafo",
+        "x": 145,
+        "y": 319,
+        "w": 149,
+        "h": 32
+      },
+      {
+        "text": "Parágrafo",
+        "x": 188,
+        "y": 325,
+        "w": 62,
+        "h": 18
+      },
+      {
+        "text": "Página",
+        "x": 294,
+        "y": 319,
+        "w": 129,
+        "h": 32
+      },
+      {
+        "text": "Página",
+        "x": 337,
+        "y": 325,
+        "w": 43,
+        "h": 18
+      },
+      {
+        "text": "Cabeçalho e rodapé",
+        "x": 423,
+        "y": 319,
+        "w": 211,
+        "h": 32
+      },
+      {
+        "text": "Cabeçalho e rodapé",
+        "x": 466,
+        "y": 325,
+        "w": 124,
+        "h": 18
+      },
+      {
+        "text": "Imagens",
+        "x": 634,
+        "y": 319,
+        "w": 140,
+        "h": 32
+      },
+      {
+        "text": "Imagens",
+        "x": 677,
+        "y": 325,
+        "w": 54,
+        "h": 18
+      },
+      {
+        "text": "Opções avançadas",
+        "x": 774,
+        "y": 319,
+        "w": 204,
+        "h": 32
+      },
+      {
+        "text": "Opções avançadas",
+        "x": 817,
+        "y": 325,
+        "w": 117,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 22,
+        "y": 354,
+        "w": 956,
+        "h": 28
+      },
+      {
+        "text": "1 de 6 — Fonte. Você pode abrir qualquer seção ou salvar quando terminar.",
+        "x": 22,
+        "y": 360,
+        "w": 456,
+        "h": 16
+      },
+      {
+        "text": "Fonte",
+        "x": 36,
+        "y": 403,
+        "w": 918,
+        "h": 28
+      },
+      {
+        "text": "Fonte",
+        "x": 36,
+        "y": 406,
+        "w": 50,
+        "h": 21
+      },
+      {
+        "text": "Modo de formatação",
+        "x": 43,
+        "y": 446,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Modo de formatação",
+        "x": 43,
+        "y": 452,
+        "w": 126,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR0",
+        "x": 49,
+        "y": 484,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Por tipo de texto permite preservar ou personalizar corpo, títulos, citações e outros trechos.",
+        "x": 43,
+        "y": 515,
+        "w": 437,
+        "h": 32
+      },
+      {
+        "text": "Por tipo de texto permite preservar ou personalizar corpo, títulos, citações e outros trechos.",
+        "x": 43,
+        "y": 515,
+        "w": 310,
+        "h": 32
+      },
+      {
+        "text": "Fonte",
+        "x": 510,
+        "y": 446,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Fonte",
+        "x": 510,
+        "y": 452,
+        "w": 35,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR1",
+        "x": 516,
+        "y": 484,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "O Word precisa ter a fonte instalada para exibi-la.",
+        "x": 510,
+        "y": 515,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "O Word precisa ter a fonte instalada para exibi-la.",
+        "x": 510,
+        "y": 521,
+        "w": 302,
+        "h": 16
+      },
+      {
+        "text": "Tamanho da fonte (pt)",
+        "x": 43,
+        "y": 594,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Tamanho da fonte (pt)",
+        "x": 43,
+        "y": 600,
+        "w": 137,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR2",
+        "x": 49,
+        "y": 629,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "De 1 a 400 pt; aceita meio ponto, como 12,5.",
+        "x": 43,
+        "y": 663,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "De 1 a 400 pt; aceita meio ponto, como 12,5.",
+        "x": 43,
+        "y": 669,
+        "w": 271,
+        "h": 16
+      },
+      {
+        "text": "Negrito",
+        "x": 510,
+        "y": 594,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Negrito",
+        "x": 510,
+        "y": 600,
+        "w": 46,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR3",
+        "x": 516,
+        "y": 632,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Itálico",
+        "x": 43,
+        "y": 738,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Itálico",
+        "x": 43,
+        "y": 744,
+        "w": 37,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR4",
+        "x": 49,
+        "y": 776,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Sublinhado",
+        "x": 510,
+        "y": 738,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Sublinhado",
+        "x": 510,
+        "y": 744,
+        "w": 68,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR5",
+        "x": 516,
+        "y": 776,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Cor da fonte",
+        "x": 43,
+        "y": 848,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Cor da fonte",
+        "x": 43,
+        "y": 854,
+        "w": 76,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR6",
+        "x": 49,
+        "y": 883,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Escolher cor…",
+        "x": 43,
+        "y": 918,
+        "w": 125,
+        "h": 36
+      },
+      {
+        "text": "Escolher cor…",
+        "x": 61,
+        "y": 926,
+        "w": 88,
+        "h": 18
+      },
+      {
+        "text": "Manter original",
+        "x": 176,
+        "y": 918,
+        "w": 125,
+        "h": 36
+      },
+      {
+        "text": "Manter original",
+        "x": 192,
+        "y": 926,
+        "w": 93,
+        "h": 18
+      },
+      {
+        "text": "Use Escolher cor ou informe um código, como #1F2937. Deixe vazio para preservar a cor original.",
+        "x": 43,
+        "y": 961,
+        "w": 437,
+        "h": 32
+      },
+      {
+        "text": "Use Escolher cor ou informe um código, como #1F2937. Deixe vazio para preservar a cor original.",
+        "x": 43,
+        "y": 961,
+        "w": 308,
+        "h": 32
+      },
+      {
+        "text": "Anterior",
+        "x": 22,
+        "y": 666,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Anterior",
+        "x": 44,
+        "y": 674,
+        "w": 51,
+        "h": 18
+      },
+      {
+        "text": "Próximo",
+        "x": 125,
+        "y": 666,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Próximo",
+        "x": 146,
+        "y": 674,
+        "w": 52,
+        "h": 18
+      },
+      {
+        "text": "Salvar perfil",
+        "x": 843,
+        "y": 666,
+        "w": 135,
+        "h": 36
+      },
+      {
+        "text": "Salvar perfil",
+        "x": 873,
+        "y": 674,
+        "w": 75,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 20,
+        "y": 720,
+        "w": 960,
+        "h": 28
+      },
+      {
+        "text": "Selecione arquivos Word e uma pasta de destino.",
+        "x": 20,
+        "y": 726,
+        "w": 300,
+        "h": 16
+      }
+    ]
+  },
+  "03-importar": {
+    "width": 740,
+    "height": 650,
+    "pixels": [
+      1480,
+      1300
+    ],
+    "widgets": [
+      {
+        "text": "Referência: Modelo-do-escritorio.docx",
+        "x": 16,
+        "y": 12,
+        "w": 240,
+        "h": 20
+      },
+      {
+        "text": "Confira as configurações detectadas. Quando houver diferenças, escolha a página e a formatação de cada tipo de texto. Depois, confira o nome e salve o perfil.",
+        "x": 16,
+        "y": 38,
+        "w": 708,
+        "h": 36
+      },
+      {
+        "text": "Configuração de página",
+        "x": 16,
+        "y": 93,
+        "w": 149,
+        "h": 20
+      },
+      {
+        "text": "Tipo de texto",
+        "x": 16,
+        "y": 127,
+        "w": 85,
+        "h": 20
+      },
+      {
+        "text": "Formatação encontrada",
+        "x": 16,
+        "y": 161,
+        "w": 149,
+        "h": 20
+      },
+      {
+        "text": "Exemplo: Relatório de atividades",
+        "x": 16,
+        "y": 196,
+        "w": 708,
+        "h": 20
+      },
+      {
+        "text": "Cabeçalho, rodapé e imagens da referência não são copiados. O perfil preserva esses elementos nos documentos de destino. Leia a aba Avisos e limites.",
+        "x": 16,
+        "y": 542,
+        "w": 708,
+        "h": 36
+      },
+      {
+        "text": "Cancelar",
+        "x": 427,
+        "y": 610,
+        "w": 94,
+        "h": 28
+      },
+      {
+        "text": "Usar estas configurações",
+        "x": 529,
+        "y": 610,
+        "w": 195,
+        "h": 28
+      }
+    ]
+  },
+  "04-avisos-importacao": {
+    "width": 740,
+    "height": 650,
+    "pixels": [
+      1480,
+      1300
+    ],
+    "widgets": [
+      {
+        "text": "Referência: Modelo-do-escritorio.docx",
+        "x": 16,
+        "y": 12,
+        "w": 240,
+        "h": 20
+      },
+      {
+        "text": "Confira as configurações detectadas. Quando houver diferenças, escolha a página e a formatação de cada tipo de texto. Depois, confira o nome e salve o perfil.",
+        "x": 16,
+        "y": 38,
+        "w": 708,
+        "h": 36
+      },
+      {
+        "text": "Configuração de página",
+        "x": 16,
+        "y": 93,
+        "w": 149,
+        "h": 20
+      },
+      {
+        "text": "Tipo de texto",
+        "x": 16,
+        "y": 127,
+        "w": 85,
+        "h": 20
+      },
+      {
+        "text": "Formatação encontrada",
+        "x": 16,
+        "y": 161,
+        "w": 149,
+        "h": 20
+      },
+      {
+        "text": "Exemplo: Relatório de atividades",
+        "x": 16,
+        "y": 196,
+        "w": 708,
+        "h": 20
+      },
+      {
+        "text": "Cabeçalho, rodapé e imagens da referência não são copiados. O perfil preserva esses elementos nos documentos de destino. Leia a aba Avisos e limites.",
+        "x": 16,
+        "y": 542,
+        "w": 708,
+        "h": 36
+      },
+      {
+        "text": "Cancelar",
+        "x": 427,
+        "y": 610,
+        "w": 94,
+        "h": 28
+      },
+      {
+        "text": "Usar estas configurações",
+        "x": 529,
+        "y": 610,
+        "w": 195,
+        "h": 28
+      }
+    ]
+  },
+  "05-salvar-perfil": {
+    "width": 1000,
+    "height": 760,
+    "pixels": [
+      2000,
+      1520
+    ],
+    "widgets": [
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "PY_VAR41",
+        "x": 748,
+        "y": 33,
+        "w": 193,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 32,
+        "y": 69,
+        "w": 149,
+        "h": 28
+      },
+      {
+        "text": "Modificações não salvas",
+        "x": 32,
+        "y": 75,
+        "w": 149,
+        "h": 16
+      },
+      {
+        "text": "Nome do perfil",
+        "x": 22,
+        "y": 155,
+        "w": 90,
+        "h": 28
+      },
+      {
+        "text": "Nome do perfil",
+        "x": 22,
+        "y": 161,
+        "w": 90,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR42",
+        "x": 126,
+        "y": 157,
+        "w": 846,
+        "h": 23
+      },
+      {
+        "text": "Novo perfil",
+        "x": 22,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Novo perfil",
+        "x": 35,
+        "y": 199,
+        "w": 69,
+        "h": 18
+      },
+      {
+        "text": "Salvar",
+        "x": 125,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Salvar",
+        "x": 152,
+        "y": 199,
+        "w": 40,
+        "h": 18
+      },
+      {
+        "text": "Duplicar",
+        "x": 232,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Duplicar",
+        "x": 253,
+        "y": 199,
+        "w": 53,
+        "h": 18
+      },
+      {
+        "text": "Excluir",
+        "x": 343,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Excluir",
+        "x": 369,
+        "y": 199,
+        "w": 43,
+        "h": 18
+      },
+      {
+        "text": "Restaurar",
+        "x": 454,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Restaurar",
+        "x": 471,
+        "y": 199,
+        "w": 61,
+        "h": 18
+      },
+      {
+        "text": "Importar de Word",
+        "x": 22,
+        "y": 235,
+        "w": 145,
+        "h": 36
+      },
+      {
+        "text": "Importar de Word",
+        "x": 40,
+        "y": 243,
+        "w": 109,
+        "h": 18
+      },
+      {
+        "text": "1. Importe um Word ou crie um perfil.\n2. Confira as seções abaixo.  3. Salve para reutilizar.",
+        "x": 236,
+        "y": 237,
+        "w": 317,
+        "h": 32
+      },
+      {
+        "text": "1. Importe um Word ou crie um perfil.\n2. Confira as seções abaixo.  3. Salve para reutilizar.",
+        "x": 236,
+        "y": 237,
+        "w": 317,
+        "h": 32
+      },
+      {
+        "text": "CTkLabel",
+        "x": 22,
+        "y": 279,
+        "w": 654,
+        "h": 28
+      },
+      {
+        "text": "Revisar perfil antigo",
+        "x": 682,
+        "y": 275,
+        "w": 155,
+        "h": 36
+      },
+      {
+        "text": "Revisar perfil antigo",
+        "x": 698,
+        "y": 283,
+        "w": 123,
+        "h": 18
+      },
+      {
+        "text": "Tipos de texto…",
+        "x": 843,
+        "y": 275,
+        "w": 135,
+        "h": 36
+      },
+      {
+        "text": "Tipos de texto…",
+        "x": 860,
+        "y": 283,
+        "w": 100,
+        "h": 18
+      },
+      {
+        "text": "Fonte",
+        "x": 22,
+        "y": 319,
+        "w": 123,
+        "h": 32
+      },
+      {
+        "text": "Fonte",
+        "x": 65,
+        "y": 325,
+        "w": 37,
+        "h": 18
+      },
+      {
+        "text": "Parágrafo",
+        "x": 145,
+        "y": 319,
+        "w": 149,
+        "h": 32
+      },
+      {
+        "text": "Parágrafo",
+        "x": 188,
+        "y": 325,
+        "w": 62,
+        "h": 18
+      },
+      {
+        "text": "Página",
+        "x": 294,
+        "y": 319,
+        "w": 129,
+        "h": 32
+      },
+      {
+        "text": "Página",
+        "x": 337,
+        "y": 325,
+        "w": 43,
+        "h": 18
+      },
+      {
+        "text": "Cabeçalho e rodapé",
+        "x": 423,
+        "y": 319,
+        "w": 211,
+        "h": 32
+      },
+      {
+        "text": "Cabeçalho e rodapé",
+        "x": 466,
+        "y": 325,
+        "w": 124,
+        "h": 18
+      },
+      {
+        "text": "Imagens",
+        "x": 634,
+        "y": 319,
+        "w": 140,
+        "h": 32
+      },
+      {
+        "text": "Imagens",
+        "x": 677,
+        "y": 325,
+        "w": 54,
+        "h": 18
+      },
+      {
+        "text": "Opções avançadas",
+        "x": 774,
+        "y": 319,
+        "w": 204,
+        "h": 32
+      },
+      {
+        "text": "Opções avançadas",
+        "x": 817,
+        "y": 325,
+        "w": 117,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 22,
+        "y": 354,
+        "w": 956,
+        "h": 28
+      },
+      {
+        "text": "1 de 6 — Fonte. Você pode abrir qualquer seção ou salvar quando terminar.",
+        "x": 22,
+        "y": 360,
+        "w": 456,
+        "h": 16
+      },
+      {
+        "text": "Fonte",
+        "x": 36,
+        "y": 403,
+        "w": 918,
+        "h": 28
+      },
+      {
+        "text": "Fonte",
+        "x": 36,
+        "y": 406,
+        "w": 50,
+        "h": 21
+      },
+      {
+        "text": "Modo de formatação",
+        "x": 43,
+        "y": 446,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Modo de formatação",
+        "x": 43,
+        "y": 452,
+        "w": 126,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR0",
+        "x": 49,
+        "y": 484,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Por tipo de texto permite preservar ou personalizar corpo, títulos, citações e outros trechos.",
+        "x": 43,
+        "y": 515,
+        "w": 437,
+        "h": 32
+      },
+      {
+        "text": "Por tipo de texto permite preservar ou personalizar corpo, títulos, citações e outros trechos.",
+        "x": 43,
+        "y": 515,
+        "w": 310,
+        "h": 32
+      },
+      {
+        "text": "Fonte",
+        "x": 510,
+        "y": 446,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Fonte",
+        "x": 510,
+        "y": 452,
+        "w": 35,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR1",
+        "x": 516,
+        "y": 484,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "O Word precisa ter a fonte instalada para exibi-la.",
+        "x": 510,
+        "y": 515,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "O Word precisa ter a fonte instalada para exibi-la.",
+        "x": 510,
+        "y": 521,
+        "w": 302,
+        "h": 16
+      },
+      {
+        "text": "Tamanho da fonte (pt)",
+        "x": 43,
+        "y": 594,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Tamanho da fonte (pt)",
+        "x": 43,
+        "y": 600,
+        "w": 137,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR2",
+        "x": 49,
+        "y": 629,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "De 1 a 400 pt; aceita meio ponto, como 12,5.",
+        "x": 43,
+        "y": 663,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "De 1 a 400 pt; aceita meio ponto, como 12,5.",
+        "x": 43,
+        "y": 669,
+        "w": 271,
+        "h": 16
+      },
+      {
+        "text": "Negrito",
+        "x": 510,
+        "y": 594,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Negrito",
+        "x": 510,
+        "y": 600,
+        "w": 46,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR3",
+        "x": 516,
+        "y": 632,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Itálico",
+        "x": 43,
+        "y": 738,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Itálico",
+        "x": 43,
+        "y": 744,
+        "w": 37,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR4",
+        "x": 49,
+        "y": 776,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Sublinhado",
+        "x": 510,
+        "y": 738,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Sublinhado",
+        "x": 510,
+        "y": 744,
+        "w": 68,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR5",
+        "x": 516,
+        "y": 776,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Cor da fonte",
+        "x": 43,
+        "y": 848,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Cor da fonte",
+        "x": 43,
+        "y": 854,
+        "w": 76,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR6",
+        "x": 49,
+        "y": 883,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Escolher cor…",
+        "x": 43,
+        "y": 918,
+        "w": 125,
+        "h": 36
+      },
+      {
+        "text": "Escolher cor…",
+        "x": 61,
+        "y": 926,
+        "w": 88,
+        "h": 18
+      },
+      {
+        "text": "Manter original",
+        "x": 176,
+        "y": 918,
+        "w": 125,
+        "h": 36
+      },
+      {
+        "text": "Manter original",
+        "x": 192,
+        "y": 926,
+        "w": 93,
+        "h": 18
+      },
+      {
+        "text": "Use Escolher cor ou informe um código, como #1F2937. Deixe vazio para preservar a cor original.",
+        "x": 43,
+        "y": 961,
+        "w": 437,
+        "h": 32
+      },
+      {
+        "text": "Use Escolher cor ou informe um código, como #1F2937. Deixe vazio para preservar a cor original.",
+        "x": 43,
+        "y": 961,
+        "w": 308,
+        "h": 32
+      },
+      {
+        "text": "Anterior",
+        "x": 22,
+        "y": 666,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Anterior",
+        "x": 44,
+        "y": 674,
+        "w": 51,
+        "h": 18
+      },
+      {
+        "text": "Próximo",
+        "x": 125,
+        "y": 666,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Próximo",
+        "x": 146,
+        "y": 674,
+        "w": 52,
+        "h": 18
+      },
+      {
+        "text": "Salvar perfil",
+        "x": 843,
+        "y": 666,
+        "w": 135,
+        "h": 36
+      },
+      {
+        "text": "Salvar perfil",
+        "x": 873,
+        "y": 674,
+        "w": 75,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 20,
+        "y": 720,
+        "w": 960,
+        "h": 28
+      },
+      {
+        "text": "Perfil importado como rascunho. Confira os campos e clique em Salvar.",
+        "x": 20,
+        "y": 726,
+        "w": 433,
+        "h": 16
+      }
+    ]
+  },
+  "06-fonte": {
+    "width": 1000,
+    "height": 806,
+    "pixels": [
+      2000,
+      1612
+    ],
+    "widgets": [
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "PY_VAR41",
+        "x": 748,
+        "y": 33,
+        "w": 193,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 32,
+        "y": 69,
+        "w": 67,
+        "h": 28
+      },
+      {
+        "text": "Perfil salvo",
+        "x": 32,
+        "y": 75,
+        "w": 67,
+        "h": 16
+      },
+      {
+        "text": "Nome do perfil",
+        "x": 22,
+        "y": 155,
+        "w": 90,
+        "h": 28
+      },
+      {
+        "text": "Nome do perfil",
+        "x": 22,
+        "y": 161,
+        "w": 90,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR42",
+        "x": 126,
+        "y": 157,
+        "w": 846,
+        "h": 23
+      },
+      {
+        "text": "Novo perfil",
+        "x": 22,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Novo perfil",
+        "x": 35,
+        "y": 199,
+        "w": 69,
+        "h": 18
+      },
+      {
+        "text": "Salvar",
+        "x": 125,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Salvar",
+        "x": 152,
+        "y": 199,
+        "w": 40,
+        "h": 18
+      },
+      {
+        "text": "Duplicar",
+        "x": 232,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Duplicar",
+        "x": 253,
+        "y": 199,
+        "w": 53,
+        "h": 18
+      },
+      {
+        "text": "Excluir",
+        "x": 343,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Excluir",
+        "x": 369,
+        "y": 199,
+        "w": 43,
+        "h": 18
+      },
+      {
+        "text": "Restaurar",
+        "x": 454,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Restaurar",
+        "x": 471,
+        "y": 199,
+        "w": 61,
+        "h": 18
+      },
+      {
+        "text": "Importar de Word",
+        "x": 22,
+        "y": 235,
+        "w": 145,
+        "h": 36
+      },
+      {
+        "text": "Importar de Word",
+        "x": 40,
+        "y": 243,
+        "w": 109,
+        "h": 18
+      },
+      {
+        "text": "1. Importe um Word ou crie um perfil.\n2. Confira as seções abaixo.  3. Salve para reutilizar.",
+        "x": 236,
+        "y": 237,
+        "w": 317,
+        "h": 32
+      },
+      {
+        "text": "1. Importe um Word ou crie um perfil.\n2. Confira as seções abaixo.  3. Salve para reutilizar.",
+        "x": 236,
+        "y": 237,
+        "w": 317,
+        "h": 32
+      },
+      {
+        "text": "CTkLabel",
+        "x": 22,
+        "y": 279,
+        "w": 654,
+        "h": 28
+      },
+      {
+        "text": "Revisar perfil antigo",
+        "x": 682,
+        "y": 275,
+        "w": 155,
+        "h": 36
+      },
+      {
+        "text": "Revisar perfil antigo",
+        "x": 698,
+        "y": 283,
+        "w": 123,
+        "h": 18
+      },
+      {
+        "text": "Tipos de texto…",
+        "x": 843,
+        "y": 275,
+        "w": 135,
+        "h": 36
+      },
+      {
+        "text": "Tipos de texto…",
+        "x": 860,
+        "y": 283,
+        "w": 100,
+        "h": 18
+      },
+      {
+        "text": "Fonte",
+        "x": 22,
+        "y": 319,
+        "w": 123,
+        "h": 32
+      },
+      {
+        "text": "Fonte",
+        "x": 65,
+        "y": 325,
+        "w": 37,
+        "h": 18
+      },
+      {
+        "text": "Parágrafo",
+        "x": 145,
+        "y": 319,
+        "w": 149,
+        "h": 32
+      },
+      {
+        "text": "Parágrafo",
+        "x": 188,
+        "y": 325,
+        "w": 62,
+        "h": 18
+      },
+      {
+        "text": "Página",
+        "x": 294,
+        "y": 319,
+        "w": 129,
+        "h": 32
+      },
+      {
+        "text": "Página",
+        "x": 337,
+        "y": 325,
+        "w": 43,
+        "h": 18
+      },
+      {
+        "text": "Cabeçalho e rodapé",
+        "x": 423,
+        "y": 319,
+        "w": 211,
+        "h": 32
+      },
+      {
+        "text": "Cabeçalho e rodapé",
+        "x": 466,
+        "y": 325,
+        "w": 124,
+        "h": 18
+      },
+      {
+        "text": "Imagens",
+        "x": 634,
+        "y": 319,
+        "w": 140,
+        "h": 32
+      },
+      {
+        "text": "Imagens",
+        "x": 677,
+        "y": 325,
+        "w": 54,
+        "h": 18
+      },
+      {
+        "text": "Opções avançadas",
+        "x": 774,
+        "y": 319,
+        "w": 204,
+        "h": 32
+      },
+      {
+        "text": "Opções avançadas",
+        "x": 817,
+        "y": 325,
+        "w": 117,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 22,
+        "y": 354,
+        "w": 956,
+        "h": 28
+      },
+      {
+        "text": "1 de 6 — Fonte. Você pode abrir qualquer seção ou salvar quando terminar.",
+        "x": 22,
+        "y": 360,
+        "w": 456,
+        "h": 16
+      },
+      {
+        "text": "Fonte",
+        "x": 36,
+        "y": 403,
+        "w": 918,
+        "h": 28
+      },
+      {
+        "text": "Fonte",
+        "x": 36,
+        "y": 406,
+        "w": 50,
+        "h": 21
+      },
+      {
+        "text": "Modo de formatação",
+        "x": 43,
+        "y": 446,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Modo de formatação",
+        "x": 43,
+        "y": 452,
+        "w": 126,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR0",
+        "x": 49,
+        "y": 484,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Por tipo de texto permite preservar ou personalizar corpo, títulos, citações e outros trechos.",
+        "x": 43,
+        "y": 515,
+        "w": 437,
+        "h": 32
+      },
+      {
+        "text": "Por tipo de texto permite preservar ou personalizar corpo, títulos, citações e outros trechos.",
+        "x": 43,
+        "y": 515,
+        "w": 310,
+        "h": 32
+      },
+      {
+        "text": "Fonte",
+        "x": 510,
+        "y": 446,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Fonte",
+        "x": 510,
+        "y": 452,
+        "w": 35,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR1",
+        "x": 516,
+        "y": 484,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "O Word precisa ter a fonte instalada para exibi-la.",
+        "x": 510,
+        "y": 515,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "O Word precisa ter a fonte instalada para exibi-la.",
+        "x": 510,
+        "y": 521,
+        "w": 302,
+        "h": 16
+      },
+      {
+        "text": "Tamanho da fonte (pt)",
+        "x": 43,
+        "y": 594,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Tamanho da fonte (pt)",
+        "x": 43,
+        "y": 600,
+        "w": 137,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR2",
+        "x": 49,
+        "y": 629,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "De 1 a 400 pt; aceita meio ponto, como 12,5.",
+        "x": 43,
+        "y": 663,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "De 1 a 400 pt; aceita meio ponto, como 12,5.",
+        "x": 43,
+        "y": 669,
+        "w": 271,
+        "h": 16
+      },
+      {
+        "text": "Negrito",
+        "x": 510,
+        "y": 594,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Negrito",
+        "x": 510,
+        "y": 600,
+        "w": 46,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR3",
+        "x": 516,
+        "y": 632,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Itálico",
+        "x": 43,
+        "y": 738,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Itálico",
+        "x": 43,
+        "y": 744,
+        "w": 37,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR4",
+        "x": 49,
+        "y": 776,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Sublinhado",
+        "x": 510,
+        "y": 738,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Sublinhado",
+        "x": 510,
+        "y": 744,
+        "w": 68,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR5",
+        "x": 516,
+        "y": 776,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Cor da fonte",
+        "x": 43,
+        "y": 848,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Cor da fonte",
+        "x": 43,
+        "y": 854,
+        "w": 76,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR6",
+        "x": 49,
+        "y": 883,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Escolher cor…",
+        "x": 43,
+        "y": 918,
+        "w": 125,
+        "h": 36
+      },
+      {
+        "text": "Escolher cor…",
+        "x": 61,
+        "y": 926,
+        "w": 88,
+        "h": 18
+      },
+      {
+        "text": "Manter original",
+        "x": 176,
+        "y": 918,
+        "w": 125,
+        "h": 36
+      },
+      {
+        "text": "Manter original",
+        "x": 192,
+        "y": 926,
+        "w": 93,
+        "h": 18
+      },
+      {
+        "text": "Use Escolher cor ou informe um código, como #1F2937. Deixe vazio para preservar a cor original.",
+        "x": 43,
+        "y": 961,
+        "w": 437,
+        "h": 32
+      },
+      {
+        "text": "Use Escolher cor ou informe um código, como #1F2937. Deixe vazio para preservar a cor original.",
+        "x": 43,
+        "y": 961,
+        "w": 308,
+        "h": 32
+      },
+      {
+        "text": "Anterior",
+        "x": 22,
+        "y": 712,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Anterior",
+        "x": 44,
+        "y": 720,
+        "w": 51,
+        "h": 18
+      },
+      {
+        "text": "Próximo",
+        "x": 125,
+        "y": 712,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Próximo",
+        "x": 146,
+        "y": 720,
+        "w": 52,
+        "h": 18
+      },
+      {
+        "text": "Salvar perfil",
+        "x": 843,
+        "y": 712,
+        "w": 135,
+        "h": 36
+      },
+      {
+        "text": "Salvar perfil",
+        "x": 873,
+        "y": 720,
+        "w": 75,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 20,
+        "y": 766,
+        "w": 960,
+        "h": 28
+      },
+      {
+        "text": "Escritório — documentos gerais: salvo.",
+        "x": 20,
+        "y": 772,
+        "w": 235,
+        "h": 16
+      }
+    ]
+  },
+  "06-fonte-detalhe": {
+    "width": 1000,
+    "height": 806,
+    "pixels": [
+      2000,
+      1612
+    ],
+    "widgets": [
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "PY_VAR41",
+        "x": 748,
+        "y": 33,
+        "w": 193,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 32,
+        "y": 69,
+        "w": 67,
+        "h": 28
+      },
+      {
+        "text": "Perfil salvo",
+        "x": 32,
+        "y": 75,
+        "w": 67,
+        "h": 16
+      },
+      {
+        "text": "Nome do perfil",
+        "x": 22,
+        "y": 155,
+        "w": 90,
+        "h": 28
+      },
+      {
+        "text": "Nome do perfil",
+        "x": 22,
+        "y": 161,
+        "w": 90,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR42",
+        "x": 126,
+        "y": 157,
+        "w": 846,
+        "h": 23
+      },
+      {
+        "text": "Novo perfil",
+        "x": 22,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Novo perfil",
+        "x": 35,
+        "y": 199,
+        "w": 69,
+        "h": 18
+      },
+      {
+        "text": "Salvar",
+        "x": 125,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Salvar",
+        "x": 152,
+        "y": 199,
+        "w": 40,
+        "h": 18
+      },
+      {
+        "text": "Duplicar",
+        "x": 232,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Duplicar",
+        "x": 253,
+        "y": 199,
+        "w": 53,
+        "h": 18
+      },
+      {
+        "text": "Excluir",
+        "x": 343,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Excluir",
+        "x": 369,
+        "y": 199,
+        "w": 43,
+        "h": 18
+      },
+      {
+        "text": "Restaurar",
+        "x": 454,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Restaurar",
+        "x": 471,
+        "y": 199,
+        "w": 61,
+        "h": 18
+      },
+      {
+        "text": "Importar de Word",
+        "x": 22,
+        "y": 235,
+        "w": 145,
+        "h": 36
+      },
+      {
+        "text": "Importar de Word",
+        "x": 40,
+        "y": 243,
+        "w": 109,
+        "h": 18
+      },
+      {
+        "text": "1. Importe um Word ou crie um perfil.\n2. Confira as seções abaixo.  3. Salve para reutilizar.",
+        "x": 236,
+        "y": 237,
+        "w": 317,
+        "h": 32
+      },
+      {
+        "text": "1. Importe um Word ou crie um perfil.\n2. Confira as seções abaixo.  3. Salve para reutilizar.",
+        "x": 236,
+        "y": 237,
+        "w": 317,
+        "h": 32
+      },
+      {
+        "text": "CTkLabel",
+        "x": 22,
+        "y": 279,
+        "w": 654,
+        "h": 28
+      },
+      {
+        "text": "Revisar perfil antigo",
+        "x": 682,
+        "y": 275,
+        "w": 155,
+        "h": 36
+      },
+      {
+        "text": "Revisar perfil antigo",
+        "x": 698,
+        "y": 283,
+        "w": 123,
+        "h": 18
+      },
+      {
+        "text": "Tipos de texto…",
+        "x": 843,
+        "y": 275,
+        "w": 135,
+        "h": 36
+      },
+      {
+        "text": "Tipos de texto…",
+        "x": 860,
+        "y": 283,
+        "w": 100,
+        "h": 18
+      },
+      {
+        "text": "Fonte",
+        "x": 22,
+        "y": 319,
+        "w": 123,
+        "h": 32
+      },
+      {
+        "text": "Fonte",
+        "x": 65,
+        "y": 325,
+        "w": 37,
+        "h": 18
+      },
+      {
+        "text": "Parágrafo",
+        "x": 145,
+        "y": 319,
+        "w": 149,
+        "h": 32
+      },
+      {
+        "text": "Parágrafo",
+        "x": 188,
+        "y": 325,
+        "w": 62,
+        "h": 18
+      },
+      {
+        "text": "Página",
+        "x": 294,
+        "y": 319,
+        "w": 129,
+        "h": 32
+      },
+      {
+        "text": "Página",
+        "x": 337,
+        "y": 325,
+        "w": 43,
+        "h": 18
+      },
+      {
+        "text": "Cabeçalho e rodapé",
+        "x": 423,
+        "y": 319,
+        "w": 211,
+        "h": 32
+      },
+      {
+        "text": "Cabeçalho e rodapé",
+        "x": 466,
+        "y": 325,
+        "w": 124,
+        "h": 18
+      },
+      {
+        "text": "Imagens",
+        "x": 634,
+        "y": 319,
+        "w": 140,
+        "h": 32
+      },
+      {
+        "text": "Imagens",
+        "x": 677,
+        "y": 325,
+        "w": 54,
+        "h": 18
+      },
+      {
+        "text": "Opções avançadas",
+        "x": 774,
+        "y": 319,
+        "w": 204,
+        "h": 32
+      },
+      {
+        "text": "Opções avançadas",
+        "x": 817,
+        "y": 325,
+        "w": 117,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 22,
+        "y": 354,
+        "w": 956,
+        "h": 28
+      },
+      {
+        "text": "1 de 6 — Fonte. Você pode abrir qualquer seção ou salvar quando terminar.",
+        "x": 22,
+        "y": 360,
+        "w": 456,
+        "h": 16
+      },
+      {
+        "text": "Fonte",
+        "x": 36,
+        "y": 67,
+        "w": 918,
+        "h": 28
+      },
+      {
+        "text": "Fonte",
+        "x": 36,
+        "y": 70,
+        "w": 50,
+        "h": 21
+      },
+      {
+        "text": "Modo de formatação",
+        "x": 43,
+        "y": 110,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Modo de formatação",
+        "x": 43,
+        "y": 116,
+        "w": 126,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR0",
+        "x": 49,
+        "y": 148,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Por tipo de texto permite preservar ou personalizar corpo, títulos, citações e outros trechos.",
+        "x": 43,
+        "y": 179,
+        "w": 437,
+        "h": 32
+      },
+      {
+        "text": "Por tipo de texto permite preservar ou personalizar corpo, títulos, citações e outros trechos.",
+        "x": 43,
+        "y": 179,
+        "w": 310,
+        "h": 32
+      },
+      {
+        "text": "Fonte",
+        "x": 510,
+        "y": 110,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Fonte",
+        "x": 510,
+        "y": 116,
+        "w": 35,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR1",
+        "x": 516,
+        "y": 148,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "O Word precisa ter a fonte instalada para exibi-la.",
+        "x": 510,
+        "y": 179,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "O Word precisa ter a fonte instalada para exibi-la.",
+        "x": 510,
+        "y": 185,
+        "w": 302,
+        "h": 16
+      },
+      {
+        "text": "Tamanho da fonte (pt)",
+        "x": 43,
+        "y": 258,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Tamanho da fonte (pt)",
+        "x": 43,
+        "y": 264,
+        "w": 137,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR2",
+        "x": 49,
+        "y": 293,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "De 1 a 400 pt; aceita meio ponto, como 12,5.",
+        "x": 43,
+        "y": 327,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "De 1 a 400 pt; aceita meio ponto, como 12,5.",
+        "x": 43,
+        "y": 333,
+        "w": 271,
+        "h": 16
+      },
+      {
+        "text": "Negrito",
+        "x": 510,
+        "y": 258,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Negrito",
+        "x": 510,
+        "y": 264,
+        "w": 46,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR3",
+        "x": 516,
+        "y": 296,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Itálico",
+        "x": 43,
+        "y": 402,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Itálico",
+        "x": 43,
+        "y": 408,
+        "w": 37,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR4",
+        "x": 49,
+        "y": 440,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Sublinhado",
+        "x": 510,
+        "y": 402,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Sublinhado",
+        "x": 510,
+        "y": 408,
+        "w": 68,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR5",
+        "x": 516,
+        "y": 440,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Cor da fonte",
+        "x": 43,
+        "y": 512,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Cor da fonte",
+        "x": 43,
+        "y": 518,
+        "w": 76,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR6",
+        "x": 49,
+        "y": 547,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Escolher cor…",
+        "x": 43,
+        "y": 582,
+        "w": 125,
+        "h": 36
+      },
+      {
+        "text": "Escolher cor…",
+        "x": 61,
+        "y": 590,
+        "w": 88,
+        "h": 18
+      },
+      {
+        "text": "Manter original",
+        "x": 176,
+        "y": 582,
+        "w": 125,
+        "h": 36
+      },
+      {
+        "text": "Manter original",
+        "x": 192,
+        "y": 590,
+        "w": 93,
+        "h": 18
+      },
+      {
+        "text": "Use Escolher cor ou informe um código, como #1F2937. Deixe vazio para preservar a cor original.",
+        "x": 43,
+        "y": 625,
+        "w": 437,
+        "h": 32
+      },
+      {
+        "text": "Use Escolher cor ou informe um código, como #1F2937. Deixe vazio para preservar a cor original.",
+        "x": 43,
+        "y": 625,
+        "w": 308,
+        "h": 32
+      },
+      {
+        "text": "Anterior",
+        "x": 22,
+        "y": 712,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Anterior",
+        "x": 44,
+        "y": 720,
+        "w": 51,
+        "h": 18
+      },
+      {
+        "text": "Próximo",
+        "x": 125,
+        "y": 712,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Próximo",
+        "x": 146,
+        "y": 720,
+        "w": 52,
+        "h": 18
+      },
+      {
+        "text": "Salvar perfil",
+        "x": 843,
+        "y": 712,
+        "w": 135,
+        "h": 36
+      },
+      {
+        "text": "Salvar perfil",
+        "x": 873,
+        "y": 720,
+        "w": 75,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 20,
+        "y": 766,
+        "w": 960,
+        "h": 28
+      },
+      {
+        "text": "Escritório — documentos gerais: salvo.",
+        "x": 20,
+        "y": 772,
+        "w": 235,
+        "h": 16
+      }
+    ]
+  },
+  "07-paragrafo": {
+    "width": 1000,
+    "height": 806,
+    "pixels": [
+      2000,
+      1612
+    ],
+    "widgets": [
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "PY_VAR41",
+        "x": 748,
+        "y": 33,
+        "w": 193,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 32,
+        "y": 69,
+        "w": 67,
+        "h": 28
+      },
+      {
+        "text": "Perfil salvo",
+        "x": 32,
+        "y": 75,
+        "w": 67,
+        "h": 16
+      },
+      {
+        "text": "Nome do perfil",
+        "x": 22,
+        "y": 155,
+        "w": 90,
+        "h": 28
+      },
+      {
+        "text": "Nome do perfil",
+        "x": 22,
+        "y": 161,
+        "w": 90,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR42",
+        "x": 126,
+        "y": 157,
+        "w": 846,
+        "h": 23
+      },
+      {
+        "text": "Novo perfil",
+        "x": 22,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Novo perfil",
+        "x": 35,
+        "y": 199,
+        "w": 69,
+        "h": 18
+      },
+      {
+        "text": "Salvar",
+        "x": 125,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Salvar",
+        "x": 152,
+        "y": 199,
+        "w": 40,
+        "h": 18
+      },
+      {
+        "text": "Duplicar",
+        "x": 232,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Duplicar",
+        "x": 253,
+        "y": 199,
+        "w": 53,
+        "h": 18
+      },
+      {
+        "text": "Excluir",
+        "x": 343,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Excluir",
+        "x": 369,
+        "y": 199,
+        "w": 43,
+        "h": 18
+      },
+      {
+        "text": "Restaurar",
+        "x": 454,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Restaurar",
+        "x": 471,
+        "y": 199,
+        "w": 61,
+        "h": 18
+      },
+      {
+        "text": "Importar de Word",
+        "x": 22,
+        "y": 235,
+        "w": 145,
+        "h": 36
+      },
+      {
+        "text": "Importar de Word",
+        "x": 40,
+        "y": 243,
+        "w": 109,
+        "h": 18
+      },
+      {
+        "text": "1. Importe um Word ou crie um perfil.\n2. Confira as seções abaixo.  3. Salve para reutilizar.",
+        "x": 236,
+        "y": 237,
+        "w": 317,
+        "h": 32
+      },
+      {
+        "text": "1. Importe um Word ou crie um perfil.\n2. Confira as seções abaixo.  3. Salve para reutilizar.",
+        "x": 236,
+        "y": 237,
+        "w": 317,
+        "h": 32
+      },
+      {
+        "text": "CTkLabel",
+        "x": 22,
+        "y": 279,
+        "w": 654,
+        "h": 28
+      },
+      {
+        "text": "Revisar perfil antigo",
+        "x": 682,
+        "y": 275,
+        "w": 155,
+        "h": 36
+      },
+      {
+        "text": "Revisar perfil antigo",
+        "x": 698,
+        "y": 283,
+        "w": 123,
+        "h": 18
+      },
+      {
+        "text": "Tipos de texto…",
+        "x": 843,
+        "y": 275,
+        "w": 135,
+        "h": 36
+      },
+      {
+        "text": "Tipos de texto…",
+        "x": 860,
+        "y": 283,
+        "w": 100,
+        "h": 18
+      },
+      {
+        "text": "Fonte",
+        "x": 22,
+        "y": 319,
+        "w": 123,
+        "h": 32
+      },
+      {
+        "text": "Fonte",
+        "x": 65,
+        "y": 325,
+        "w": 37,
+        "h": 18
+      },
+      {
+        "text": "Parágrafo",
+        "x": 145,
+        "y": 319,
+        "w": 149,
+        "h": 32
+      },
+      {
+        "text": "Parágrafo",
+        "x": 188,
+        "y": 325,
+        "w": 62,
+        "h": 18
+      },
+      {
+        "text": "Página",
+        "x": 294,
+        "y": 319,
+        "w": 129,
+        "h": 32
+      },
+      {
+        "text": "Página",
+        "x": 337,
+        "y": 325,
+        "w": 43,
+        "h": 18
+      },
+      {
+        "text": "Cabeçalho e rodapé",
+        "x": 423,
+        "y": 319,
+        "w": 211,
+        "h": 32
+      },
+      {
+        "text": "Cabeçalho e rodapé",
+        "x": 466,
+        "y": 325,
+        "w": 124,
+        "h": 18
+      },
+      {
+        "text": "Imagens",
+        "x": 634,
+        "y": 319,
+        "w": 140,
+        "h": 32
+      },
+      {
+        "text": "Imagens",
+        "x": 677,
+        "y": 325,
+        "w": 54,
+        "h": 18
+      },
+      {
+        "text": "Opções avançadas",
+        "x": 774,
+        "y": 319,
+        "w": 204,
+        "h": 32
+      },
+      {
+        "text": "Opções avançadas",
+        "x": 817,
+        "y": 325,
+        "w": 117,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 22,
+        "y": 354,
+        "w": 956,
+        "h": 28
+      },
+      {
+        "text": "2 de 6 — Parágrafo. Você pode abrir qualquer seção ou salvar quando terminar.",
+        "x": 22,
+        "y": 360,
+        "w": 482,
+        "h": 16
+      },
+      {
+        "text": "Parágrafo",
+        "x": 36,
+        "y": 403,
+        "w": 918,
+        "h": 28
+      },
+      {
+        "text": "Parágrafo",
+        "x": 36,
+        "y": 406,
+        "w": 86,
+        "h": 21
+      },
+      {
+        "text": "Alinhamento",
+        "x": 43,
+        "y": 446,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Alinhamento",
+        "x": 43,
+        "y": 452,
+        "w": 76,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR7",
+        "x": 49,
+        "y": 484,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Espaçamento entre linhas",
+        "x": 510,
+        "y": 446,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Espaçamento entre linhas",
+        "x": 510,
+        "y": 452,
+        "w": 157,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR8",
+        "x": 516,
+        "y": 484,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Simples",
+        "x": 510,
+        "y": 516,
+        "w": 141,
+        "h": 28
+      },
+      {
+        "text": "1,5 linhas",
+        "x": 655,
+        "y": 516,
+        "w": 142,
+        "h": 28
+      },
+      {
+        "text": "Duplo",
+        "x": 801,
+        "y": 516,
+        "w": 142,
+        "h": 28
+      },
+      {
+        "text": "Em (múltiplo de linhas)",
+        "x": 43,
+        "y": 592,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Em (múltiplo de linhas)",
+        "x": 43,
+        "y": 598,
+        "w": 139,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR9",
+        "x": 49,
+        "y": 627,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Múltiplo usa número de linhas: 1,5 = uma linha e meia. Exatamente e Pelo menos usam pontos (pt).",
+        "x": 43,
+        "y": 661,
+        "w": 437,
+        "h": 32
+      },
+      {
+        "text": "Múltiplo usa número de linhas: 1,5 = uma linha e meia. Exatamente e Pelo menos usam pontos (pt).",
+        "x": 43,
+        "y": 661,
+        "w": 327,
+        "h": 32
+      },
+      {
+        "text": "Espaçamento antes (pt)",
+        "x": 510,
+        "y": 592,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Espaçamento antes (pt)",
+        "x": 510,
+        "y": 598,
+        "w": 145,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR10",
+        "x": 516,
+        "y": 627,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Espaçamento depois (pt)",
+        "x": 43,
+        "y": 740,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Espaçamento depois (pt)",
+        "x": 43,
+        "y": 746,
+        "w": 153,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR11",
+        "x": 49,
+        "y": 775,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Recuo especial (cm)",
+        "x": 510,
+        "y": 740,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Recuo especial (cm)",
+        "x": 510,
+        "y": 746,
+        "w": 124,
+        "h": 16
+      },
+      {
+        "text": "Especial",
+        "x": 510,
+        "y": 773,
+        "w": 55,
+        "h": 20
+      },
+      {
+        "text": "Por (cm)",
+        "x": 763,
+        "y": 773,
+        "w": 57,
+        "h": 20
+      },
+      {
+        "text": "PY_VAR49",
+        "x": 510,
+        "y": 793,
+        "w": 245,
+        "h": 26
+      },
+      {
+        "text": "PY_VAR50",
+        "x": 763,
+        "y": 793,
+        "w": 184,
+        "h": 27
+      },
+      {
+        "text": "Escolha Nenhum, Primeira linha ou Deslocado e informe a medida em centímetros.",
+        "x": 510,
+        "y": 828,
+        "w": 437,
+        "h": 32
+      },
+      {
+        "text": "Escolha Nenhum, Primeira linha ou Deslocado e informe a medida em centímetros.",
+        "x": 510,
+        "y": 828,
+        "w": 289,
+        "h": 32
+      },
+      {
+        "text": "Recuo à esquerda (cm)",
+        "x": 43,
+        "y": 907,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Recuo à esquerda (cm)",
+        "x": 43,
+        "y": 913,
+        "w": 141,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR13",
+        "x": 49,
+        "y": 942,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Recuo à direita (cm)",
+        "x": 510,
+        "y": 907,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Recuo à direita (cm)",
+        "x": 510,
+        "y": 913,
+        "w": 123,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR14",
+        "x": 516,
+        "y": 942,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Anterior",
+        "x": 22,
+        "y": 712,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Anterior",
+        "x": 44,
+        "y": 720,
+        "w": 51,
+        "h": 18
+      },
+      {
+        "text": "Próximo",
+        "x": 125,
+        "y": 712,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Próximo",
+        "x": 146,
+        "y": 720,
+        "w": 52,
+        "h": 18
+      },
+      {
+        "text": "Salvar perfil",
+        "x": 843,
+        "y": 712,
+        "w": 135,
+        "h": 36
+      },
+      {
+        "text": "Salvar perfil",
+        "x": 873,
+        "y": 720,
+        "w": 75,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 20,
+        "y": 766,
+        "w": 960,
+        "h": 28
+      },
+      {
+        "text": "Escritório — documentos gerais: salvo.",
+        "x": 20,
+        "y": 772,
+        "w": 235,
+        "h": 16
+      }
+    ]
+  },
+  "07-paragrafo-detalhe": {
+    "width": 1000,
+    "height": 806,
+    "pixels": [
+      2000,
+      1612
+    ],
+    "widgets": [
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "PY_VAR41",
+        "x": 748,
+        "y": 33,
+        "w": 193,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 32,
+        "y": 69,
+        "w": 67,
+        "h": 28
+      },
+      {
+        "text": "Perfil salvo",
+        "x": 32,
+        "y": 75,
+        "w": 67,
+        "h": 16
+      },
+      {
+        "text": "Nome do perfil",
+        "x": 22,
+        "y": 155,
+        "w": 90,
+        "h": 28
+      },
+      {
+        "text": "Nome do perfil",
+        "x": 22,
+        "y": 161,
+        "w": 90,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR42",
+        "x": 126,
+        "y": 157,
+        "w": 846,
+        "h": 23
+      },
+      {
+        "text": "Novo perfil",
+        "x": 22,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Novo perfil",
+        "x": 35,
+        "y": 199,
+        "w": 69,
+        "h": 18
+      },
+      {
+        "text": "Salvar",
+        "x": 125,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Salvar",
+        "x": 152,
+        "y": 199,
+        "w": 40,
+        "h": 18
+      },
+      {
+        "text": "Duplicar",
+        "x": 232,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Duplicar",
+        "x": 253,
+        "y": 199,
+        "w": 53,
+        "h": 18
+      },
+      {
+        "text": "Excluir",
+        "x": 343,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Excluir",
+        "x": 369,
+        "y": 199,
+        "w": 43,
+        "h": 18
+      },
+      {
+        "text": "Restaurar",
+        "x": 454,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Restaurar",
+        "x": 471,
+        "y": 199,
+        "w": 61,
+        "h": 18
+      },
+      {
+        "text": "Importar de Word",
+        "x": 22,
+        "y": 235,
+        "w": 145,
+        "h": 36
+      },
+      {
+        "text": "Importar de Word",
+        "x": 40,
+        "y": 243,
+        "w": 109,
+        "h": 18
+      },
+      {
+        "text": "1. Importe um Word ou crie um perfil.\n2. Confira as seções abaixo.  3. Salve para reutilizar.",
+        "x": 236,
+        "y": 237,
+        "w": 317,
+        "h": 32
+      },
+      {
+        "text": "1. Importe um Word ou crie um perfil.\n2. Confira as seções abaixo.  3. Salve para reutilizar.",
+        "x": 236,
+        "y": 237,
+        "w": 317,
+        "h": 32
+      },
+      {
+        "text": "CTkLabel",
+        "x": 22,
+        "y": 279,
+        "w": 654,
+        "h": 28
+      },
+      {
+        "text": "Revisar perfil antigo",
+        "x": 682,
+        "y": 275,
+        "w": 155,
+        "h": 36
+      },
+      {
+        "text": "Revisar perfil antigo",
+        "x": 698,
+        "y": 283,
+        "w": 123,
+        "h": 18
+      },
+      {
+        "text": "Tipos de texto…",
+        "x": 843,
+        "y": 275,
+        "w": 135,
+        "h": 36
+      },
+      {
+        "text": "Tipos de texto…",
+        "x": 860,
+        "y": 283,
+        "w": 100,
+        "h": 18
+      },
+      {
+        "text": "Fonte",
+        "x": 22,
+        "y": 319,
+        "w": 123,
+        "h": 32
+      },
+      {
+        "text": "Fonte",
+        "x": 65,
+        "y": 325,
+        "w": 37,
+        "h": 18
+      },
+      {
+        "text": "Parágrafo",
+        "x": 145,
+        "y": 319,
+        "w": 149,
+        "h": 32
+      },
+      {
+        "text": "Parágrafo",
+        "x": 188,
+        "y": 325,
+        "w": 62,
+        "h": 18
+      },
+      {
+        "text": "Página",
+        "x": 294,
+        "y": 319,
+        "w": 129,
+        "h": 32
+      },
+      {
+        "text": "Página",
+        "x": 337,
+        "y": 325,
+        "w": 43,
+        "h": 18
+      },
+      {
+        "text": "Cabeçalho e rodapé",
+        "x": 423,
+        "y": 319,
+        "w": 211,
+        "h": 32
+      },
+      {
+        "text": "Cabeçalho e rodapé",
+        "x": 466,
+        "y": 325,
+        "w": 124,
+        "h": 18
+      },
+      {
+        "text": "Imagens",
+        "x": 634,
+        "y": 319,
+        "w": 140,
+        "h": 32
+      },
+      {
+        "text": "Imagens",
+        "x": 677,
+        "y": 325,
+        "w": 54,
+        "h": 18
+      },
+      {
+        "text": "Opções avançadas",
+        "x": 774,
+        "y": 319,
+        "w": 204,
+        "h": 32
+      },
+      {
+        "text": "Opções avançadas",
+        "x": 817,
+        "y": 325,
+        "w": 117,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 22,
+        "y": 354,
+        "w": 956,
+        "h": 28
+      },
+      {
+        "text": "2 de 6 — Parágrafo. Você pode abrir qualquer seção ou salvar quando terminar.",
+        "x": 22,
+        "y": 360,
+        "w": 482,
+        "h": 16
+      },
+      {
+        "text": "Parágrafo",
+        "x": 36,
+        "y": 131,
+        "w": 918,
+        "h": 28
+      },
+      {
+        "text": "Parágrafo",
+        "x": 36,
+        "y": 134,
+        "w": 86,
+        "h": 21
+      },
+      {
+        "text": "Alinhamento",
+        "x": 43,
+        "y": 174,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Alinhamento",
+        "x": 43,
+        "y": 180,
+        "w": 76,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR7",
+        "x": 49,
+        "y": 212,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Espaçamento entre linhas",
+        "x": 510,
+        "y": 174,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Espaçamento entre linhas",
+        "x": 510,
+        "y": 180,
+        "w": 157,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR8",
+        "x": 516,
+        "y": 212,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Simples",
+        "x": 510,
+        "y": 244,
+        "w": 141,
+        "h": 28
+      },
+      {
+        "text": "1,5 linhas",
+        "x": 655,
+        "y": 244,
+        "w": 142,
+        "h": 28
+      },
+      {
+        "text": "Duplo",
+        "x": 801,
+        "y": 244,
+        "w": 142,
+        "h": 28
+      },
+      {
+        "text": "Em (múltiplo de linhas)",
+        "x": 43,
+        "y": 320,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Em (múltiplo de linhas)",
+        "x": 43,
+        "y": 326,
+        "w": 139,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR9",
+        "x": 49,
+        "y": 355,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Múltiplo usa número de linhas: 1,5 = uma linha e meia. Exatamente e Pelo menos usam pontos (pt).",
+        "x": 43,
+        "y": 389,
+        "w": 437,
+        "h": 32
+      },
+      {
+        "text": "Múltiplo usa número de linhas: 1,5 = uma linha e meia. Exatamente e Pelo menos usam pontos (pt).",
+        "x": 43,
+        "y": 389,
+        "w": 327,
+        "h": 32
+      },
+      {
+        "text": "Espaçamento antes (pt)",
+        "x": 510,
+        "y": 320,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Espaçamento antes (pt)",
+        "x": 510,
+        "y": 326,
+        "w": 145,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR10",
+        "x": 516,
+        "y": 355,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Espaçamento depois (pt)",
+        "x": 43,
+        "y": 468,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Espaçamento depois (pt)",
+        "x": 43,
+        "y": 474,
+        "w": 153,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR11",
+        "x": 49,
+        "y": 503,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Recuo especial (cm)",
+        "x": 510,
+        "y": 468,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Recuo especial (cm)",
+        "x": 510,
+        "y": 474,
+        "w": 124,
+        "h": 16
+      },
+      {
+        "text": "Especial",
+        "x": 510,
+        "y": 501,
+        "w": 55,
+        "h": 20
+      },
+      {
+        "text": "Por (cm)",
+        "x": 763,
+        "y": 501,
+        "w": 57,
+        "h": 20
+      },
+      {
+        "text": "PY_VAR49",
+        "x": 510,
+        "y": 521,
+        "w": 245,
+        "h": 26
+      },
+      {
+        "text": "PY_VAR50",
+        "x": 763,
+        "y": 521,
+        "w": 184,
+        "h": 27
+      },
+      {
+        "text": "Escolha Nenhum, Primeira linha ou Deslocado e informe a medida em centímetros.",
+        "x": 510,
+        "y": 556,
+        "w": 437,
+        "h": 32
+      },
+      {
+        "text": "Escolha Nenhum, Primeira linha ou Deslocado e informe a medida em centímetros.",
+        "x": 510,
+        "y": 556,
+        "w": 289,
+        "h": 32
+      },
+      {
+        "text": "Recuo à esquerda (cm)",
+        "x": 43,
+        "y": 635,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Recuo à esquerda (cm)",
+        "x": 43,
+        "y": 641,
+        "w": 141,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR13",
+        "x": 49,
+        "y": 670,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Recuo à direita (cm)",
+        "x": 510,
+        "y": 635,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Recuo à direita (cm)",
+        "x": 510,
+        "y": 641,
+        "w": 123,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR14",
+        "x": 516,
+        "y": 670,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Anterior",
+        "x": 22,
+        "y": 712,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Anterior",
+        "x": 44,
+        "y": 720,
+        "w": 51,
+        "h": 18
+      },
+      {
+        "text": "Próximo",
+        "x": 125,
+        "y": 712,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Próximo",
+        "x": 146,
+        "y": 720,
+        "w": 52,
+        "h": 18
+      },
+      {
+        "text": "Salvar perfil",
+        "x": 843,
+        "y": 712,
+        "w": 135,
+        "h": 36
+      },
+      {
+        "text": "Salvar perfil",
+        "x": 873,
+        "y": 720,
+        "w": 75,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 20,
+        "y": 766,
+        "w": 960,
+        "h": 28
+      },
+      {
+        "text": "Escritório — documentos gerais: salvo.",
+        "x": 20,
+        "y": 772,
+        "w": 235,
+        "h": 16
+      }
+    ]
+  },
+  "08-pagina": {
+    "width": 1000,
+    "height": 806,
+    "pixels": [
+      2000,
+      1612
+    ],
+    "widgets": [
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "PY_VAR41",
+        "x": 748,
+        "y": 33,
+        "w": 193,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 32,
+        "y": 69,
+        "w": 67,
+        "h": 28
+      },
+      {
+        "text": "Perfil salvo",
+        "x": 32,
+        "y": 75,
+        "w": 67,
+        "h": 16
+      },
+      {
+        "text": "Nome do perfil",
+        "x": 22,
+        "y": 155,
+        "w": 90,
+        "h": 28
+      },
+      {
+        "text": "Nome do perfil",
+        "x": 22,
+        "y": 161,
+        "w": 90,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR42",
+        "x": 126,
+        "y": 157,
+        "w": 846,
+        "h": 23
+      },
+      {
+        "text": "Novo perfil",
+        "x": 22,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Novo perfil",
+        "x": 35,
+        "y": 199,
+        "w": 69,
+        "h": 18
+      },
+      {
+        "text": "Salvar",
+        "x": 125,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Salvar",
+        "x": 152,
+        "y": 199,
+        "w": 40,
+        "h": 18
+      },
+      {
+        "text": "Duplicar",
+        "x": 232,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Duplicar",
+        "x": 253,
+        "y": 199,
+        "w": 53,
+        "h": 18
+      },
+      {
+        "text": "Excluir",
+        "x": 343,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Excluir",
+        "x": 369,
+        "y": 199,
+        "w": 43,
+        "h": 18
+      },
+      {
+        "text": "Restaurar",
+        "x": 454,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Restaurar",
+        "x": 471,
+        "y": 199,
+        "w": 61,
+        "h": 18
+      },
+      {
+        "text": "Importar de Word",
+        "x": 22,
+        "y": 235,
+        "w": 145,
+        "h": 36
+      },
+      {
+        "text": "Importar de Word",
+        "x": 40,
+        "y": 243,
+        "w": 109,
+        "h": 18
+      },
+      {
+        "text": "1. Importe um Word ou crie um perfil.\n2. Confira as seções abaixo.  3. Salve para reutilizar.",
+        "x": 236,
+        "y": 237,
+        "w": 317,
+        "h": 32
+      },
+      {
+        "text": "1. Importe um Word ou crie um perfil.\n2. Confira as seções abaixo.  3. Salve para reutilizar.",
+        "x": 236,
+        "y": 237,
+        "w": 317,
+        "h": 32
+      },
+      {
+        "text": "CTkLabel",
+        "x": 22,
+        "y": 279,
+        "w": 654,
+        "h": 28
+      },
+      {
+        "text": "Revisar perfil antigo",
+        "x": 682,
+        "y": 275,
+        "w": 155,
+        "h": 36
+      },
+      {
+        "text": "Revisar perfil antigo",
+        "x": 698,
+        "y": 283,
+        "w": 123,
+        "h": 18
+      },
+      {
+        "text": "Tipos de texto…",
+        "x": 843,
+        "y": 275,
+        "w": 135,
+        "h": 36
+      },
+      {
+        "text": "Tipos de texto…",
+        "x": 860,
+        "y": 283,
+        "w": 100,
+        "h": 18
+      },
+      {
+        "text": "Fonte",
+        "x": 22,
+        "y": 319,
+        "w": 123,
+        "h": 32
+      },
+      {
+        "text": "Fonte",
+        "x": 65,
+        "y": 325,
+        "w": 37,
+        "h": 18
+      },
+      {
+        "text": "Parágrafo",
+        "x": 145,
+        "y": 319,
+        "w": 149,
+        "h": 32
+      },
+      {
+        "text": "Parágrafo",
+        "x": 188,
+        "y": 325,
+        "w": 62,
+        "h": 18
+      },
+      {
+        "text": "Página",
+        "x": 294,
+        "y": 319,
+        "w": 129,
+        "h": 32
+      },
+      {
+        "text": "Página",
+        "x": 337,
+        "y": 325,
+        "w": 43,
+        "h": 18
+      },
+      {
+        "text": "Cabeçalho e rodapé",
+        "x": 423,
+        "y": 319,
+        "w": 211,
+        "h": 32
+      },
+      {
+        "text": "Cabeçalho e rodapé",
+        "x": 466,
+        "y": 325,
+        "w": 124,
+        "h": 18
+      },
+      {
+        "text": "Imagens",
+        "x": 634,
+        "y": 319,
+        "w": 140,
+        "h": 32
+      },
+      {
+        "text": "Imagens",
+        "x": 677,
+        "y": 325,
+        "w": 54,
+        "h": 18
+      },
+      {
+        "text": "Opções avançadas",
+        "x": 774,
+        "y": 319,
+        "w": 204,
+        "h": 32
+      },
+      {
+        "text": "Opções avançadas",
+        "x": 817,
+        "y": 325,
+        "w": 117,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 22,
+        "y": 354,
+        "w": 956,
+        "h": 28
+      },
+      {
+        "text": "3 de 6 — Página. Você pode abrir qualquer seção ou salvar quando terminar.",
+        "x": 22,
+        "y": 360,
+        "w": 464,
+        "h": 16
+      },
+      {
+        "text": "Página",
+        "x": 36,
+        "y": 403,
+        "w": 918,
+        "h": 28
+      },
+      {
+        "text": "Página",
+        "x": 36,
+        "y": 406,
+        "w": 59,
+        "h": 21
+      },
+      {
+        "text": "Tamanho do papel",
+        "x": 43,
+        "y": 446,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Tamanho do papel",
+        "x": 43,
+        "y": 452,
+        "w": 113,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR18",
+        "x": 49,
+        "y": 484,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Orientação",
+        "x": 510,
+        "y": 446,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Orientação",
+        "x": 510,
+        "y": 452,
+        "w": 67,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR19",
+        "x": 516,
+        "y": 484,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Lado menor do papel personalizado (cm)",
+        "x": 43,
+        "y": 556,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Lado menor do papel personalizado (cm)",
+        "x": 43,
+        "y": 562,
+        "w": 249,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR20",
+        "x": 49,
+        "y": 591,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Usado apenas quando o papel Personalizado está selecionado.",
+        "x": 43,
+        "y": 625,
+        "w": 437,
+        "h": 32
+      },
+      {
+        "text": "Usado apenas quando o papel Personalizado está selecionado.",
+        "x": 43,
+        "y": 625,
+        "w": 302,
+        "h": 32
+      },
+      {
+        "text": "Lado maior do papel personalizado (cm)",
+        "x": 510,
+        "y": 556,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Lado maior do papel personalizado (cm)",
+        "x": 510,
+        "y": 562,
+        "w": 244,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR21",
+        "x": 516,
+        "y": 591,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Usado apenas quando o papel Personalizado está selecionado.",
+        "x": 510,
+        "y": 625,
+        "w": 437,
+        "h": 32
+      },
+      {
+        "text": "Usado apenas quando o papel Personalizado está selecionado.",
+        "x": 510,
+        "y": 625,
+        "w": 302,
+        "h": 32
+      },
+      {
+        "text": "Margem superior (cm)",
+        "x": 43,
+        "y": 704,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Margem superior (cm)",
+        "x": 43,
+        "y": 710,
+        "w": 135,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR22",
+        "x": 49,
+        "y": 739,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Margem inferior (cm)",
+        "x": 510,
+        "y": 704,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Margem inferior (cm)",
+        "x": 510,
+        "y": 710,
+        "w": 129,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR23",
+        "x": 516,
+        "y": 739,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Margem esquerda (cm)",
+        "x": 43,
+        "y": 814,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Margem esquerda (cm)",
+        "x": 43,
+        "y": 820,
+        "w": 142,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR24",
+        "x": 49,
+        "y": 849,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Margem direita (cm)",
+        "x": 510,
+        "y": 814,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Margem direita (cm)",
+        "x": 510,
+        "y": 820,
+        "w": 124,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR25",
+        "x": 516,
+        "y": 849,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Anterior",
+        "x": 22,
+        "y": 712,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Anterior",
+        "x": 44,
+        "y": 720,
+        "w": 51,
+        "h": 18
+      },
+      {
+        "text": "Próximo",
+        "x": 125,
+        "y": 712,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Próximo",
+        "x": 146,
+        "y": 720,
+        "w": 52,
+        "h": 18
+      },
+      {
+        "text": "Salvar perfil",
+        "x": 843,
+        "y": 712,
+        "w": 135,
+        "h": 36
+      },
+      {
+        "text": "Salvar perfil",
+        "x": 873,
+        "y": 720,
+        "w": 75,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 20,
+        "y": 766,
+        "w": 960,
+        "h": 28
+      },
+      {
+        "text": "Escritório — documentos gerais: salvo.",
+        "x": 20,
+        "y": 772,
+        "w": 235,
+        "h": 16
+      }
+    ]
+  },
+  "08-pagina-detalhe": {
+    "width": 1000,
+    "height": 806,
+    "pixels": [
+      2000,
+      1612
+    ],
+    "widgets": [
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "PY_VAR41",
+        "x": 748,
+        "y": 33,
+        "w": 193,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 32,
+        "y": 69,
+        "w": 67,
+        "h": 28
+      },
+      {
+        "text": "Perfil salvo",
+        "x": 32,
+        "y": 75,
+        "w": 67,
+        "h": 16
+      },
+      {
+        "text": "Nome do perfil",
+        "x": 22,
+        "y": 155,
+        "w": 90,
+        "h": 28
+      },
+      {
+        "text": "Nome do perfil",
+        "x": 22,
+        "y": 161,
+        "w": 90,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR42",
+        "x": 126,
+        "y": 157,
+        "w": 846,
+        "h": 23
+      },
+      {
+        "text": "Novo perfil",
+        "x": 22,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Novo perfil",
+        "x": 35,
+        "y": 199,
+        "w": 69,
+        "h": 18
+      },
+      {
+        "text": "Salvar",
+        "x": 125,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Salvar",
+        "x": 152,
+        "y": 199,
+        "w": 40,
+        "h": 18
+      },
+      {
+        "text": "Duplicar",
+        "x": 232,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Duplicar",
+        "x": 253,
+        "y": 199,
+        "w": 53,
+        "h": 18
+      },
+      {
+        "text": "Excluir",
+        "x": 343,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Excluir",
+        "x": 369,
+        "y": 199,
+        "w": 43,
+        "h": 18
+      },
+      {
+        "text": "Restaurar",
+        "x": 454,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Restaurar",
+        "x": 471,
+        "y": 199,
+        "w": 61,
+        "h": 18
+      },
+      {
+        "text": "Importar de Word",
+        "x": 22,
+        "y": 235,
+        "w": 145,
+        "h": 36
+      },
+      {
+        "text": "Importar de Word",
+        "x": 40,
+        "y": 243,
+        "w": 109,
+        "h": 18
+      },
+      {
+        "text": "1. Importe um Word ou crie um perfil.\n2. Confira as seções abaixo.  3. Salve para reutilizar.",
+        "x": 236,
+        "y": 237,
+        "w": 317,
+        "h": 32
+      },
+      {
+        "text": "1. Importe um Word ou crie um perfil.\n2. Confira as seções abaixo.  3. Salve para reutilizar.",
+        "x": 236,
+        "y": 237,
+        "w": 317,
+        "h": 32
+      },
+      {
+        "text": "CTkLabel",
+        "x": 22,
+        "y": 279,
+        "w": 654,
+        "h": 28
+      },
+      {
+        "text": "Revisar perfil antigo",
+        "x": 682,
+        "y": 275,
+        "w": 155,
+        "h": 36
+      },
+      {
+        "text": "Revisar perfil antigo",
+        "x": 698,
+        "y": 283,
+        "w": 123,
+        "h": 18
+      },
+      {
+        "text": "Tipos de texto…",
+        "x": 843,
+        "y": 275,
+        "w": 135,
+        "h": 36
+      },
+      {
+        "text": "Tipos de texto…",
+        "x": 860,
+        "y": 283,
+        "w": 100,
+        "h": 18
+      },
+      {
+        "text": "Fonte",
+        "x": 22,
+        "y": 319,
+        "w": 123,
+        "h": 32
+      },
+      {
+        "text": "Fonte",
+        "x": 65,
+        "y": 325,
+        "w": 37,
+        "h": 18
+      },
+      {
+        "text": "Parágrafo",
+        "x": 145,
+        "y": 319,
+        "w": 149,
+        "h": 32
+      },
+      {
+        "text": "Parágrafo",
+        "x": 188,
+        "y": 325,
+        "w": 62,
+        "h": 18
+      },
+      {
+        "text": "Página",
+        "x": 294,
+        "y": 319,
+        "w": 129,
+        "h": 32
+      },
+      {
+        "text": "Página",
+        "x": 337,
+        "y": 325,
+        "w": 43,
+        "h": 18
+      },
+      {
+        "text": "Cabeçalho e rodapé",
+        "x": 423,
+        "y": 319,
+        "w": 211,
+        "h": 32
+      },
+      {
+        "text": "Cabeçalho e rodapé",
+        "x": 466,
+        "y": 325,
+        "w": 124,
+        "h": 18
+      },
+      {
+        "text": "Imagens",
+        "x": 634,
+        "y": 319,
+        "w": 140,
+        "h": 32
+      },
+      {
+        "text": "Imagens",
+        "x": 677,
+        "y": 325,
+        "w": 54,
+        "h": 18
+      },
+      {
+        "text": "Opções avançadas",
+        "x": 774,
+        "y": 319,
+        "w": 204,
+        "h": 32
+      },
+      {
+        "text": "Opções avançadas",
+        "x": 817,
+        "y": 325,
+        "w": 117,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 22,
+        "y": 354,
+        "w": 956,
+        "h": 28
+      },
+      {
+        "text": "3 de 6 — Página. Você pode abrir qualquer seção ou salvar quando terminar.",
+        "x": 22,
+        "y": 360,
+        "w": 464,
+        "h": 16
+      },
+      {
+        "text": "Página",
+        "x": 36,
+        "y": 227,
+        "w": 918,
+        "h": 28
+      },
+      {
+        "text": "Página",
+        "x": 36,
+        "y": 230,
+        "w": 59,
+        "h": 21
+      },
+      {
+        "text": "Tamanho do papel",
+        "x": 43,
+        "y": 270,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Tamanho do papel",
+        "x": 43,
+        "y": 276,
+        "w": 113,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR18",
+        "x": 49,
+        "y": 308,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Orientação",
+        "x": 510,
+        "y": 270,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Orientação",
+        "x": 510,
+        "y": 276,
+        "w": 67,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR19",
+        "x": 516,
+        "y": 308,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Lado menor do papel personalizado (cm)",
+        "x": 43,
+        "y": 380,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Lado menor do papel personalizado (cm)",
+        "x": 43,
+        "y": 386,
+        "w": 249,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR20",
+        "x": 49,
+        "y": 415,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Usado apenas quando o papel Personalizado está selecionado.",
+        "x": 43,
+        "y": 449,
+        "w": 437,
+        "h": 32
+      },
+      {
+        "text": "Usado apenas quando o papel Personalizado está selecionado.",
+        "x": 43,
+        "y": 449,
+        "w": 302,
+        "h": 32
+      },
+      {
+        "text": "Lado maior do papel personalizado (cm)",
+        "x": 510,
+        "y": 380,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Lado maior do papel personalizado (cm)",
+        "x": 510,
+        "y": 386,
+        "w": 244,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR21",
+        "x": 516,
+        "y": 415,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Usado apenas quando o papel Personalizado está selecionado.",
+        "x": 510,
+        "y": 449,
+        "w": 437,
+        "h": 32
+      },
+      {
+        "text": "Usado apenas quando o papel Personalizado está selecionado.",
+        "x": 510,
+        "y": 449,
+        "w": 302,
+        "h": 32
+      },
+      {
+        "text": "Margem superior (cm)",
+        "x": 43,
+        "y": 528,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Margem superior (cm)",
+        "x": 43,
+        "y": 534,
+        "w": 135,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR22",
+        "x": 49,
+        "y": 563,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Margem inferior (cm)",
+        "x": 510,
+        "y": 528,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Margem inferior (cm)",
+        "x": 510,
+        "y": 534,
+        "w": 129,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR23",
+        "x": 516,
+        "y": 563,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Margem esquerda (cm)",
+        "x": 43,
+        "y": 638,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Margem esquerda (cm)",
+        "x": 43,
+        "y": 644,
+        "w": 142,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR24",
+        "x": 49,
+        "y": 673,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Margem direita (cm)",
+        "x": 510,
+        "y": 638,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Margem direita (cm)",
+        "x": 510,
+        "y": 644,
+        "w": 124,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR25",
+        "x": 516,
+        "y": 673,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Anterior",
+        "x": 22,
+        "y": 712,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Anterior",
+        "x": 44,
+        "y": 720,
+        "w": 51,
+        "h": 18
+      },
+      {
+        "text": "Próximo",
+        "x": 125,
+        "y": 712,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Próximo",
+        "x": 146,
+        "y": 720,
+        "w": 52,
+        "h": 18
+      },
+      {
+        "text": "Salvar perfil",
+        "x": 843,
+        "y": 712,
+        "w": 135,
+        "h": 36
+      },
+      {
+        "text": "Salvar perfil",
+        "x": 873,
+        "y": 720,
+        "w": 75,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 20,
+        "y": 766,
+        "w": 960,
+        "h": 28
+      },
+      {
+        "text": "Escritório — documentos gerais: salvo.",
+        "x": 20,
+        "y": 772,
+        "w": 235,
+        "h": 16
+      }
+    ]
+  },
+  "09-cabecalho": {
+    "width": 1000,
+    "height": 806,
+    "pixels": [
+      2000,
+      1612
+    ],
+    "widgets": [
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "PY_VAR41",
+        "x": 748,
+        "y": 33,
+        "w": 193,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 32,
+        "y": 69,
+        "w": 67,
+        "h": 28
+      },
+      {
+        "text": "Perfil salvo",
+        "x": 32,
+        "y": 75,
+        "w": 67,
+        "h": 16
+      },
+      {
+        "text": "Nome do perfil",
+        "x": 22,
+        "y": 155,
+        "w": 90,
+        "h": 28
+      },
+      {
+        "text": "Nome do perfil",
+        "x": 22,
+        "y": 161,
+        "w": 90,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR42",
+        "x": 126,
+        "y": 157,
+        "w": 846,
+        "h": 23
+      },
+      {
+        "text": "Novo perfil",
+        "x": 22,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Novo perfil",
+        "x": 35,
+        "y": 199,
+        "w": 69,
+        "h": 18
+      },
+      {
+        "text": "Salvar",
+        "x": 125,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Salvar",
+        "x": 152,
+        "y": 199,
+        "w": 40,
+        "h": 18
+      },
+      {
+        "text": "Duplicar",
+        "x": 232,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Duplicar",
+        "x": 253,
+        "y": 199,
+        "w": 53,
+        "h": 18
+      },
+      {
+        "text": "Excluir",
+        "x": 343,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Excluir",
+        "x": 369,
+        "y": 199,
+        "w": 43,
+        "h": 18
+      },
+      {
+        "text": "Restaurar",
+        "x": 454,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Restaurar",
+        "x": 471,
+        "y": 199,
+        "w": 61,
+        "h": 18
+      },
+      {
+        "text": "Importar de Word",
+        "x": 22,
+        "y": 235,
+        "w": 145,
+        "h": 36
+      },
+      {
+        "text": "Importar de Word",
+        "x": 40,
+        "y": 243,
+        "w": 109,
+        "h": 18
+      },
+      {
+        "text": "1. Importe um Word ou crie um perfil.\n2. Confira as seções abaixo.  3. Salve para reutilizar.",
+        "x": 236,
+        "y": 237,
+        "w": 317,
+        "h": 32
+      },
+      {
+        "text": "1. Importe um Word ou crie um perfil.\n2. Confira as seções abaixo.  3. Salve para reutilizar.",
+        "x": 236,
+        "y": 237,
+        "w": 317,
+        "h": 32
+      },
+      {
+        "text": "CTkLabel",
+        "x": 22,
+        "y": 279,
+        "w": 654,
+        "h": 28
+      },
+      {
+        "text": "Revisar perfil antigo",
+        "x": 682,
+        "y": 275,
+        "w": 155,
+        "h": 36
+      },
+      {
+        "text": "Revisar perfil antigo",
+        "x": 698,
+        "y": 283,
+        "w": 123,
+        "h": 18
+      },
+      {
+        "text": "Tipos de texto…",
+        "x": 843,
+        "y": 275,
+        "w": 135,
+        "h": 36
+      },
+      {
+        "text": "Tipos de texto…",
+        "x": 860,
+        "y": 283,
+        "w": 100,
+        "h": 18
+      },
+      {
+        "text": "Fonte",
+        "x": 22,
+        "y": 319,
+        "w": 123,
+        "h": 32
+      },
+      {
+        "text": "Fonte",
+        "x": 65,
+        "y": 325,
+        "w": 37,
+        "h": 18
+      },
+      {
+        "text": "Parágrafo",
+        "x": 145,
+        "y": 319,
+        "w": 149,
+        "h": 32
+      },
+      {
+        "text": "Parágrafo",
+        "x": 188,
+        "y": 325,
+        "w": 62,
+        "h": 18
+      },
+      {
+        "text": "Página",
+        "x": 294,
+        "y": 319,
+        "w": 129,
+        "h": 32
+      },
+      {
+        "text": "Página",
+        "x": 337,
+        "y": 325,
+        "w": 43,
+        "h": 18
+      },
+      {
+        "text": "Cabeçalho e rodapé",
+        "x": 423,
+        "y": 319,
+        "w": 211,
+        "h": 32
+      },
+      {
+        "text": "Cabeçalho e rodapé",
+        "x": 466,
+        "y": 325,
+        "w": 124,
+        "h": 18
+      },
+      {
+        "text": "Imagens",
+        "x": 634,
+        "y": 319,
+        "w": 140,
+        "h": 32
+      },
+      {
+        "text": "Imagens",
+        "x": 677,
+        "y": 325,
+        "w": 54,
+        "h": 18
+      },
+      {
+        "text": "Opções avançadas",
+        "x": 774,
+        "y": 319,
+        "w": 204,
+        "h": 32
+      },
+      {
+        "text": "Opções avançadas",
+        "x": 817,
+        "y": 325,
+        "w": 117,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 22,
+        "y": 354,
+        "w": 956,
+        "h": 28
+      },
+      {
+        "text": "4 de 6 — Cabeçalho e rodapé. Você pode abrir qualquer seção ou salvar quando terminar.",
+        "x": 22,
+        "y": 360,
+        "w": 545,
+        "h": 16
+      },
+      {
+        "text": "Cabeçalho",
+        "x": 36,
+        "y": 403,
+        "w": 918,
+        "h": 28
+      },
+      {
+        "text": "Cabeçalho",
+        "x": 36,
+        "y": 406,
+        "w": 92,
+        "h": 21
+      },
+      {
+        "text": "Cabeçalho",
+        "x": 43,
+        "y": 446,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Cabeçalho",
+        "x": 43,
+        "y": 452,
+        "w": 65,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR26",
+        "x": 49,
+        "y": 484,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Imagem do cabeçalho",
+        "x": 510,
+        "y": 446,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Imagem do cabeçalho",
+        "x": 510,
+        "y": 452,
+        "w": 134,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR27",
+        "x": 516,
+        "y": 481,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Escolher imagem PNG/JPEG",
+        "x": 510,
+        "y": 516,
+        "w": 437,
+        "h": 36
+      },
+      {
+        "text": "Escolher imagem PNG/JPEG",
+        "x": 642,
+        "y": 524,
+        "w": 173,
+        "h": 18
+      },
+      {
+        "text": "Largura da imagem (cm)",
+        "x": 43,
+        "y": 600,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Largura da imagem (cm)",
+        "x": 43,
+        "y": 606,
+        "w": 149,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR28",
+        "x": 49,
+        "y": 635,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Só no modo Imagem do perfil. Altura proporcional + distância + 0,1 cm devem caber na margem.",
+        "x": 43,
+        "y": 669,
+        "w": 437,
+        "h": 32
+      },
+      {
+        "text": "Só no modo Imagem do perfil. Altura proporcional + distância + 0,1 cm devem caber na margem.",
+        "x": 43,
+        "y": 669,
+        "w": 314,
+        "h": 32
+      },
+      {
+        "text": "Alinhamento da imagem",
+        "x": 510,
+        "y": 600,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Alinhamento da imagem",
+        "x": 510,
+        "y": 606,
+        "w": 146,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR29",
+        "x": 516,
+        "y": 638,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Distância da borda superior (cm)",
+        "x": 43,
+        "y": 748,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Distância da borda superior (cm)",
+        "x": 43,
+        "y": 754,
+        "w": 199,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR30",
+        "x": 49,
+        "y": 783,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Rodapé",
+        "x": 36,
+        "y": 853,
+        "w": 918,
+        "h": 28
+      },
+      {
+        "text": "Rodapé",
+        "x": 36,
+        "y": 856,
+        "w": 66,
+        "h": 21
+      },
+      {
+        "text": "Rodapé",
+        "x": 43,
+        "y": 896,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Rodapé",
+        "x": 43,
+        "y": 902,
+        "w": 47,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR31",
+        "x": 49,
+        "y": 934,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Imagem do rodapé",
+        "x": 510,
+        "y": 896,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Imagem do rodapé",
+        "x": 510,
+        "y": 902,
+        "w": 114,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR32",
+        "x": 516,
+        "y": 931,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Escolher imagem PNG/JPEG",
+        "x": 510,
+        "y": 966,
+        "w": 437,
+        "h": 36
+      },
+      {
+        "text": "Escolher imagem PNG/JPEG",
+        "x": 642,
+        "y": 974,
+        "w": 173,
+        "h": 18
+      },
+      {
+        "text": "Largura da imagem (cm)",
+        "x": 43,
+        "y": 1050,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Largura da imagem (cm)",
+        "x": 43,
+        "y": 1056,
+        "w": 149,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR33",
+        "x": 49,
+        "y": 1085,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Só no modo Imagem do perfil. Altura proporcional + distância + 0,1 cm devem caber na margem.",
+        "x": 43,
+        "y": 1119,
+        "w": 437,
+        "h": 32
+      },
+      {
+        "text": "Só no modo Imagem do perfil. Altura proporcional + distância + 0,1 cm devem caber na margem.",
+        "x": 43,
+        "y": 1119,
+        "w": 314,
+        "h": 32
+      },
+      {
+        "text": "Alinhamento da imagem",
+        "x": 510,
+        "y": 1050,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Alinhamento da imagem",
+        "x": 510,
+        "y": 1056,
+        "w": 146,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR34",
+        "x": 516,
+        "y": 1088,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Distância da borda inferior (cm)",
+        "x": 43,
+        "y": 1198,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Distância da borda inferior (cm)",
+        "x": 43,
+        "y": 1204,
+        "w": 192,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR35",
+        "x": 49,
+        "y": 1233,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Anterior",
+        "x": 22,
+        "y": 712,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Anterior",
+        "x": 44,
+        "y": 720,
+        "w": 51,
+        "h": 18
+      },
+      {
+        "text": "Próximo",
+        "x": 125,
+        "y": 712,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Próximo",
+        "x": 146,
+        "y": 720,
+        "w": 52,
+        "h": 18
+      },
+      {
+        "text": "Salvar perfil",
+        "x": 843,
+        "y": 712,
+        "w": 135,
+        "h": 36
+      },
+      {
+        "text": "Salvar perfil",
+        "x": 873,
+        "y": 720,
+        "w": 75,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 20,
+        "y": 766,
+        "w": 960,
+        "h": 28
+      },
+      {
+        "text": "Escritório — documentos gerais: salvo.",
+        "x": 20,
+        "y": 772,
+        "w": 235,
+        "h": 16
+      }
+    ]
+  },
+  "09-cabecalho-detalhe": {
+    "width": 1000,
+    "height": 806,
+    "pixels": [
+      2000,
+      1612
+    ],
+    "widgets": [
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "PY_VAR41",
+        "x": 748,
+        "y": 33,
+        "w": 193,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 32,
+        "y": 69,
+        "w": 67,
+        "h": 28
+      },
+      {
+        "text": "Perfil salvo",
+        "x": 32,
+        "y": 75,
+        "w": 67,
+        "h": 16
+      },
+      {
+        "text": "Nome do perfil",
+        "x": 22,
+        "y": 155,
+        "w": 90,
+        "h": 28
+      },
+      {
+        "text": "Nome do perfil",
+        "x": 22,
+        "y": 161,
+        "w": 90,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR42",
+        "x": 126,
+        "y": 157,
+        "w": 846,
+        "h": 23
+      },
+      {
+        "text": "Novo perfil",
+        "x": 22,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Novo perfil",
+        "x": 35,
+        "y": 199,
+        "w": 69,
+        "h": 18
+      },
+      {
+        "text": "Salvar",
+        "x": 125,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Salvar",
+        "x": 152,
+        "y": 199,
+        "w": 40,
+        "h": 18
+      },
+      {
+        "text": "Duplicar",
+        "x": 232,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Duplicar",
+        "x": 253,
+        "y": 199,
+        "w": 53,
+        "h": 18
+      },
+      {
+        "text": "Excluir",
+        "x": 343,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Excluir",
+        "x": 369,
+        "y": 199,
+        "w": 43,
+        "h": 18
+      },
+      {
+        "text": "Restaurar",
+        "x": 454,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Restaurar",
+        "x": 471,
+        "y": 199,
+        "w": 61,
+        "h": 18
+      },
+      {
+        "text": "Importar de Word",
+        "x": 22,
+        "y": 235,
+        "w": 145,
+        "h": 36
+      },
+      {
+        "text": "Importar de Word",
+        "x": 40,
+        "y": 243,
+        "w": 109,
+        "h": 18
+      },
+      {
+        "text": "1. Importe um Word ou crie um perfil.\n2. Confira as seções abaixo.  3. Salve para reutilizar.",
+        "x": 236,
+        "y": 237,
+        "w": 317,
+        "h": 32
+      },
+      {
+        "text": "1. Importe um Word ou crie um perfil.\n2. Confira as seções abaixo.  3. Salve para reutilizar.",
+        "x": 236,
+        "y": 237,
+        "w": 317,
+        "h": 32
+      },
+      {
+        "text": "CTkLabel",
+        "x": 22,
+        "y": 279,
+        "w": 654,
+        "h": 28
+      },
+      {
+        "text": "Revisar perfil antigo",
+        "x": 682,
+        "y": 275,
+        "w": 155,
+        "h": 36
+      },
+      {
+        "text": "Revisar perfil antigo",
+        "x": 698,
+        "y": 283,
+        "w": 123,
+        "h": 18
+      },
+      {
+        "text": "Tipos de texto…",
+        "x": 843,
+        "y": 275,
+        "w": 135,
+        "h": 36
+      },
+      {
+        "text": "Tipos de texto…",
+        "x": 860,
+        "y": 283,
+        "w": 100,
+        "h": 18
+      },
+      {
+        "text": "Fonte",
+        "x": 22,
+        "y": 319,
+        "w": 123,
+        "h": 32
+      },
+      {
+        "text": "Fonte",
+        "x": 65,
+        "y": 325,
+        "w": 37,
+        "h": 18
+      },
+      {
+        "text": "Parágrafo",
+        "x": 145,
+        "y": 319,
+        "w": 149,
+        "h": 32
+      },
+      {
+        "text": "Parágrafo",
+        "x": 188,
+        "y": 325,
+        "w": 62,
+        "h": 18
+      },
+      {
+        "text": "Página",
+        "x": 294,
+        "y": 319,
+        "w": 129,
+        "h": 32
+      },
+      {
+        "text": "Página",
+        "x": 337,
+        "y": 325,
+        "w": 43,
+        "h": 18
+      },
+      {
+        "text": "Cabeçalho e rodapé",
+        "x": 423,
+        "y": 319,
+        "w": 211,
+        "h": 32
+      },
+      {
+        "text": "Cabeçalho e rodapé",
+        "x": 466,
+        "y": 325,
+        "w": 124,
+        "h": 18
+      },
+      {
+        "text": "Imagens",
+        "x": 634,
+        "y": 319,
+        "w": 140,
+        "h": 32
+      },
+      {
+        "text": "Imagens",
+        "x": 677,
+        "y": 325,
+        "w": 54,
+        "h": 18
+      },
+      {
+        "text": "Opções avançadas",
+        "x": 774,
+        "y": 319,
+        "w": 204,
+        "h": 32
+      },
+      {
+        "text": "Opções avançadas",
+        "x": 817,
+        "y": 325,
+        "w": 117,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 22,
+        "y": 354,
+        "w": 956,
+        "h": 28
+      },
+      {
+        "text": "4 de 6 — Cabeçalho e rodapé. Você pode abrir qualquer seção ou salvar quando terminar.",
+        "x": 22,
+        "y": 360,
+        "w": 545,
+        "h": 16
+      },
+      {
+        "text": "Cabeçalho",
+        "x": 36,
+        "y": -157,
+        "w": 918,
+        "h": 28
+      },
+      {
+        "text": "Cabeçalho",
+        "x": 36,
+        "y": -154,
+        "w": 92,
+        "h": 21
+      },
+      {
+        "text": "Cabeçalho",
+        "x": 43,
+        "y": -114,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Cabeçalho",
+        "x": 43,
+        "y": -108,
+        "w": 65,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR26",
+        "x": 49,
+        "y": -76,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Imagem do cabeçalho",
+        "x": 510,
+        "y": -114,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Imagem do cabeçalho",
+        "x": 510,
+        "y": -108,
+        "w": 134,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR27",
+        "x": 516,
+        "y": -79,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Escolher imagem PNG/JPEG",
+        "x": 510,
+        "y": -44,
+        "w": 437,
+        "h": 36
+      },
+      {
+        "text": "Escolher imagem PNG/JPEG",
+        "x": 642,
+        "y": -36,
+        "w": 173,
+        "h": 18
+      },
+      {
+        "text": "Largura da imagem (cm)",
+        "x": 43,
+        "y": 40,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Largura da imagem (cm)",
+        "x": 43,
+        "y": 46,
+        "w": 149,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR28",
+        "x": 49,
+        "y": 75,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Só no modo Imagem do perfil. Altura proporcional + distância + 0,1 cm devem caber na margem.",
+        "x": 43,
+        "y": 109,
+        "w": 437,
+        "h": 32
+      },
+      {
+        "text": "Só no modo Imagem do perfil. Altura proporcional + distância + 0,1 cm devem caber na margem.",
+        "x": 43,
+        "y": 109,
+        "w": 314,
+        "h": 32
+      },
+      {
+        "text": "Alinhamento da imagem",
+        "x": 510,
+        "y": 40,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Alinhamento da imagem",
+        "x": 510,
+        "y": 46,
+        "w": 146,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR29",
+        "x": 516,
+        "y": 78,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Distância da borda superior (cm)",
+        "x": 43,
+        "y": 188,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Distância da borda superior (cm)",
+        "x": 43,
+        "y": 194,
+        "w": 199,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR30",
+        "x": 49,
+        "y": 223,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Rodapé",
+        "x": 36,
+        "y": 293,
+        "w": 918,
+        "h": 28
+      },
+      {
+        "text": "Rodapé",
+        "x": 36,
+        "y": 296,
+        "w": 66,
+        "h": 21
+      },
+      {
+        "text": "Rodapé",
+        "x": 43,
+        "y": 336,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Rodapé",
+        "x": 43,
+        "y": 342,
+        "w": 47,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR31",
+        "x": 49,
+        "y": 374,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Imagem do rodapé",
+        "x": 510,
+        "y": 336,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Imagem do rodapé",
+        "x": 510,
+        "y": 342,
+        "w": 114,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR32",
+        "x": 516,
+        "y": 371,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Escolher imagem PNG/JPEG",
+        "x": 510,
+        "y": 406,
+        "w": 437,
+        "h": 36
+      },
+      {
+        "text": "Escolher imagem PNG/JPEG",
+        "x": 642,
+        "y": 414,
+        "w": 173,
+        "h": 18
+      },
+      {
+        "text": "Largura da imagem (cm)",
+        "x": 43,
+        "y": 490,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Largura da imagem (cm)",
+        "x": 43,
+        "y": 496,
+        "w": 149,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR33",
+        "x": 49,
+        "y": 525,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Só no modo Imagem do perfil. Altura proporcional + distância + 0,1 cm devem caber na margem.",
+        "x": 43,
+        "y": 559,
+        "w": 437,
+        "h": 32
+      },
+      {
+        "text": "Só no modo Imagem do perfil. Altura proporcional + distância + 0,1 cm devem caber na margem.",
+        "x": 43,
+        "y": 559,
+        "w": 314,
+        "h": 32
+      },
+      {
+        "text": "Alinhamento da imagem",
+        "x": 510,
+        "y": 490,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Alinhamento da imagem",
+        "x": 510,
+        "y": 496,
+        "w": 146,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR34",
+        "x": 516,
+        "y": 528,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Distância da borda inferior (cm)",
+        "x": 43,
+        "y": 638,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Distância da borda inferior (cm)",
+        "x": 43,
+        "y": 644,
+        "w": 192,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR35",
+        "x": 49,
+        "y": 673,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Anterior",
+        "x": 22,
+        "y": 712,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Anterior",
+        "x": 44,
+        "y": 720,
+        "w": 51,
+        "h": 18
+      },
+      {
+        "text": "Próximo",
+        "x": 125,
+        "y": 712,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Próximo",
+        "x": 146,
+        "y": 720,
+        "w": 52,
+        "h": 18
+      },
+      {
+        "text": "Salvar perfil",
+        "x": 843,
+        "y": 712,
+        "w": 135,
+        "h": 36
+      },
+      {
+        "text": "Salvar perfil",
+        "x": 873,
+        "y": 720,
+        "w": 75,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 20,
+        "y": 766,
+        "w": 960,
+        "h": 28
+      },
+      {
+        "text": "Escritório — documentos gerais: salvo.",
+        "x": 20,
+        "y": 772,
+        "w": 235,
+        "h": 16
+      }
+    ]
+  },
+  "10-imagens": {
+    "width": 1000,
+    "height": 806,
+    "pixels": [
+      2000,
+      1612
+    ],
+    "widgets": [
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "PY_VAR41",
+        "x": 748,
+        "y": 33,
+        "w": 193,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 32,
+        "y": 69,
+        "w": 67,
+        "h": 28
+      },
+      {
+        "text": "Perfil salvo",
+        "x": 32,
+        "y": 75,
+        "w": 67,
+        "h": 16
+      },
+      {
+        "text": "Nome do perfil",
+        "x": 22,
+        "y": 155,
+        "w": 90,
+        "h": 28
+      },
+      {
+        "text": "Nome do perfil",
+        "x": 22,
+        "y": 161,
+        "w": 90,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR42",
+        "x": 126,
+        "y": 157,
+        "w": 846,
+        "h": 23
+      },
+      {
+        "text": "Novo perfil",
+        "x": 22,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Novo perfil",
+        "x": 35,
+        "y": 199,
+        "w": 69,
+        "h": 18
+      },
+      {
+        "text": "Salvar",
+        "x": 125,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Salvar",
+        "x": 152,
+        "y": 199,
+        "w": 40,
+        "h": 18
+      },
+      {
+        "text": "Duplicar",
+        "x": 232,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Duplicar",
+        "x": 253,
+        "y": 199,
+        "w": 53,
+        "h": 18
+      },
+      {
+        "text": "Excluir",
+        "x": 343,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Excluir",
+        "x": 369,
+        "y": 199,
+        "w": 43,
+        "h": 18
+      },
+      {
+        "text": "Restaurar",
+        "x": 454,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Restaurar",
+        "x": 471,
+        "y": 199,
+        "w": 61,
+        "h": 18
+      },
+      {
+        "text": "Importar de Word",
+        "x": 22,
+        "y": 235,
+        "w": 145,
+        "h": 36
+      },
+      {
+        "text": "Importar de Word",
+        "x": 40,
+        "y": 243,
+        "w": 109,
+        "h": 18
+      },
+      {
+        "text": "1. Importe um Word ou crie um perfil.\n2. Confira as seções abaixo.  3. Salve para reutilizar.",
+        "x": 236,
+        "y": 237,
+        "w": 317,
+        "h": 32
+      },
+      {
+        "text": "1. Importe um Word ou crie um perfil.\n2. Confira as seções abaixo.  3. Salve para reutilizar.",
+        "x": 236,
+        "y": 237,
+        "w": 317,
+        "h": 32
+      },
+      {
+        "text": "CTkLabel",
+        "x": 22,
+        "y": 279,
+        "w": 654,
+        "h": 28
+      },
+      {
+        "text": "Revisar perfil antigo",
+        "x": 682,
+        "y": 275,
+        "w": 155,
+        "h": 36
+      },
+      {
+        "text": "Revisar perfil antigo",
+        "x": 698,
+        "y": 283,
+        "w": 123,
+        "h": 18
+      },
+      {
+        "text": "Tipos de texto…",
+        "x": 843,
+        "y": 275,
+        "w": 135,
+        "h": 36
+      },
+      {
+        "text": "Tipos de texto…",
+        "x": 860,
+        "y": 283,
+        "w": 100,
+        "h": 18
+      },
+      {
+        "text": "Fonte",
+        "x": 22,
+        "y": 319,
+        "w": 123,
+        "h": 32
+      },
+      {
+        "text": "Fonte",
+        "x": 65,
+        "y": 325,
+        "w": 37,
+        "h": 18
+      },
+      {
+        "text": "Parágrafo",
+        "x": 145,
+        "y": 319,
+        "w": 149,
+        "h": 32
+      },
+      {
+        "text": "Parágrafo",
+        "x": 188,
+        "y": 325,
+        "w": 62,
+        "h": 18
+      },
+      {
+        "text": "Página",
+        "x": 294,
+        "y": 319,
+        "w": 129,
+        "h": 32
+      },
+      {
+        "text": "Página",
+        "x": 337,
+        "y": 325,
+        "w": 43,
+        "h": 18
+      },
+      {
+        "text": "Cabeçalho e rodapé",
+        "x": 423,
+        "y": 319,
+        "w": 211,
+        "h": 32
+      },
+      {
+        "text": "Cabeçalho e rodapé",
+        "x": 466,
+        "y": 325,
+        "w": 124,
+        "h": 18
+      },
+      {
+        "text": "Imagens",
+        "x": 634,
+        "y": 319,
+        "w": 140,
+        "h": 32
+      },
+      {
+        "text": "Imagens",
+        "x": 677,
+        "y": 325,
+        "w": 54,
+        "h": 18
+      },
+      {
+        "text": "Opções avançadas",
+        "x": 774,
+        "y": 319,
+        "w": 204,
+        "h": 32
+      },
+      {
+        "text": "Opções avançadas",
+        "x": 817,
+        "y": 325,
+        "w": 117,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 22,
+        "y": 354,
+        "w": 956,
+        "h": 28
+      },
+      {
+        "text": "5 de 6 — Imagens. Você pode abrir qualquer seção ou salvar quando terminar.",
+        "x": 22,
+        "y": 360,
+        "w": 474,
+        "h": 16
+      },
+      {
+        "text": "Imagens",
+        "x": 36,
+        "y": 403,
+        "w": 918,
+        "h": 28
+      },
+      {
+        "text": "Imagens",
+        "x": 36,
+        "y": 406,
+        "w": 74,
+        "h": 21
+      },
+      {
+        "text": "Largura das imagens do documento (cm)",
+        "x": 43,
+        "y": 446,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Largura das imagens do documento (cm)",
+        "x": 43,
+        "y": 452,
+        "w": 250,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR38",
+        "x": 49,
+        "y": 481,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Vazio preserva a largura original. A altura mantém a proporção.",
+        "x": 43,
+        "y": 515,
+        "w": 437,
+        "h": 32
+      },
+      {
+        "text": "Vazio preserva a largura original. A altura mantém a proporção.",
+        "x": 43,
+        "y": 515,
+        "w": 313,
+        "h": 32
+      },
+      {
+        "text": "Alinhamento das imagens do documento",
+        "x": 510,
+        "y": 446,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Alinhamento das imagens do documento",
+        "x": 510,
+        "y": 452,
+        "w": 247,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR39",
+        "x": 516,
+        "y": 484,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Anterior",
+        "x": 22,
+        "y": 712,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Anterior",
+        "x": 44,
+        "y": 720,
+        "w": 51,
+        "h": 18
+      },
+      {
+        "text": "Próximo",
+        "x": 125,
+        "y": 712,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Próximo",
+        "x": 146,
+        "y": 720,
+        "w": 52,
+        "h": 18
+      },
+      {
+        "text": "Salvar perfil",
+        "x": 843,
+        "y": 712,
+        "w": 135,
+        "h": 36
+      },
+      {
+        "text": "Salvar perfil",
+        "x": 873,
+        "y": 720,
+        "w": 75,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 20,
+        "y": 766,
+        "w": 960,
+        "h": 28
+      },
+      {
+        "text": "Escritório — documentos gerais: salvo.",
+        "x": 20,
+        "y": 772,
+        "w": 235,
+        "h": 16
+      }
+    ]
+  },
+  "11-avancadas": {
+    "width": 1000,
+    "height": 806,
+    "pixels": [
+      2000,
+      1612
+    ],
+    "widgets": [
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "PY_VAR41",
+        "x": 748,
+        "y": 33,
+        "w": 193,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 32,
+        "y": 69,
+        "w": 67,
+        "h": 28
+      },
+      {
+        "text": "Perfil salvo",
+        "x": 32,
+        "y": 75,
+        "w": 67,
+        "h": 16
+      },
+      {
+        "text": "Nome do perfil",
+        "x": 22,
+        "y": 155,
+        "w": 90,
+        "h": 28
+      },
+      {
+        "text": "Nome do perfil",
+        "x": 22,
+        "y": 161,
+        "w": 90,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR42",
+        "x": 126,
+        "y": 157,
+        "w": 846,
+        "h": 23
+      },
+      {
+        "text": "Novo perfil",
+        "x": 22,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Novo perfil",
+        "x": 35,
+        "y": 199,
+        "w": 69,
+        "h": 18
+      },
+      {
+        "text": "Salvar",
+        "x": 125,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Salvar",
+        "x": 152,
+        "y": 199,
+        "w": 40,
+        "h": 18
+      },
+      {
+        "text": "Duplicar",
+        "x": 232,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Duplicar",
+        "x": 253,
+        "y": 199,
+        "w": 53,
+        "h": 18
+      },
+      {
+        "text": "Excluir",
+        "x": 343,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Excluir",
+        "x": 369,
+        "y": 199,
+        "w": 43,
+        "h": 18
+      },
+      {
+        "text": "Restaurar",
+        "x": 454,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Restaurar",
+        "x": 471,
+        "y": 199,
+        "w": 61,
+        "h": 18
+      },
+      {
+        "text": "Importar de Word",
+        "x": 22,
+        "y": 235,
+        "w": 145,
+        "h": 36
+      },
+      {
+        "text": "Importar de Word",
+        "x": 40,
+        "y": 243,
+        "w": 109,
+        "h": 18
+      },
+      {
+        "text": "1. Importe um Word ou crie um perfil.\n2. Confira as seções abaixo.  3. Salve para reutilizar.",
+        "x": 236,
+        "y": 237,
+        "w": 317,
+        "h": 32
+      },
+      {
+        "text": "1. Importe um Word ou crie um perfil.\n2. Confira as seções abaixo.  3. Salve para reutilizar.",
+        "x": 236,
+        "y": 237,
+        "w": 317,
+        "h": 32
+      },
+      {
+        "text": "CTkLabel",
+        "x": 22,
+        "y": 279,
+        "w": 654,
+        "h": 28
+      },
+      {
+        "text": "Revisar perfil antigo",
+        "x": 682,
+        "y": 275,
+        "w": 155,
+        "h": 36
+      },
+      {
+        "text": "Revisar perfil antigo",
+        "x": 698,
+        "y": 283,
+        "w": 123,
+        "h": 18
+      },
+      {
+        "text": "Tipos de texto…",
+        "x": 843,
+        "y": 275,
+        "w": 135,
+        "h": 36
+      },
+      {
+        "text": "Tipos de texto…",
+        "x": 860,
+        "y": 283,
+        "w": 100,
+        "h": 18
+      },
+      {
+        "text": "Fonte",
+        "x": 22,
+        "y": 319,
+        "w": 123,
+        "h": 32
+      },
+      {
+        "text": "Fonte",
+        "x": 65,
+        "y": 325,
+        "w": 37,
+        "h": 18
+      },
+      {
+        "text": "Parágrafo",
+        "x": 145,
+        "y": 319,
+        "w": 149,
+        "h": 32
+      },
+      {
+        "text": "Parágrafo",
+        "x": 188,
+        "y": 325,
+        "w": 62,
+        "h": 18
+      },
+      {
+        "text": "Página",
+        "x": 294,
+        "y": 319,
+        "w": 129,
+        "h": 32
+      },
+      {
+        "text": "Página",
+        "x": 337,
+        "y": 325,
+        "w": 43,
+        "h": 18
+      },
+      {
+        "text": "Cabeçalho e rodapé",
+        "x": 423,
+        "y": 319,
+        "w": 211,
+        "h": 32
+      },
+      {
+        "text": "Cabeçalho e rodapé",
+        "x": 466,
+        "y": 325,
+        "w": 124,
+        "h": 18
+      },
+      {
+        "text": "Imagens",
+        "x": 634,
+        "y": 319,
+        "w": 140,
+        "h": 32
+      },
+      {
+        "text": "Imagens",
+        "x": 677,
+        "y": 325,
+        "w": 54,
+        "h": 18
+      },
+      {
+        "text": "Opções avançadas",
+        "x": 774,
+        "y": 319,
+        "w": 204,
+        "h": 32
+      },
+      {
+        "text": "Opções avançadas",
+        "x": 817,
+        "y": 325,
+        "w": 117,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 22,
+        "y": 354,
+        "w": 956,
+        "h": 28
+      },
+      {
+        "text": "6 de 6 — Opções avançadas. Você pode abrir qualquer seção ou salvar quando terminar.",
+        "x": 22,
+        "y": 360,
+        "w": 538,
+        "h": 16
+      },
+      {
+        "text": "Quebras de linha e de página",
+        "x": 36,
+        "y": 403,
+        "w": 918,
+        "h": 28
+      },
+      {
+        "text": "Quebras de linha e de página",
+        "x": 36,
+        "y": 406,
+        "w": 247,
+        "h": 21
+      },
+      {
+        "text": "Manter com o próximo",
+        "x": 43,
+        "y": 446,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Manter com o próximo",
+        "x": 43,
+        "y": 452,
+        "w": 137,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR15",
+        "x": 49,
+        "y": 484,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Manter linhas juntas",
+        "x": 510,
+        "y": 446,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Manter linhas juntas",
+        "x": 510,
+        "y": 452,
+        "w": 122,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR16",
+        "x": 516,
+        "y": 484,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Controle de viúvas/órfãs",
+        "x": 43,
+        "y": 556,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Controle de viúvas/órfãs",
+        "x": 43,
+        "y": 562,
+        "w": 148,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR17",
+        "x": 49,
+        "y": 594,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Saída",
+        "x": 36,
+        "y": 661,
+        "w": 918,
+        "h": 28
+      },
+      {
+        "text": "Saída",
+        "x": 36,
+        "y": 664,
+        "w": 48,
+        "h": 21
+      },
+      {
+        "text": "Sufixo do arquivo de saída",
+        "x": 43,
+        "y": 704,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Sufixo do arquivo de saída",
+        "x": 43,
+        "y": 710,
+        "w": 160,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR36",
+        "x": 49,
+        "y": 739,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Exemplo: _formatado. Originais nunca são sobrescritos.",
+        "x": 43,
+        "y": 773,
+        "w": 437,
+        "h": 32
+      },
+      {
+        "text": "Exemplo: _formatado. Originais nunca são sobrescritos.",
+        "x": 43,
+        "y": 773,
+        "w": 256,
+        "h": 32
+      },
+      {
+        "text": "Limite por arquivo (MB)",
+        "x": 510,
+        "y": 704,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Limite por arquivo (MB)",
+        "x": 510,
+        "y": 710,
+        "w": 143,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR37",
+        "x": 516,
+        "y": 739,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Conteúdo complexo",
+        "x": 43,
+        "y": 852,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Conteúdo complexo",
+        "x": 43,
+        "y": 858,
+        "w": 122,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR40",
+        "x": 49,
+        "y": 890,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Anterior",
+        "x": 22,
+        "y": 712,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Anterior",
+        "x": 44,
+        "y": 720,
+        "w": 51,
+        "h": 18
+      },
+      {
+        "text": "Próximo",
+        "x": 125,
+        "y": 712,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Próximo",
+        "x": 146,
+        "y": 720,
+        "w": 52,
+        "h": 18
+      },
+      {
+        "text": "Salvar perfil",
+        "x": 843,
+        "y": 712,
+        "w": 135,
+        "h": 36
+      },
+      {
+        "text": "Salvar perfil",
+        "x": 873,
+        "y": 720,
+        "w": 75,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 20,
+        "y": 766,
+        "w": 960,
+        "h": 28
+      },
+      {
+        "text": "Escritório — documentos gerais: salvo.",
+        "x": 20,
+        "y": 772,
+        "w": 235,
+        "h": 16
+      }
+    ]
+  },
+  "11-avancadas-detalhe": {
+    "width": 1000,
+    "height": 806,
+    "pixels": [
+      2000,
+      1612
+    ],
+    "widgets": [
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "PY_VAR41",
+        "x": 748,
+        "y": 33,
+        "w": 193,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 32,
+        "y": 69,
+        "w": 67,
+        "h": 28
+      },
+      {
+        "text": "Perfil salvo",
+        "x": 32,
+        "y": 75,
+        "w": 67,
+        "h": 16
+      },
+      {
+        "text": "Nome do perfil",
+        "x": 22,
+        "y": 155,
+        "w": 90,
+        "h": 28
+      },
+      {
+        "text": "Nome do perfil",
+        "x": 22,
+        "y": 161,
+        "w": 90,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR42",
+        "x": 126,
+        "y": 157,
+        "w": 846,
+        "h": 23
+      },
+      {
+        "text": "Novo perfil",
+        "x": 22,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Novo perfil",
+        "x": 35,
+        "y": 199,
+        "w": 69,
+        "h": 18
+      },
+      {
+        "text": "Salvar",
+        "x": 125,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Salvar",
+        "x": 152,
+        "y": 199,
+        "w": 40,
+        "h": 18
+      },
+      {
+        "text": "Duplicar",
+        "x": 232,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Duplicar",
+        "x": 253,
+        "y": 199,
+        "w": 53,
+        "h": 18
+      },
+      {
+        "text": "Excluir",
+        "x": 343,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Excluir",
+        "x": 369,
+        "y": 199,
+        "w": 43,
+        "h": 18
+      },
+      {
+        "text": "Restaurar",
+        "x": 454,
+        "y": 191,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Restaurar",
+        "x": 471,
+        "y": 199,
+        "w": 61,
+        "h": 18
+      },
+      {
+        "text": "Importar de Word",
+        "x": 22,
+        "y": 235,
+        "w": 145,
+        "h": 36
+      },
+      {
+        "text": "Importar de Word",
+        "x": 40,
+        "y": 243,
+        "w": 109,
+        "h": 18
+      },
+      {
+        "text": "1. Importe um Word ou crie um perfil.\n2. Confira as seções abaixo.  3. Salve para reutilizar.",
+        "x": 236,
+        "y": 237,
+        "w": 317,
+        "h": 32
+      },
+      {
+        "text": "1. Importe um Word ou crie um perfil.\n2. Confira as seções abaixo.  3. Salve para reutilizar.",
+        "x": 236,
+        "y": 237,
+        "w": 317,
+        "h": 32
+      },
+      {
+        "text": "CTkLabel",
+        "x": 22,
+        "y": 279,
+        "w": 654,
+        "h": 28
+      },
+      {
+        "text": "Revisar perfil antigo",
+        "x": 682,
+        "y": 275,
+        "w": 155,
+        "h": 36
+      },
+      {
+        "text": "Revisar perfil antigo",
+        "x": 698,
+        "y": 283,
+        "w": 123,
+        "h": 18
+      },
+      {
+        "text": "Tipos de texto…",
+        "x": 843,
+        "y": 275,
+        "w": 135,
+        "h": 36
+      },
+      {
+        "text": "Tipos de texto…",
+        "x": 860,
+        "y": 283,
+        "w": 100,
+        "h": 18
+      },
+      {
+        "text": "Fonte",
+        "x": 22,
+        "y": 319,
+        "w": 123,
+        "h": 32
+      },
+      {
+        "text": "Fonte",
+        "x": 65,
+        "y": 325,
+        "w": 37,
+        "h": 18
+      },
+      {
+        "text": "Parágrafo",
+        "x": 145,
+        "y": 319,
+        "w": 149,
+        "h": 32
+      },
+      {
+        "text": "Parágrafo",
+        "x": 188,
+        "y": 325,
+        "w": 62,
+        "h": 18
+      },
+      {
+        "text": "Página",
+        "x": 294,
+        "y": 319,
+        "w": 129,
+        "h": 32
+      },
+      {
+        "text": "Página",
+        "x": 337,
+        "y": 325,
+        "w": 43,
+        "h": 18
+      },
+      {
+        "text": "Cabeçalho e rodapé",
+        "x": 423,
+        "y": 319,
+        "w": 211,
+        "h": 32
+      },
+      {
+        "text": "Cabeçalho e rodapé",
+        "x": 466,
+        "y": 325,
+        "w": 124,
+        "h": 18
+      },
+      {
+        "text": "Imagens",
+        "x": 634,
+        "y": 319,
+        "w": 140,
+        "h": 32
+      },
+      {
+        "text": "Imagens",
+        "x": 677,
+        "y": 325,
+        "w": 54,
+        "h": 18
+      },
+      {
+        "text": "Opções avançadas",
+        "x": 774,
+        "y": 319,
+        "w": 204,
+        "h": 32
+      },
+      {
+        "text": "Opções avançadas",
+        "x": 817,
+        "y": 325,
+        "w": 117,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 22,
+        "y": 354,
+        "w": 956,
+        "h": 28
+      },
+      {
+        "text": "6 de 6 — Opções avançadas. Você pode abrir qualquer seção ou salvar quando terminar.",
+        "x": 22,
+        "y": 360,
+        "w": 538,
+        "h": 16
+      },
+      {
+        "text": "Quebras de linha e de página",
+        "x": 36,
+        "y": 147,
+        "w": 918,
+        "h": 28
+      },
+      {
+        "text": "Quebras de linha e de página",
+        "x": 36,
+        "y": 150,
+        "w": 247,
+        "h": 21
+      },
+      {
+        "text": "Manter com o próximo",
+        "x": 43,
+        "y": 190,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Manter com o próximo",
+        "x": 43,
+        "y": 196,
+        "w": 137,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR15",
+        "x": 49,
+        "y": 228,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Manter linhas juntas",
+        "x": 510,
+        "y": 190,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Manter linhas juntas",
+        "x": 510,
+        "y": 196,
+        "w": 122,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR16",
+        "x": 516,
+        "y": 228,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Controle de viúvas/órfãs",
+        "x": 43,
+        "y": 300,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Controle de viúvas/órfãs",
+        "x": 43,
+        "y": 306,
+        "w": 148,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR17",
+        "x": 49,
+        "y": 338,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Saída",
+        "x": 36,
+        "y": 405,
+        "w": 918,
+        "h": 28
+      },
+      {
+        "text": "Saída",
+        "x": 36,
+        "y": 408,
+        "w": 48,
+        "h": 21
+      },
+      {
+        "text": "Sufixo do arquivo de saída",
+        "x": 43,
+        "y": 448,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Sufixo do arquivo de saída",
+        "x": 43,
+        "y": 454,
+        "w": 160,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR36",
+        "x": 49,
+        "y": 483,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Exemplo: _formatado. Originais nunca são sobrescritos.",
+        "x": 43,
+        "y": 517,
+        "w": 437,
+        "h": 32
+      },
+      {
+        "text": "Exemplo: _formatado. Originais nunca são sobrescritos.",
+        "x": 43,
+        "y": 517,
+        "w": 256,
+        "h": 32
+      },
+      {
+        "text": "Limite por arquivo (MB)",
+        "x": 510,
+        "y": 448,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Limite por arquivo (MB)",
+        "x": 510,
+        "y": 454,
+        "w": 143,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR37",
+        "x": 516,
+        "y": 483,
+        "w": 425,
+        "h": 23
+      },
+      {
+        "text": "Conteúdo complexo",
+        "x": 43,
+        "y": 596,
+        "w": 437,
+        "h": 28
+      },
+      {
+        "text": "Conteúdo complexo",
+        "x": 43,
+        "y": 602,
+        "w": 122,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR40",
+        "x": 49,
+        "y": 634,
+        "w": 400,
+        "h": 18
+      },
+      {
+        "text": "Anterior",
+        "x": 22,
+        "y": 712,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Anterior",
+        "x": 44,
+        "y": 720,
+        "w": 51,
+        "h": 18
+      },
+      {
+        "text": "Próximo",
+        "x": 125,
+        "y": 712,
+        "w": 95,
+        "h": 36
+      },
+      {
+        "text": "Próximo",
+        "x": 146,
+        "y": 720,
+        "w": 52,
+        "h": 18
+      },
+      {
+        "text": "Salvar perfil",
+        "x": 843,
+        "y": 712,
+        "w": 135,
+        "h": 36
+      },
+      {
+        "text": "Salvar perfil",
+        "x": 873,
+        "y": 720,
+        "w": 75,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 20,
+        "y": 766,
+        "w": 960,
+        "h": 28
+      },
+      {
+        "text": "Escritório — documentos gerais: salvo.",
+        "x": 20,
+        "y": 772,
+        "w": 235,
+        "h": 16
+      }
+    ]
+  },
+  "12-tipos": {
+    "width": 660,
+    "height": 670,
+    "pixels": [
+      1320,
+      1340
+    ],
+    "widgets": [
+      {
+        "text": "Escolha o tipo de texto e como formatá-lo. Seguir corpo usa o perfil principal.\nPreservar original mantém o destino; Personalizar permite definir valores abaixo.",
+        "x": 16,
+        "y": 12,
+        "w": 628,
+        "h": 36
+      },
+      {
+        "text": "PY_VAR53",
+        "x": 16,
+        "y": 60,
+        "w": 628,
+        "h": 26
+      },
+      {
+        "text": "PY_VAR54",
+        "x": 16,
+        "y": 94,
+        "w": 628,
+        "h": 26
+      },
+      {
+        "text": "Fonte",
+        "x": 16,
+        "y": 138,
+        "w": 39,
+        "h": 20
+      },
+      {
+        "text": "PY_VAR56",
+        "x": 189,
+        "y": 135,
+        "w": 440,
+        "h": 27
+      },
+      {
+        "text": "Tamanho da fonte (pt)",
+        "x": 16,
+        "y": 179,
+        "w": 141,
+        "h": 20
+      },
+      {
+        "text": "PY_VAR57",
+        "x": 189,
+        "y": 176,
+        "w": 440,
+        "h": 27
+      },
+      {
+        "text": "Negrito",
+        "x": 16,
+        "y": 220,
+        "w": 50,
+        "h": 20
+      },
+      {
+        "text": "PY_VAR58",
+        "x": 189,
+        "y": 217,
+        "w": 440,
+        "h": 26
+      },
+      {
+        "text": "Itálico",
+        "x": 16,
+        "y": 260,
+        "w": 41,
+        "h": 20
+      },
+      {
+        "text": "PY_VAR59",
+        "x": 189,
+        "y": 257,
+        "w": 440,
+        "h": 26
+      },
+      {
+        "text": "Sublinhado",
+        "x": 16,
+        "y": 300,
+        "w": 72,
+        "h": 20
+      },
+      {
+        "text": "PY_VAR60",
+        "x": 189,
+        "y": 297,
+        "w": 440,
+        "h": 26
+      },
+      {
+        "text": "Cor da fonte",
+        "x": 16,
+        "y": 356,
+        "w": 80,
+        "h": 20
+      },
+      {
+        "text": "PY_VAR61",
+        "x": 189,
+        "y": 337,
+        "w": 440,
+        "h": 27
+      },
+      {
+        "text": "Escolher cor…",
+        "x": 189,
+        "y": 368,
+        "w": 126,
+        "h": 28
+      },
+      {
+        "text": "Manter original",
+        "x": 319,
+        "y": 368,
+        "w": 131,
+        "h": 28
+      },
+      {
+        "text": "Alinhamento",
+        "x": 16,
+        "y": 413,
+        "w": 80,
+        "h": 20
+      },
+      {
+        "text": "PY_VAR62",
+        "x": 189,
+        "y": 410,
+        "w": 440,
+        "h": 26
+      },
+      {
+        "text": "Espaçamento entre linhas",
+        "x": 16,
+        "y": 469,
+        "w": 161,
+        "h": 20
+      },
+      {
+        "text": "PY_VAR63",
+        "x": 189,
+        "y": 450,
+        "w": 440,
+        "h": 26
+      },
+      {
+        "text": "Simples",
+        "x": 189,
+        "y": 480,
+        "w": 142,
+        "h": 28
+      },
+      {
+        "text": "1,5 linhas",
+        "x": 335,
+        "y": 480,
+        "w": 143,
+        "h": 28
+      },
+      {
+        "text": "Duplo",
+        "x": 482,
+        "y": 480,
+        "w": 143,
+        "h": 28
+      },
+      {
+        "text": "Em (múltiplo de linhas)",
+        "x": 16,
+        "y": 525,
+        "w": 143,
+        "h": 20
+      },
+      {
+        "text": "PY_VAR64",
+        "x": 189,
+        "y": 522,
+        "w": 440,
+        "h": 27
+      },
+      {
+        "text": "Espaçamento antes (pt)",
+        "x": 16,
+        "y": 566,
+        "w": 149,
+        "h": 20
+      },
+      {
+        "text": "PY_VAR65",
+        "x": 189,
+        "y": 563,
+        "w": 440,
+        "h": 27
+      },
+      {
+        "text": "Espaçamento depois (pt)",
+        "x": 16,
+        "y": 607,
+        "w": 157,
+        "h": 20
+      },
+      {
+        "text": "PY_VAR66",
+        "x": 189,
+        "y": 604,
+        "w": 440,
+        "h": 27
+      },
+      {
+        "text": "Recuo especial (cm)",
+        "x": 16,
+        "y": 658,
+        "w": 128,
+        "h": 20
+      },
+      {
+        "text": "Especial",
+        "x": 189,
+        "y": 645,
+        "w": 55,
+        "h": 20
+      },
+      {
+        "text": "Por (cm)",
+        "x": 444,
+        "y": 645,
+        "w": 57,
+        "h": 20
+      },
+      {
+        "text": "PY_VAR68",
+        "x": 189,
+        "y": 665,
+        "w": 247,
+        "h": 26
+      },
+      {
+        "text": "PY_VAR69",
+        "x": 444,
+        "y": 665,
+        "w": 185,
+        "h": 27
+      },
+      {
+        "text": "Recuo à esquerda (cm)",
+        "x": 16,
+        "y": 709,
+        "w": 145,
+        "h": 20
+      },
+      {
+        "text": "PY_VAR70",
+        "x": 189,
+        "y": 706,
+        "w": 440,
+        "h": 27
+      },
+      {
+        "text": "Recuo à direita (cm)",
+        "x": 16,
+        "y": 750,
+        "w": 127,
+        "h": 20
+      },
+      {
+        "text": "PY_VAR71",
+        "x": 189,
+        "y": 747,
+        "w": 440,
+        "h": 27
+      },
+      {
+        "text": "Manter com o próximo",
+        "x": 16,
+        "y": 791,
+        "w": 141,
+        "h": 20
+      },
+      {
+        "text": "PY_VAR72",
+        "x": 189,
+        "y": 788,
+        "w": 440,
+        "h": 26
+      },
+      {
+        "text": "Manter linhas juntas",
+        "x": 16,
+        "y": 831,
+        "w": 126,
+        "h": 20
+      },
+      {
+        "text": "PY_VAR73",
+        "x": 189,
+        "y": 828,
+        "w": 440,
+        "h": 26
+      },
+      {
+        "text": "Controle de viúvas/órfãs",
+        "x": 16,
+        "y": 871,
+        "w": 152,
+        "h": 20
+      },
+      {
+        "text": "PY_VAR74",
+        "x": 189,
+        "y": 868,
+        "w": 440,
+        "h": 26
+      },
+      {
+        "text": "Cancelar",
+        "x": 371,
+        "y": 630,
+        "w": 94,
+        "h": 28
+      },
+      {
+        "text": "Confirmar formatação",
+        "x": 471,
+        "y": 630,
+        "w": 173,
+        "h": 28
+      }
+    ]
+  },
+  "13-arquivos": {
+    "width": 1000,
+    "height": 760,
+    "pixels": [
+      2000,
+      1520
+    ],
+    "widgets": [
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "PY_VAR41",
+        "x": 748,
+        "y": 33,
+        "w": 193,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 32,
+        "y": 69,
+        "w": 67,
+        "h": 28
+      },
+      {
+        "text": "Perfil salvo",
+        "x": 32,
+        "y": 75,
+        "w": 67,
+        "h": 16
+      },
+      {
+        "text": "Adicionar DOCX",
+        "x": 22,
+        "y": 155,
+        "w": 145,
+        "h": 36
+      },
+      {
+        "text": "Adicionar DOCX",
+        "x": 44,
+        "y": 163,
+        "w": 101,
+        "h": 18
+      },
+      {
+        "text": "Remover selecionados",
+        "x": 175,
+        "y": 155,
+        "w": 151,
+        "h": 36
+      },
+      {
+        "text": "Remover selecionados",
+        "x": 181,
+        "y": 163,
+        "w": 139,
+        "h": 18
+      },
+      {
+        "text": "Limpar lista",
+        "x": 334,
+        "y": 155,
+        "w": 145,
+        "h": 36
+      },
+      {
+        "text": "Limpar lista",
+        "x": 370,
+        "y": 163,
+        "w": 72,
+        "h": 18
+      },
+      {
+        "text": "Revisar documento",
+        "x": 487,
+        "y": 155,
+        "w": 145,
+        "h": 36
+      },
+      {
+        "text": "Revisar documento",
+        "x": 500,
+        "y": 163,
+        "w": 119,
+        "h": 18
+      },
+      {
+        "text": "Pasta de destino",
+        "x": 22,
+        "y": 396,
+        "w": 102,
+        "h": 28
+      },
+      {
+        "text": "Pasta de destino",
+        "x": 22,
+        "y": 402,
+        "w": 102,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR45",
+        "x": 138,
+        "y": 398,
+        "w": 736,
+        "h": 23
+      },
+      {
+        "text": "Escolher",
+        "x": 888,
+        "y": 392,
+        "w": 90,
+        "h": 36
+      },
+      {
+        "text": "Escolher",
+        "x": 905,
+        "y": 400,
+        "w": 55,
+        "h": 18
+      },
+      {
+        "text": "Configuração que será aplicada",
+        "x": 22,
+        "y": 432,
+        "w": 956,
+        "h": 28
+      },
+      {
+        "text": "Configuração que será aplicada",
+        "x": 22,
+        "y": 438,
+        "w": 192,
+        "h": 16
+      },
+      {
+        "text": "Aplicar aos arquivos",
+        "x": 22,
+        "y": 573,
+        "w": 170,
+        "h": 36
+      },
+      {
+        "text": "Aplicar aos arquivos",
+        "x": 44,
+        "y": 581,
+        "w": 125,
+        "h": 18
+      },
+      {
+        "text": "Cancelar lote",
+        "x": 200,
+        "y": 573,
+        "w": 120,
+        "h": 36
+      },
+      {
+        "text": "Cancelar lote",
+        "x": 219,
+        "y": 581,
+        "w": 82,
+        "h": 18
+      },
+      {
+        "text": "0 / 3",
+        "x": 913,
+        "y": 577,
+        "w": 65,
+        "h": 28
+      },
+      {
+        "text": "0 / 3",
+        "x": 931,
+        "y": 583,
+        "w": 28,
+        "h": 16
+      },
+      {
+        "text": "Abrir DOCX selecionado",
+        "x": 22,
+        "y": 670,
+        "w": 161,
+        "h": 36
+      },
+      {
+        "text": "Abrir DOCX selecionado",
+        "x": 28,
+        "y": 678,
+        "w": 149,
+        "h": 18
+      },
+      {
+        "text": "Abrir pasta de saída",
+        "x": 191,
+        "y": 670,
+        "w": 140,
+        "h": 36
+      },
+      {
+        "text": "Abrir pasta de saída",
+        "x": 199,
+        "y": 678,
+        "w": 123,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 20,
+        "y": 720,
+        "w": 960,
+        "h": 28
+      },
+      {
+        "text": "3 arquivo(s) selecionado(s).",
+        "x": 20,
+        "y": 726,
+        "w": 170,
+        "h": 16
+      }
+    ]
+  },
+  "14-revisar-textos": {
+    "width": 840,
+    "height": 680,
+    "pixels": [
+      1680,
+      1360
+    ],
+    "widgets": [
+      {
+        "text": "Revisão opcional: selecione trechos e indique o tipo. O estilo Normal não identifica títulos.\nOs ajustes só serão usados ao aplicar o lote; o original permanece intacto.",
+        "x": 14,
+        "y": 10,
+        "w": 812,
+        "h": 36
+      },
+      {
+        "text": "PY_VAR75",
+        "x": 49,
+        "y": 487,
+        "w": 184,
+        "h": 26
+      },
+      {
+        "text": "Classificar selecionados",
+        "x": 241,
+        "y": 486,
+        "w": 187,
+        "h": 28
+      },
+      {
+        "text": "Usar esse tipo para o mesmo estilo neste perfil (afeta outros documentos)",
+        "x": 49,
+        "y": 522,
+        "w": 470,
+        "h": 20
+      },
+      {
+        "text": "Cancelar",
+        "x": 576,
+        "y": 640,
+        "w": 94,
+        "h": 28
+      },
+      {
+        "text": "Confirmar revisão",
+        "x": 678,
+        "y": 640,
+        "w": 148,
+        "h": 28
+      }
+    ]
+  },
+  "15-revisar-imagens": {
+    "width": 840,
+    "height": 680,
+    "pixels": [
+      1680,
+      1360
+    ],
+    "widgets": [
+      {
+        "text": "Revisão opcional: selecione trechos e indique o tipo. O estilo Normal não identifica títulos.\nOs ajustes só serão usados ao aplicar o lote; o original permanece intacto.",
+        "x": 14,
+        "y": 10,
+        "w": 812,
+        "h": 36
+      },
+      {
+        "text": "Largura (cm), vazio preserva",
+        "x": 49,
+        "y": 345,
+        "w": 179,
+        "h": 20
+      },
+      {
+        "text": "PY_VAR78",
+        "x": 255,
+        "y": 342,
+        "w": 536,
+        "h": 27
+      },
+      {
+        "text": "Alinhamento",
+        "x": 49,
+        "y": 382,
+        "w": 80,
+        "h": 20
+      },
+      {
+        "text": "PY_VAR79",
+        "x": 255,
+        "y": 379,
+        "w": 536,
+        "h": 26
+      },
+      {
+        "text": "Parágrafo de referência (corpo)",
+        "x": 49,
+        "y": 418,
+        "w": 196,
+        "h": 20
+      },
+      {
+        "text": "PY_VAR80",
+        "x": 255,
+        "y": 415,
+        "w": 536,
+        "h": 26
+      },
+      {
+        "text": "Mover imagem",
+        "x": 49,
+        "y": 454,
+        "w": 94,
+        "h": 20
+      },
+      {
+        "text": "PY_VAR81",
+        "x": 255,
+        "y": 451,
+        "w": 536,
+        "h": 26
+      },
+      {
+        "text": "Os valores iniciais seguem o perfil. Vazio / Preservar mantém o original desta imagem.\nRedimensionar, alinhar ou mover cria um parágrafo próprio; a altura mantém a proporção.\nImagens flutuantes são preservadas; para editá-las, use Em linha no Word.",
+        "x": 49,
+        "y": 490,
+        "w": 546,
+        "h": 52
+      },
+      {
+        "text": "Classificação registrada. Trechos protegidos permanecem preservados.",
+        "x": 14,
+        "y": 608,
+        "w": 812,
+        "h": 20
+      },
+      {
+        "text": "Cancelar",
+        "x": 576,
+        "y": 640,
+        "w": 94,
+        "h": 28
+      },
+      {
+        "text": "Confirmar revisão",
+        "x": 678,
+        "y": 640,
+        "w": 148,
+        "h": 28
+      }
+    ]
+  },
+  "16-pronto-aplicar": {
+    "width": 1000,
+    "height": 760,
+    "pixels": [
+      2000,
+      1520
+    ],
+    "widgets": [
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "PY_VAR41",
+        "x": 748,
+        "y": 33,
+        "w": 193,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 32,
+        "y": 69,
+        "w": 67,
+        "h": 28
+      },
+      {
+        "text": "Perfil salvo",
+        "x": 32,
+        "y": 75,
+        "w": 67,
+        "h": 16
+      },
+      {
+        "text": "Adicionar DOCX",
+        "x": 22,
+        "y": 155,
+        "w": 145,
+        "h": 36
+      },
+      {
+        "text": "Adicionar DOCX",
+        "x": 44,
+        "y": 163,
+        "w": 101,
+        "h": 18
+      },
+      {
+        "text": "Remover selecionados",
+        "x": 175,
+        "y": 155,
+        "w": 151,
+        "h": 36
+      },
+      {
+        "text": "Remover selecionados",
+        "x": 181,
+        "y": 163,
+        "w": 139,
+        "h": 18
+      },
+      {
+        "text": "Limpar lista",
+        "x": 334,
+        "y": 155,
+        "w": 145,
+        "h": 36
+      },
+      {
+        "text": "Limpar lista",
+        "x": 370,
+        "y": 163,
+        "w": 72,
+        "h": 18
+      },
+      {
+        "text": "Revisar documento",
+        "x": 487,
+        "y": 155,
+        "w": 145,
+        "h": 36
+      },
+      {
+        "text": "Revisar documento",
+        "x": 500,
+        "y": 163,
+        "w": 119,
+        "h": 18
+      },
+      {
+        "text": "Pasta de destino",
+        "x": 22,
+        "y": 396,
+        "w": 102,
+        "h": 28
+      },
+      {
+        "text": "Pasta de destino",
+        "x": 22,
+        "y": 402,
+        "w": 102,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR45",
+        "x": 138,
+        "y": 398,
+        "w": 736,
+        "h": 23
+      },
+      {
+        "text": "Escolher",
+        "x": 888,
+        "y": 392,
+        "w": 90,
+        "h": 36
+      },
+      {
+        "text": "Escolher",
+        "x": 905,
+        "y": 400,
+        "w": 55,
+        "h": 18
+      },
+      {
+        "text": "Configuração que será aplicada",
+        "x": 22,
+        "y": 432,
+        "w": 956,
+        "h": 28
+      },
+      {
+        "text": "Configuração que será aplicada",
+        "x": 22,
+        "y": 438,
+        "w": 192,
+        "h": 16
+      },
+      {
+        "text": "Aplicar aos arquivos",
+        "x": 22,
+        "y": 573,
+        "w": 170,
+        "h": 36
+      },
+      {
+        "text": "Aplicar aos arquivos",
+        "x": 44,
+        "y": 581,
+        "w": 125,
+        "h": 18
+      },
+      {
+        "text": "Cancelar lote",
+        "x": 200,
+        "y": 573,
+        "w": 120,
+        "h": 36
+      },
+      {
+        "text": "Cancelar lote",
+        "x": 219,
+        "y": 581,
+        "w": 82,
+        "h": 18
+      },
+      {
+        "text": "0 / 3",
+        "x": 913,
+        "y": 577,
+        "w": 65,
+        "h": 28
+      },
+      {
+        "text": "0 / 3",
+        "x": 931,
+        "y": 583,
+        "w": 28,
+        "h": 16
+      },
+      {
+        "text": "Abrir DOCX selecionado",
+        "x": 22,
+        "y": 670,
+        "w": 161,
+        "h": 36
+      },
+      {
+        "text": "Abrir DOCX selecionado",
+        "x": 28,
+        "y": 678,
+        "w": 149,
+        "h": 18
+      },
+      {
+        "text": "Abrir pasta de saída",
+        "x": 191,
+        "y": 670,
+        "w": 140,
+        "h": 36
+      },
+      {
+        "text": "Abrir pasta de saída",
+        "x": 199,
+        "y": 678,
+        "w": 123,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 20,
+        "y": 720,
+        "w": 960,
+        "h": 28
+      },
+      {
+        "text": "Revisão confirmada. Use Aplicar aos arquivos para gerar o documento.",
+        "x": 20,
+        "y": 726,
+        "w": 430,
+        "h": 16
+      }
+    ]
+  },
+  "17-resultados": {
+    "width": 1000,
+    "height": 760,
+    "pixels": [
+      2000,
+      1520
+    ],
+    "widgets": [
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "PY_VAR41",
+        "x": 748,
+        "y": 33,
+        "w": 193,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 32,
+        "y": 69,
+        "w": 67,
+        "h": 28
+      },
+      {
+        "text": "Perfil salvo",
+        "x": 32,
+        "y": 75,
+        "w": 67,
+        "h": 16
+      },
+      {
+        "text": "Adicionar DOCX",
+        "x": 22,
+        "y": 155,
+        "w": 145,
+        "h": 36
+      },
+      {
+        "text": "Adicionar DOCX",
+        "x": 44,
+        "y": 163,
+        "w": 101,
+        "h": 18
+      },
+      {
+        "text": "Remover selecionados",
+        "x": 175,
+        "y": 155,
+        "w": 151,
+        "h": 36
+      },
+      {
+        "text": "Remover selecionados",
+        "x": 181,
+        "y": 163,
+        "w": 139,
+        "h": 18
+      },
+      {
+        "text": "Limpar lista",
+        "x": 334,
+        "y": 155,
+        "w": 145,
+        "h": 36
+      },
+      {
+        "text": "Limpar lista",
+        "x": 370,
+        "y": 163,
+        "w": 72,
+        "h": 18
+      },
+      {
+        "text": "Revisar documento",
+        "x": 487,
+        "y": 155,
+        "w": 145,
+        "h": 36
+      },
+      {
+        "text": "Revisar documento",
+        "x": 500,
+        "y": 163,
+        "w": 119,
+        "h": 18
+      },
+      {
+        "text": "Pasta de destino",
+        "x": 22,
+        "y": 396,
+        "w": 102,
+        "h": 28
+      },
+      {
+        "text": "Pasta de destino",
+        "x": 22,
+        "y": 402,
+        "w": 102,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR45",
+        "x": 138,
+        "y": 398,
+        "w": 736,
+        "h": 23
+      },
+      {
+        "text": "Escolher",
+        "x": 888,
+        "y": 392,
+        "w": 90,
+        "h": 36
+      },
+      {
+        "text": "Escolher",
+        "x": 905,
+        "y": 400,
+        "w": 55,
+        "h": 18
+      },
+      {
+        "text": "Configuração que será aplicada",
+        "x": 22,
+        "y": 432,
+        "w": 956,
+        "h": 28
+      },
+      {
+        "text": "Configuração que será aplicada",
+        "x": 22,
+        "y": 438,
+        "w": 192,
+        "h": 16
+      },
+      {
+        "text": "Aplicar aos arquivos",
+        "x": 22,
+        "y": 573,
+        "w": 170,
+        "h": 36
+      },
+      {
+        "text": "Aplicar aos arquivos",
+        "x": 44,
+        "y": 581,
+        "w": 125,
+        "h": 18
+      },
+      {
+        "text": "Cancelar lote",
+        "x": 200,
+        "y": 573,
+        "w": 120,
+        "h": 36
+      },
+      {
+        "text": "Cancelar lote",
+        "x": 219,
+        "y": 581,
+        "w": 82,
+        "h": 18
+      },
+      {
+        "text": "3 / 3",
+        "x": 913,
+        "y": 577,
+        "w": 65,
+        "h": 28
+      },
+      {
+        "text": "3 / 3",
+        "x": 931,
+        "y": 583,
+        "w": 28,
+        "h": 16
+      },
+      {
+        "text": "Abrir DOCX selecionado",
+        "x": 22,
+        "y": 670,
+        "w": 161,
+        "h": 36
+      },
+      {
+        "text": "Abrir DOCX selecionado",
+        "x": 28,
+        "y": 678,
+        "w": 149,
+        "h": 18
+      },
+      {
+        "text": "Abrir pasta de saída",
+        "x": 191,
+        "y": 670,
+        "w": 140,
+        "h": 36
+      },
+      {
+        "text": "Abrir pasta de saída",
+        "x": 199,
+        "y": 678,
+        "w": 123,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 20,
+        "y": 720,
+        "w": 960,
+        "h": 28
+      },
+      {
+        "text": "Lote encerrado: 1 concluído(s), 1 com ressalvas, 1 erro(s), 0 cancelado(s).",
+        "x": 20,
+        "y": 726,
+        "w": 448,
+        "h": 16
+      }
+    ]
+  },
+  "18-erro": {
+    "width": 1000,
+    "height": 760,
+    "pixels": [
+      2000,
+      1520
+    ],
+    "widgets": [
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "Format Word",
+        "x": 32,
+        "y": 28,
+        "w": 147,
+        "h": 29
+      },
+      {
+        "text": "PY_VAR41",
+        "x": 748,
+        "y": 33,
+        "w": 193,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 32,
+        "y": 69,
+        "w": 67,
+        "h": 28
+      },
+      {
+        "text": "Perfil salvo",
+        "x": 32,
+        "y": 75,
+        "w": 67,
+        "h": 16
+      },
+      {
+        "text": "Adicionar DOCX",
+        "x": 22,
+        "y": 155,
+        "w": 145,
+        "h": 36
+      },
+      {
+        "text": "Adicionar DOCX",
+        "x": 44,
+        "y": 163,
+        "w": 101,
+        "h": 18
+      },
+      {
+        "text": "Remover selecionados",
+        "x": 175,
+        "y": 155,
+        "w": 151,
+        "h": 36
+      },
+      {
+        "text": "Remover selecionados",
+        "x": 181,
+        "y": 163,
+        "w": 139,
+        "h": 18
+      },
+      {
+        "text": "Limpar lista",
+        "x": 334,
+        "y": 155,
+        "w": 145,
+        "h": 36
+      },
+      {
+        "text": "Limpar lista",
+        "x": 370,
+        "y": 163,
+        "w": 72,
+        "h": 18
+      },
+      {
+        "text": "Revisar documento",
+        "x": 487,
+        "y": 155,
+        "w": 145,
+        "h": 36
+      },
+      {
+        "text": "Revisar documento",
+        "x": 500,
+        "y": 163,
+        "w": 119,
+        "h": 18
+      },
+      {
+        "text": "Pasta de destino",
+        "x": 22,
+        "y": 396,
+        "w": 102,
+        "h": 28
+      },
+      {
+        "text": "Pasta de destino",
+        "x": 22,
+        "y": 402,
+        "w": 102,
+        "h": 16
+      },
+      {
+        "text": "PY_VAR45",
+        "x": 138,
+        "y": 398,
+        "w": 736,
+        "h": 23
+      },
+      {
+        "text": "Escolher",
+        "x": 888,
+        "y": 392,
+        "w": 90,
+        "h": 36
+      },
+      {
+        "text": "Escolher",
+        "x": 905,
+        "y": 400,
+        "w": 55,
+        "h": 18
+      },
+      {
+        "text": "Configuração que será aplicada",
+        "x": 22,
+        "y": 432,
+        "w": 956,
+        "h": 28
+      },
+      {
+        "text": "Configuração que será aplicada",
+        "x": 22,
+        "y": 438,
+        "w": 192,
+        "h": 16
+      },
+      {
+        "text": "Aplicar aos arquivos",
+        "x": 22,
+        "y": 573,
+        "w": 170,
+        "h": 36
+      },
+      {
+        "text": "Aplicar aos arquivos",
+        "x": 44,
+        "y": 581,
+        "w": 125,
+        "h": 18
+      },
+      {
+        "text": "Cancelar lote",
+        "x": 200,
+        "y": 573,
+        "w": 120,
+        "h": 36
+      },
+      {
+        "text": "Cancelar lote",
+        "x": 219,
+        "y": 581,
+        "w": 82,
+        "h": 18
+      },
+      {
+        "text": "3 / 3",
+        "x": 913,
+        "y": 577,
+        "w": 65,
+        "h": 28
+      },
+      {
+        "text": "3 / 3",
+        "x": 931,
+        "y": 583,
+        "w": 28,
+        "h": 16
+      },
+      {
+        "text": "Abrir DOCX selecionado",
+        "x": 22,
+        "y": 670,
+        "w": 161,
+        "h": 36
+      },
+      {
+        "text": "Abrir DOCX selecionado",
+        "x": 28,
+        "y": 678,
+        "w": 149,
+        "h": 18
+      },
+      {
+        "text": "Abrir pasta de saída",
+        "x": 191,
+        "y": 670,
+        "w": 140,
+        "h": 36
+      },
+      {
+        "text": "Abrir pasta de saída",
+        "x": 199,
+        "y": 678,
+        "w": 123,
+        "h": 18
+      },
+      {
+        "text": "CTkLabel",
+        "x": 20,
+        "y": 720,
+        "w": 960,
+        "h": 28
+      },
+      {
+        "text": "Lote encerrado: 1 concluído(s), 1 com ressalvas, 1 erro(s), 0 cancelado(s).",
+        "x": 20,
+        "y": 726,
+        "w": 448,
+        "h": 16
+      }
+    ]
+  },
+  "validation": {
+    "statuses": [
+      "Concluído",
+      "Concluído com ressalvas",
+      "Erro"
+    ],
+    "fictional_data": true,
+    "original_files_intact": true
+  }
+}

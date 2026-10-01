@@ -1,0 +1,18 @@
+{
+  "pages": 19,
+  "screenshots": 23,
+  "bookmarks": 19,
+  "linked_pages": [
+    3,
+    5,
+    6,
+    7,
+    9,
+    10,
+    18
+  ],
+  "text_boxes": 238,
+  "sha256": "54f75e1099cafadde4fdc6b64192b82e3eef2c6f44c690b226c1e3c0ceafcc0c",
+  "bytes": 3733471,
+  "distribution_copies_identical": true
+}

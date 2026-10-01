@@ -25,6 +25,8 @@ as propriedades configuradas antes de publicar o resultado.
 
 Guia para o dia a dia: [Perfis por promotor](docs/guia-rapido.md).
 
+Manual pronto para encaminhar: [Manual visual em PDF, com telas e passo a passo](docs/manual-visual/Manual-Visual-Format-Word.pdf).
+
 ## Criar perfil a partir de um Word
 
 Em **Perfis e formatação → Importar de Word**, selecione um `.docx` já formatado.
